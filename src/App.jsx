@@ -10,6 +10,7 @@ function App() {
   const [data, setData] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
   const [reviewFileNumber, setReviewFileNumber] = useState("")
+  const [searchValue, setSearchValue] = useState("")
 
   function handleFile () {
     var file = inputFile.files[0]
@@ -31,12 +32,17 @@ function App() {
       alert("Either the file type doesn't match or the file number is not correct")
     }
   }
+
+  useEffect(() => {
+    if(searchValue){FilterData(searchValue)}
+  }, [setSearchValue])
   
-  function FilterData(){
+  
+  function FilterData(value){
     setFilteredData(data.filter((item) =>
-      item.description.toUpperCase().includes(searchInput.value.toUpperCase())
-      || item.code.includes(searchInput.value)
-      || item.barcode.includes(searchInput.value)
+      item.description.toUpperCase().includes(value.toUpperCase())
+      || item.code.includes(value)
+      || item.barcode.includes(value)
     ))
   }
 
@@ -66,14 +72,14 @@ function App() {
         </div>
         <div className="ml-4 mr-4 pl-2 pr-4 rounded-t-sm pt-2 pb-2 bg-gray-400 flex justify-between">
           <div className='flex'>
-            <input id='searchInput' className='w-auto rounded-sm' onChange={() => FilterData()}/>
+            <input id='searchInput' className='w-auto rounded-sm' onChange={(e) => FilterData(e.target.value)}/>
           </div>
           <div className='flex justify-between pl-2'>
             Albar&aacute;n {reviewFileNumber}
           </div>
         </div>
-          <div className='border-2 border-gray-700 size-60 ml-4 mt-4'>
-            <BarcodeScanner/>
+          <div className='ml-4 mt-4'>
+            <BarcodeScanner setSearchValue={setSearchValue}/>
           </div>
         {filteredData ? <DeliveryNote data={filteredData} setData={setData} reviewFileNumber={reviewFileNumber}/> : ""}
       </div>

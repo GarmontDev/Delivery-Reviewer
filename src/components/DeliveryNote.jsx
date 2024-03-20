@@ -40,9 +40,9 @@ const DeliveryNote = ({ data, setData, reviewFileNumber }) => {
               <th className="px-4 min-w-full">
                 Description
               </th>
-              {/* <th className="px-2 overflow-scroll">
+              <th className="px-2 overflow-scroll">
                 Barcode
-              </th> */}
+              </th>
             </tr>
           </thead>
           <tbody className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -65,9 +65,9 @@ const DeliveryNote = ({ data, setData, reviewFileNumber }) => {
                 <td className="px-2">
                   {item.description}
                 </td>
-                {/* <td className="overflow-scroll">
+                <td className="">
                   {item.barcode}
-                </td> */}
+                </td>
               </tr>          
             ))}
           </tbody>
