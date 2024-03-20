@@ -3,6 +3,7 @@ import { fetchReviewFiles, loadFile } from './config/firebase';
 import './App.css'
 import DeliveryNote from './components/DeliveryNote';
 import DeliveryFiles from './components/DeliveryFiles';
+import BarcodeScanner from './components/BarcodeScanner';
 
 function App() {
   
@@ -71,6 +72,9 @@ function App() {
             Albar&aacute;n {reviewFileNumber}
           </div>
         </div>
+          <div className='border-2 border-gray-700 size-60 ml-4 mt-4'>
+            <BarcodeScanner/>
+          </div>
         {filteredData ? <DeliveryNote data={filteredData} setData={setData} reviewFileNumber={reviewFileNumber}/> : ""}
       </div>
     </>
