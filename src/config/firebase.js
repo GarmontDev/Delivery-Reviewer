@@ -68,21 +68,19 @@ export const loadFile = async(filename, content) => {
   const filteredData = []
 
   try {
-    // const response = await fetch(content)
-    // const data = await response.text()
-    console.log(content)
-
-    var separatedLines = content.split(/\r?\n|\r|\n/g);
-    const finalLines = removedDuplicates(separatedLines)
-  
-    finalLines.forEach((element, index) => {
-      let linesCounter = separatedLines.filter(x => x==element).length
-      const item = element.split("$")
-      item.push(linesCounter)
-      filteredData.push(item)
-    })
-    createFile( filename,filteredData)
-    return filteredData
+    if(content){
+      var separatedLines = content.split(/\r?\n|\r|\n/g);
+      const finalLines = removedDuplicates(separatedLines)
+    
+      finalLines.forEach((element, index) => {
+        let linesCounter = separatedLines.filter(x => x==element).length
+        const item = element.split("$")
+        item.push(linesCounter)
+        filteredData.push(item)
+      })
+      createFile( filename,filteredData)
+      return filteredData
+    }
   } catch (error) {
     console.log(error)
   }

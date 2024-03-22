@@ -3,7 +3,8 @@ import { fetchReviewFiles, loadFile } from './config/firebase';
 import './App.css'
 import DeliveryNote from './components/DeliveryNote';
 import DeliveryFiles from './components/DeliveryFiles';
-import BarcodeScanner from './components/BarcodeScanner';
+import Html5QrcodePlugin from './components/Html5QrcodePlugin';
+import Scanner from './components/Scanner';
 
 function App() {
   
@@ -23,27 +24,27 @@ function App() {
         var content = reader.result;
         // Here the content has been read successfuly
         loadFile(fileNumber.value,content)
-          .then((res) => 
-            setData(res),    
-          )
+          .then((res) =>{
+            if(res){
+              setData(res)
+            }else{
+              alert("No content on the text file")
+            }
+          })
       }
       reader.readAsText(file);  
     }else{
       alert("Either the file type doesn't match or the file number is not correct")
     }
   }
-
-  useEffect(() => {
-    if(searchValue){FilterData(searchValue)}
-  }, [setSearchValue])
-  
-  
+ 
   function FilterData(value){
     setFilteredData(data.filter((item) =>
       item.description.toUpperCase().includes(value.toUpperCase())
       || item.code.includes(value)
       || item.barcode.includes(value)
     ))
+    console.log(filteredData)
   }
 
   useEffect(() => {
@@ -56,21 +57,28 @@ function App() {
       )
     }
   }, [reviewFileNumber])
+
+  function handleScannerResult(result){
+    searchInput = result
+    FilterData(result)
+  }
+
+
   
   return (
     <>
-      <div className="m-4 w-auto min-w-full">
-        <div className='flex ml-4 p-2'>
-          <input type="file" id="inputFile" onChange={(e) => handleFile(e)}/>
-          <div className=''>
-            Albar&aacute;n number
-            <input id="fileNumber" className='w-20 ml-4 rounded-sm border-2 border-black bg-gray-200' />
+      <div className="m-4">
+        <div className='bg-gray-200 ml-4 mr-4 overflow-clip'>
+          <div className='mr-4 p-2'>
+            <input type="file" id="inputFile" onChange={(e) => handleFile(e)}/>
+          </div>
+          <div className='mb-4'>
+              Albar&aacute;n number
+              <input id="fileNumber" className='w-28 ml-4 mr-4 mb-2 rounded-sm border-2 border-black bg-white' />
           </div>
         </div>
-        <div className='ml-4 mr-4'>
-          <DeliveryFiles setReviewFileNumber={setReviewFileNumber}/>
-        </div>
-        <div className="ml-4 mr-4 pl-2 pr-4 rounded-t-sm pt-2 pb-2 bg-gray-400 flex justify-between">
+        <DeliveryFiles setReviewFileNumber={setReviewFileNumber}/>
+        <div className="pl-2 pr-4 rounded-t-sm pt-2 pb-2 bg-gray-400 flex justify-between">
           <div className='flex'>
             <input id='searchInput' className='w-auto rounded-sm' onChange={(e) => FilterData(e.target.value)}/>
           </div>
@@ -78,8 +86,8 @@ function App() {
             Albar&aacute;n {reviewFileNumber}
           </div>
         </div>
-          <div className='ml-4 mt-4'>
-            <BarcodeScanner setSearchValue={setSearchValue}/>
+          <div className='mt-4 w-full h-auto'>
+            <Scanner setSearchValue={handleScannerResult}/>
           </div>
         {filteredData ? <DeliveryNote data={filteredData} setData={setData} reviewFileNumber={reviewFileNumber}/> : ""}
       </div>

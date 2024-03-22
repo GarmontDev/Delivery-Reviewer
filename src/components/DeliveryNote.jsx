@@ -24,7 +24,7 @@ const DeliveryNote = ({ data, setData, reviewFileNumber }) => {
 
   return(
     <>
-      <div className="grid grid-cols-1 text-slate-800 p-4 text-sm w-auto">
+      <div className="grid grid-cols-1 text-slate-800 pt-2 text-sm w-auto">
         <table className="min-w-full text-left font-light text-surface dark:text-white">
           <thead className="bg-gray-200 text-sm">
             <tr>

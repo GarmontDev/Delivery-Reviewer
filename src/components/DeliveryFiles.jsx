@@ -17,7 +17,7 @@ const DeliveryFiles = ({setReviewFileNumber}) => {
   return(
     <>
       <div className="pl-4 border-2 border-gray-400 rounded-b-sm">
-        {files.length > 0 ? <div>Found {files.length} file/s</div> : ""}
+        {files.length > 0 ? <div>Albaranes disponibles: {files.length}</div> : ""}
         {files.map((item, index) => (
           <button 
             id={item} 
