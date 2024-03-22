@@ -5,6 +5,7 @@ import DeliveryNote from './components/DeliveryNote';
 import DeliveryFiles from './components/DeliveryFiles';
 import Html5QrcodePlugin from './components/Html5QrcodePlugin';
 import Scanner from './components/Scanner';
+import Scandit from './components/Scandit';
 
 function App() {
   
@@ -12,6 +13,7 @@ function App() {
   const [filteredData, setFilteredData] = useState(null)
   const [reviewFileNumber, setReviewFileNumber] = useState("")
   const [searchValue, setSearchValue] = useState("")
+  const [openScanner, setOpenScanner] = useState(false)
 
   function handleFile () {
     var file = inputFile.files[0]
@@ -87,7 +89,16 @@ function App() {
           </div>
         </div>
           <div className='mt-4 w-full h-auto'>
-            <Scanner setSearchValue={handleScannerResult}/>
+            {openScanner 
+              ? <div>
+                  <button onClick={() => setOpenScanner(false)} className='border-2 rounded-md bg-red-400 p-2'>Stop Scan</button>
+                  <Scandit/>
+                </div>
+              : <button onClick={() => setOpenScanner(true)} className='border-2 rounded-md bg-green-400 p-2'>Escanear</button>
+            }
+            
+            {/* <Scanner setSearchValue={handleScannerResult}/> */}
+            
           </div>
         {filteredData ? <DeliveryNote data={filteredData} setData={setData} reviewFileNumber={reviewFileNumber}/> : ""}
       </div>
