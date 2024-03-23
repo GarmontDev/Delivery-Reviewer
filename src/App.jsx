@@ -40,15 +40,6 @@ function App() {
     }
   }
  
-  function FilterData(value){
-    setFilteredData(data.filter((item) =>
-      item.description.toUpperCase().includes(value.toUpperCase())
-      || item.code.includes(value)
-      || item.barcode.includes(value)
-    ))
-    console.log(filteredData)
-  }
-
   useEffect(() => {
     if(reviewFileNumber != ""){
       fetchReviewFiles(reviewFileNumber)
@@ -60,9 +51,17 @@ function App() {
     }
   }, [reviewFileNumber])
 
+  function filterData(value){
+    setFilteredData(data.filter((item) =>
+      item.description.toUpperCase().includes(value.toUpperCase())
+      || item.code.includes(value)
+      || item.barcode.includes(value)
+    ))
+    if(filteredData.length > 0){setOpenScanner(false)}
+  }
+
   function handleScannerResult(result){
-    searchInput = result
-    FilterData(result)
+    filterData(result)
   }
 
 
@@ -82,21 +81,21 @@ function App() {
         <DeliveryFiles setReviewFileNumber={setReviewFileNumber}/>
         <div className="pl-2 pr-4 rounded-t-sm pt-2 pb-2 bg-gray-400 flex justify-between">
           <div className='flex'>
-            <input id='searchInput' className='w-auto rounded-sm' onChange={(e) => FilterData(e.target.value)}/>
+            <input id='searchInput' className='w-auto rounded-sm' onChange={(e) => filterData(e.target.value)}/>
           </div>
           <div className='flex justify-between pl-2'>
             Albar&aacute;n {reviewFileNumber}
           </div>
         </div>
           <div className='mt-4 w-full h-auto'>
-            {openScanner 
+            {openScanner && data != undefined
               ? <div>
                   <button onClick={() => setOpenScanner(false)} className='border-2 rounded-md bg-red-400 p-2'>Stop Scan</button>
-                  <Scandit/>
+                  <Scandit handleScannerResult={handleScannerResult}/>
                 </div>
-              : <button onClick={() => setOpenScanner(true)} className='border-2 rounded-md bg-green-400 p-2'>Escanear</button>
+              : <button onClick={() => setOpenScanner(true)} className={`border-2 rounded-md p-2 ${data != undefined ? "bg-green-400" : "bg-red-400"}`}>Escanear</button>
             }
-            
+
             {/* <Scanner setSearchValue={handleScannerResult}/> */}
             
           </div>

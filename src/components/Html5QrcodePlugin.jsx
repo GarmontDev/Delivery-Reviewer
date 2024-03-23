@@ -30,12 +30,14 @@ const formatsToSupport = [
 ];
 
 let config = {
-  fps: 25,
+  fps: 90,
   qrbox: {width: 200, height: 120},
   rememberLastUsedCamera: true,
   supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA, Html5QrcodeScanType.SCAN_TYPE_FILE],
   showTorchButtonIfSupported: true,
   formatsToSupport: formatsToSupport,
+  showZoomSliderIfSupported: true,
+  defaultZoomValueIfSupported: 2
 };
 
 const Html5QrcodePlugin = (props) => {
