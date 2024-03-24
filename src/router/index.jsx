@@ -4,7 +4,7 @@ import LayoutPrivate from "../layout/LayoutPrivate.jsx";
 import Login from "../pages/Login.jsx";
 import Home from "../Home.jsx"
 import DeliveryNote from "../components/DeliveryNote/DeliveryNote.jsx";
-import CreateFile from "../components/CreateFile.jsx"
+import CreateFile from "../components/CreateFile/CreateFile.jsx"
 
 export const router = createBrowserRouter([
     {

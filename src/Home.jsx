@@ -8,9 +8,9 @@ function App() {
 
   return (
     <>
-    <div className='m-4'>
-      <div className="bg-gray-50 dark:bg-gray-900 flex justify-between mb-4 pl-2 pr-2">
-        <span className="self-center text-2xl text-blue-700 font-semibold whitespace-nowrap">Delivery Reviewer</span>
+    <div className='mt-4 ml-2 mr-2'>
+      <div className="bg-gray-50 dark:bg-gray-900 flex justify-between mb-4">
+        <span className="self-center text-xl text-blue-700 font-semibold whitespace-nowrap">Delivery Reviewer</span>
         <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2"
                 onClick={() => navigate("/create")}
         >

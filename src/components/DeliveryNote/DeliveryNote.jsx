@@ -1,6 +1,5 @@
-import CheckIcon from "../../assets/icons/CheckIcon";
-import CheckBoxEmpty from "../../assets/icons/CheckBoxEmpty"
-import { updateItem, fetchReviewFiles, loadFile, logout } from "../../config/firebase";
+import "./DeliveryNote.css"
+import { fetchReviewFiles } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -39,7 +38,12 @@ const DeliveryNote = () => {
       || item.code.includes(value)
       || item.barcode.includes(value)
     ))
-    if(filteredData.length > 0){setOpenScanner(false)}
+    if(filteredData.length > 0){
+      {setOpenScanner(false)}
+    }else{
+      alert("No se han encontrado productos que correspondan con: "+ value)
+      handleClearFilteredData()
+    }
   }
 
   function handleClearFilteredData(){
@@ -85,12 +89,12 @@ const DeliveryNote = () => {
       <div className='m-2 h-auto flex justify-between'>
         {openScanner && data != undefined
           ? <div>
-              <button onClick={() => setOpenScanner(false)} className="text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-red-700 rounded-md hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+              <button onClick={() => setOpenScanner(false)} className="stop-scan-button">
                 <StopBarcodeScannerIcon/>
                 Stop Scan
               </button>
             </div>
-          : <button onClick={() => setOpenScanner(true)} className="text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+          : <button onClick={() => setOpenScanner(true)} className="start-scan-button">
               <StartBarcodeScannerIcon/>
               Escanear
             </button>
@@ -112,22 +116,19 @@ const DeliveryNote = () => {
         <Scandit handleScannerResult={handleScannerResult}/> 
       : ""}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 select-none">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+        <table className="note-table">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-200">
             <tr>
-              {/* <th className="px-2 py-1 w-12">
-                Check
-              </th> */}
-              <th className="px-2 w-14">
+              <th className="px-2 py-2 w-14 ">
                 C&oacute;digo
               </th>
-              <th className="px-2 w-6">
+              <th className="px-1.5 w-6">
                 Rec.
               </th>
-              <th className="px-2 w-8">
+              <th className="px-3 w-8">
                 Fact
               </th>
-              <th className="px-2 w-screen">
+              <th className="px-3 w-screen">
                 Descripci&oacute;n
               </th>
               <th className="px-2">
@@ -137,21 +138,12 @@ const DeliveryNote = () => {
           </thead>
           <tbody className="odd:bg-white even:bg-gray-50 border-b">
             {filteredData?.map((item, index) => (
-              <tr 
-                key={index} 
+              <tr key={index} 
                 className={`${
                   item?.checked ? "bg-green-200" 
                 : item?.unitsReceived > 0 && item?.unitsReceived!= item?.unitsBilled ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
                 onDoubleClick={() => handleEditItem(item)}
               >  
-                {/* <td className="px-2">
-                  <button className="p-3" onClick={() => updateLine(item, !item.checked)}>
-                    {item?.checked
-                      ? <CheckIcon size={20}/>
-                      : <CheckBoxEmpty size={20}/>
-                    }
-                  </button>
-                </td>           */}
                 <td className="px-2">
                   {item.code} 
                 </td>

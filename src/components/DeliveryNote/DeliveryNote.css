@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.note-table{
+  @apply
+  w-full table-fixed 
+  text-sm text-left rtl:text-right text-gray-500 
+  select-none
+}
+
+.stop-scan-button{
+  @apply
+  text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-red-700 rounded-md hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+}
+
+.start-scan-button{
+  @apply
+  text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+}

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { addToListOfCollections, loadFile } from "../config/firebase";
+import { addToListOfCollections, loadFile } from "../../config/firebase";
 
 const CreateFile = () => { 
 
