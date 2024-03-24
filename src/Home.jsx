@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { fetchReviewFiles, loadFile } from './config/firebase';
-import './App.css'
+import { fetchReviewFiles, loadFile, logout } from './config/firebase';
 import DeliveryNote from './components/DeliveryNote';
 import DeliveryFiles from './components/DeliveryFiles';
-import Html5QrcodePlugin from './components/Html5QrcodePlugin';
-import Scanner from './components/Scanner';
 import Scandit from './components/Scandit';
+
+import { StartBarcodeScannerIcon, StopBarcodeScannerIcon } from "./assets/icons/BarcodeScannerIcon"
+import AlertTriangleIcon from "./assets/icons/AlertTriangleIcon"
 
 function App() {
   
   const [data, setData] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
   const [reviewFileNumber, setReviewFileNumber] = useState("")
-  const [searchValue, setSearchValue] = useState("")
   const [openScanner, setOpenScanner] = useState(false)
 
   function handleFile () {
@@ -68,17 +67,18 @@ function App() {
   
   return (
     <>
-      <div className="m-4">
-        <div className='bg-gray-200 ml-4 mr-4 overflow-clip'>
+      <div className="m-4 bg-gray-50 dark:bg-gray-900 h-screen">
+        <div className='bg-white ml-4 mr-4 overflow-clip'>
           <div className='mr-4 p-2'>
             <input type="file" id="inputFile" onChange={(e) => handleFile(e)}/>
           </div>
           <div className='mb-4'>
               Albar&aacute;n number
-              <input id="fileNumber" className='w-28 ml-4 mr-4 mb-2 rounded-sm border-2 border-black bg-white' />
+              <input id="fileNumber" className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' />
           </div>
         </div>
         <DeliveryFiles setReviewFileNumber={setReviewFileNumber}/>
+        
         <div className="pl-2 pr-4 rounded-t-sm pt-2 pb-2 bg-gray-400 flex justify-between">
           <div className='flex'>
             <input id='searchInput' className='w-auto rounded-sm' onChange={(e) => filterData(e.target.value)}/>
@@ -87,19 +87,32 @@ function App() {
             Albar&aacute;n {reviewFileNumber}
           </div>
         </div>
-          <div className='mt-4 w-full h-auto'>
+          <div className='mt-2 mb-2 w-full h-auto flex justify-between'>
             {openScanner && data != undefined
               ? <div>
-                  <button onClick={() => setOpenScanner(false)} className='border-2 rounded-md bg-red-400 p-2'>Stop Scan</button>
-                  <Scandit handleScannerResult={handleScannerResult}/>
+                  <button onClick={() => setOpenScanner(false)} className="text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-red-700 rounded-md hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    <StopBarcodeScannerIcon/>
+                    Stop Scan
+                  </button>
                 </div>
-              : <button onClick={() => setOpenScanner(true)} className={`border-2 rounded-md p-2 ${data != undefined ? "bg-green-400" : "bg-red-400"}`}>Escanear</button>
+              // : <button onClick={() => setOpenScanner(true)} className={`border-2 rounded-md p-2 ${data != undefined ? "bg-green-400" : "bg-red-400"}`}>Escanear</button>
+              : <button onClick={() => setOpenScanner(true)} className="text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                  <StartBarcodeScannerIcon/>
+                  Escanear
+                </button>
             }
-
-            {/* <Scanner setSearchValue={handleScannerResult}/> */}
-            
+            <button className="text-sm px-2 font-medium text-center inline-flex items-center text-gray-900 bg-[#F7BE38] rounded-md hover:bg-[#b49243] focus:ring-4 focus:outline-none focus:ring-blue-300">
+              <AlertTriangleIcon/>
+              Ver Incidencias
+            </button>
           </div>
+          {openScanner && data != undefined ? <Scandit handleScannerResult={handleScannerResult}/> : ""}
         {filteredData ? <DeliveryNote data={filteredData} setData={setData} reviewFileNumber={reviewFileNumber}/> : ""}
+      </div>
+      <div >
+        <button onClick={() => logout()} className='absolute top-0 right-0 text-sm m-2 pl-2 pr-2 pt-1 pb-1 bg-red-400 border-2 border-red-700 rounded-md hover:bg-red-700 hover:text-white'>
+          Salir
+        </button>
       </div>
     </>
   )

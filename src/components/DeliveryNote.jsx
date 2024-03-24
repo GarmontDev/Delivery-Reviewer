@@ -24,30 +24,30 @@ const DeliveryNote = ({ data, setData, reviewFileNumber }) => {
 
   return(
     <>
-      <div className="grid grid-cols-1 text-slate-800 pt-2 text-sm w-auto">
-        <table className="min-w-full text-left font-light text-surface dark:text-white">
-          <thead className="bg-gray-200 text-sm">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
-              <th className="px-2 py-1 w-4">
+              <th className="px-2 py-1 w-12">
                 Check
               </th>
-              <th className="px-2 w-4">
-                Units
-              </th>
-              <th className="px-2 w-2">
+              <th className="px-2 w-14">
                 Code
               </th>
-              <th className="px-4 min-w-full">
+              <th className="px-2 w-10">
+                Units
+              </th>
+              <th className="px-4 w-screen">
                 Description
               </th>
-              <th className="px-2 overflow-scroll">
+              <th className="px-2">
                 Barcode
               </th>
             </tr>
           </thead>
-          <tbody className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tbody className="odd:bg-white even:bg-gray-50 border-b">
             {lines?.map((item, index) => (
-              <tr key={index} className={`border-gray-400 rounded-md ${item?.checked ? "bg-green-200" : ""}`}>  
+              <tr key={index} className={`${item?.checked ? "bg-green-200" : "odd:bg-white even:bg-gray-100 "}`}>  
                 <td className="px-2">
                   <button className="p-3" onClick={() => updateLine(item, !item.checked)}>
                     {item?.checked
@@ -56,15 +56,15 @@ const DeliveryNote = ({ data, setData, reviewFileNumber }) => {
                     }
                   </button>
                 </td>          
+                <td className="px-2">
+                  {item.code} 
+                </td>
                 <td scope="col" className="px-4">
                   {item.units}
                 </td>
-                <td className="">
-                  {item.code} 
-                </td>
-                <td className="px-2">
+                <th className="px-2 py-2">
                   {item.description}
-                </td>
+                </th>
                 <td className="">
                   {item.barcode}
                 </td>

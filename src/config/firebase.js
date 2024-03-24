@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, signOut } from "firebase/auth";
 
 import {
   getFirestore,
@@ -29,7 +30,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 const db = getFirestore(app);
+
+export const logout = () => {
+  return signOut(auth);
+};
 
 function removedDuplicates(arr){
   return arr.filter((item, index) => arr.indexOf(item) === index)
