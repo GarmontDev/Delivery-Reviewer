@@ -1,0 +1,95 @@
+import { useNavigate } from "react-router-dom";
+import { addToListOfCollections, loadFile } from "../config/firebase";
+
+const CreateFile = () => { 
+
+  const navigate = useNavigate()
+
+  function createNewFile () {
+    if(inputFile.files[0] === undefined){
+      return alert("Please select a file")
+    }
+    var file = inputFile.files[0]
+    var textType = /text.*/;
+ 
+    if (file.type.match(textType) && fileNumber.value != "" && fileDescription.value != "") {
+      var reader = new FileReader();
+  
+      reader.onload = function(e) {
+        var content = reader.result;
+        // Here the content has been read successfuly
+        loadFile(fileNumber.value, content)
+          .then((res) =>{
+            if(res){
+              addToListOfCollections(fileNumber.value, fileDescription.value)
+              .then((res) => {
+                if(res){
+                  console.log("Added to list of collections")
+                  navigate("/home")
+                }else{
+                  console.log("Error loading to list of collection")
+                }
+              })
+            }else{
+              alert("No content on the text file")
+            }
+          })
+
+      }
+      reader.readAsText(file);  
+    }else{
+      alert("Either the file type doesn't match or the file number is not correct")
+    }
+  }
+
+  return(
+    <>
+      <div className='bg-white m-4 mt-10 overflow-clip'>
+        <h1 className="block mb-4 text-lg font-bold text-gray-900">
+          DeliveryReviewer - Cargar albar&aacute;n
+        </h1>
+        <form>
+          <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" 
+                id="inputFile" 
+                type="file"
+                />
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">S&oacute;lo archivos txt.</p>
+          <div>
+            <label htmlFor="fileNumber" className="block mb-2 mt-4 text-sm font-medium text-gray-900 dark:text-white">N&uacute;mero de albar&aacute;n</label>
+            <input 
+              type="text" 
+              id="fileNumber" 
+              name="fileNumber"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
+              placeholder="Ex: 01205490" 
+              required 
+            />
+          </div>
+          <div>
+            <label htmlFor="fileDescription" className="block mb-2 mt-4 text-sm font-medium text-gray-900 dark:text-white">
+              Descripci&oacute;n
+            </label>
+            <input 
+              type="text" 
+              id="fileDescription" 
+              name="fileDescription" 
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+              placeholder="Ex: pedido camión" 
+              required 
+            />
+          </div>
+          <div className="mt-4 flex justify-between">
+            <button type="button" onClick={() => createNewFile()} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              Aceptar
+            </button>
+            <button type="button" onClick={() => navigate("/home")} className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
+  ) 
+}
+
+export default CreateFile

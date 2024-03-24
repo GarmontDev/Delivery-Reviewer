@@ -14,6 +14,7 @@ import {
   arrayUnion,
   arrayRemove,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 import "firebase/firestore";
@@ -54,14 +55,14 @@ export const fetchReviewFiles = async(reviewFileNumber) => {
   }
 }
 
-export const updateItem = async (item, newCheck, reviewFileNumber) => {
+export const updateItem = async (item, newUnits, newCheck, reviewFileNumber) => {
   try {
     const q = query(collection(db, reviewFileNumber), where("code", "==", item.code));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((line) => {
       const itemRef = doc(db, reviewFileNumber, item.code)
-      updateDoc(itemRef, {checked: newCheck})
+      updateDoc(itemRef, {"unitsReceived": newUnits, "checked": newCheck})
     });
 
     return fetchReviewFiles(reviewFileNumber)
@@ -70,7 +71,7 @@ export const updateItem = async (item, newCheck, reviewFileNumber) => {
   }
 };
 
-export const loadFile = async(filename, content) => {
+export const loadFile = async(fileNumber, content) => {
   const filteredData = []
 
   try {
@@ -84,7 +85,7 @@ export const loadFile = async(filename, content) => {
         item.push(linesCounter)
         filteredData.push(item)
       })
-      createFile( filename,filteredData)
+      createFile(fileNumber, filteredData)
       return filteredData
     }
   } catch (error) {
@@ -93,16 +94,17 @@ export const loadFile = async(filename, content) => {
 }
 
 
-export const createFile = async (filename, lines) => {
+export const createFile = async (fileNumber, lines) => {
   try {
     lines.forEach((item) => {
       console.log("Adding items to the database...");
       // addDoc(collection(db, filename), {
-      setDoc(doc(db, filename, item[0]),{
+      setDoc(doc(db, fileNumber, item[0]),{
         code: item[0],
         description: item[1],
         barcode: item[2],
-        units: item[5],
+        unitsBilled: item[5],
+        unitsReceived: 0,
         checked: false,
         checkedby: "",
         time: ""
@@ -113,16 +115,54 @@ export const createFile = async (filename, lines) => {
   }
 };
 
+export const addToListOfCollections = async (fileNumber, fileDescription) => {
+  try {
+      console.log("Adding to list of collections...");
+      setDoc(doc(db, "listOfCollections", fileNumber),{
+        number: fileNumber,
+        description: fileDescription,
+      });
+      return true
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const ListAllFiles = async () => {
-  let filesList = []
   try {
     const q = query(collection(db, "listOfCollections"));
     const collections = await getDocs(q);
-    collections.forEach(async (item) => {
-      filesList.push(item.data().number)
-    });
-    return filesList
+    return collections.docs.map(doc => doc.data());
   } catch (error) {
-    
+    console.log("Error listing all the files")
+  }
+}
+
+export const deleteFileFromCollections = async (fileNumber) => {
+  try {
+    const q = query(collection(db, "listOfCollections"), where("number", "==", fileNumber));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((line) => {
+      const itemRef = doc(db, "listOfCollections", fileNumber)
+      deleteDoc(itemRef)
+    });
+    return true
+  } catch (error) {
+    console.log("Error deleting the item, error: " + error);
+  }
+}
+
+export const deleteFile = async (fileNumber) => {
+  try {
+    const q = query(collection(db, "listOfCollections"));
+    const collections = await getDocs(q);
+    collections.docs.forEach((line) => {
+      const itemRef = doc(db, fileNumber, line)
+      deleteDoc(itemRef)
+    });
+    return true
+  } catch (error) {
+    console.log("Error deleting the item, error: " + error);
   }
 }

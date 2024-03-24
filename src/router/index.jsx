@@ -3,6 +3,8 @@ import LayoutRoot from "../layout/LayoutRoot.jsx";
 import LayoutPrivate from "../layout/LayoutPrivate.jsx";
 import Login from "../pages/Login.jsx";
 import Home from "../Home.jsx"
+import DeliveryNote from "../components/DeliveryNote/DeliveryNote.jsx";
+import CreateFile from "../components/CreateFile.jsx"
 
 export const router = createBrowserRouter([
     {
@@ -22,7 +24,27 @@ export const router = createBrowserRouter([
                         element: <Home/>
                     }
                 ]
-            }
+            },
+            {
+                path: '/notes',
+                element: <LayoutPrivate/>,
+                children: [
+                    {
+                        index: true,
+                        element: <DeliveryNote/>
+                    }
+                ]
+            },
+            {
+              path: '/create',
+              element: <LayoutPrivate/>,
+              children: [
+                  {
+                      index: true,
+                      element: <CreateFile/>
+                  }
+              ]
+          }
         ]
     }
 ])

@@ -1,0 +1,179 @@
+import CheckIcon from "../../assets/icons/CheckIcon";
+import CheckBoxEmpty from "../../assets/icons/CheckBoxEmpty"
+import { updateItem, fetchReviewFiles, loadFile, logout } from "../../config/firebase";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
+import Scandit from "../Scandit"
+
+import EditItem from "../EditItem"
+import { StartBarcodeScannerIcon, StopBarcodeScannerIcon } from "../../assets/icons/BarcodeScannerIcon"
+import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
+import ClipboardIcon from "../../assets/icons/ClipboardIcon"
+
+const DeliveryNote = () => { 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const reviewFileNumber = location.state.reviewFileNumber;
+
+  const [data, setData] = useState(null)
+  const [filteredData, setFilteredData] = useState(null)
+  const [openScanner, setOpenScanner] = useState(false)
+  const [itemSelected, setItemSelected] = useState(null)
+  const [openEditItem, setOpenEditItem] = useState(false);
+
+  useEffect(() => {
+    if(reviewFileNumber != ""){
+      fetchReviewFiles(reviewFileNumber)
+      .then((res) =>{
+          setData(res),
+          setFilteredData(res)
+        }
+      )
+    }
+  }, [])
+
+ function filterData(value){
+    setFilteredData(data.filter((item) =>
+      item.description.toUpperCase().includes(value.toUpperCase())
+      || item.code.includes(value)
+      || item.barcode.includes(value)
+    ))
+    if(filteredData.length > 0){setOpenScanner(false)}
+  }
+
+  function handleClearFilteredData(){
+    setFilteredData(data)
+    searchInput.value = ""
+  }
+
+  function displayIncidents(){
+    setFilteredData(data.filter((item) =>
+      item.checked === false
+    ))
+  }
+
+  function handleScannerResult(result){
+    filterData(result)
+  }
+
+  function handleEditItem(item){
+    setItemSelected(item)
+    setOpenEditItem(true)
+  }
+
+  return(
+    <>
+      <div className="pt-4 pb-4 pl-2 pr-2 bg-gray-300 flex justify-between">
+        <Popup 
+          modal
+          nested
+          open={openEditItem} 
+          onClose={() => (setOpenEditItem(false))} 
+          repositionOnResize
+          position="right center"
+         >    
+          <EditItem item={itemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
+        </Popup>
+        <input id='searchInput' className='w-auto rounded-sm pl-1 ml-1 h-8' onChange={(e) => filterData(e.target.value)} placeholder="Nombre o c&oacute;digo"/>
+        <button className='flex justify-between p-2 pl-4 pr-4 rounded-md bg-blue-700 text-white text-sm'
+                onClick={() => navigate("/home")}
+        >
+          Albar&aacute;n {reviewFileNumber}
+        </button>
+      </div>
+      <div className='m-2 h-auto flex justify-between'>
+        {openScanner && data != undefined
+          ? <div>
+              <button onClick={() => setOpenScanner(false)} className="text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-red-700 rounded-md hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                <StopBarcodeScannerIcon/>
+                Stop Scan
+              </button>
+            </div>
+          : <button onClick={() => setOpenScanner(true)} className="text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+              <StartBarcodeScannerIcon/>
+              Escanear
+            </button>
+        }
+        <button className="text-sm px-2 gap-1 font-medium text-center inline-flex items-center text-gray-900 bg-green-400 rounded-md hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                onClick={() => handleClearFilteredData()}
+        >
+          <ClipboardIcon/>
+          Ver todo
+        </button>
+        <button className="text-sm px-2 gap-1 font-medium text-center inline-flex items-center text-gray-900 bg-[#F7BE38] rounded-md hover:bg-[#f79e38] focus:ring-4 focus:outline-none focus:ring-blue-300"
+                onClick={() => displayIncidents()}
+        >
+          <AlertTriangleIcon/>
+          Incidencias
+        </button>
+      </div>
+      {openScanner && data != undefined ? 
+        <Scandit handleScannerResult={handleScannerResult}/> 
+      : ""}
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 select-none">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              {/* <th className="px-2 py-1 w-12">
+                Check
+              </th> */}
+              <th className="px-2 w-14">
+                C&oacute;digo
+              </th>
+              <th className="px-2 w-6">
+                Rec.
+              </th>
+              <th className="px-2 w-8">
+                Fact
+              </th>
+              <th className="px-2 w-screen">
+                Descripci&oacute;n
+              </th>
+              <th className="px-2">
+                Barcode
+              </th>
+            </tr>
+          </thead>
+          <tbody className="odd:bg-white even:bg-gray-50 border-b">
+            {filteredData?.map((item, index) => (
+              <tr 
+                key={index} 
+                className={`${
+                  item?.checked ? "bg-green-200" 
+                : item?.unitsReceived > 0 && item?.unitsReceived!= item?.unitsBilled ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
+                onDoubleClick={() => handleEditItem(item)}
+              >  
+                {/* <td className="px-2">
+                  <button className="p-3" onClick={() => updateLine(item, !item.checked)}>
+                    {item?.checked
+                      ? <CheckIcon size={20}/>
+                      : <CheckBoxEmpty size={20}/>
+                    }
+                  </button>
+                </td>           */}
+                <td className="px-2">
+                  {item.code} 
+                </td>
+                <td scope="col" className="px-4 py-4">
+                  {item.unitsReceived}
+                </td>
+                <td scope="col" className="px-4 py-4">
+                  {item.unitsBilled}
+                </td>
+                <th className="px-2 py-2">
+                  {item.description}
+                </th>
+                <td className="">
+                  {item.barcode}
+                </td>
+              </tr>        
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  )
+ }
+
+ export default DeliveryNote;
