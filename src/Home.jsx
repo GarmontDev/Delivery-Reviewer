@@ -3,10 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import DeliveryFiles from './components/DeliveryFiles/DeliveryFiles';
 import { logout } from './config/firebase';
 import FaviconIcon from './assets/icons/FaviconIcon';
+import { useUserContext } from "./context/UserContext";
+import { useEffect } from "react";
 
 function Home() {
 
   const navigate = useNavigate()
+
+  const {user} = useUserContext();
+
+  useEffect(() => {
+    if (!user){
+      navigate('/');
+    }
+  }, [user])
 
   return (
     <>
