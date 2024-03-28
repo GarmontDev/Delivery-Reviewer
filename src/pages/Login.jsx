@@ -1,17 +1,18 @@
+import "./Login.css"
 import React, {useEffect, useState} from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import { auth, login } from '../config/firebase';
 import { useNavigate } from 'react-router-dom'
 import FaviconIcon from "../assets/icons/FaviconIcon.jsx"
 import { useUserContext } from '../context/UserContext.jsx';
+import { Formik } from 'formik';
+import * as Yup from "yup";
  
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState("")
-
   const {user} = useUserContext();
+
+  const [displayNameInput, setDisplayInput] = useState(false)
 
   useEffect(() => {
     if (user){
@@ -19,22 +20,36 @@ const Login = () => {
     }
   }, [user])
   
-      
-  const onLogin = (e) => {
-    e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      navigate("/home")
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if(errorCode === "auth/invalid-email"){
-        setLoginError("*Invalid email or password")
-      }
-    });
-  }
+  const onSubmit = async ({email, password, name}, { setSubmitting, setErrors, resetForm }) =>{
+    try {
+        const credentialUser = await login({email, password, name, displayNameInput});
+        resetForm();
+    } catch (error) {
+        if(error.code === "auth/user-not-found"){
+            return setErrors({email: "User not found"})
+        }
+        if(error.code === "auth/wrong-password"){
+            return setErrors({password: "Password incorrect"})
+        }
+    } finally {
+        setSubmitting(false)
+    }
+}
+
+const validationSchema = Yup.object().shape({
+    email: Yup
+            .string()
+            .email("Email no válido")
+            .required("*Email necesario"),
+    password: Yup
+            .string()
+            .trim()
+            .min(6, "Min. 6 characters")
+            .required("*Password no válida"),
+    name: Yup
+            .string()
+            .min(3, "Min. 3 characters")
+})
  
     return(
         <>
@@ -48,48 +63,102 @@ const Login = () => {
                         Delivery-Reviewer
                       </h1>
                     </div>
-                    <form className="space-y-4" action="#">
-                      <div>
-                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                        <input 
-                          type="email" 
-                          name="email" 
-                          id="email" 
-                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " 
-                          placeholder="nombre@mail.com" required=""
-                          onChange={(e)=>setEmail(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                        <input 
-                          type="password" 
-                          name="password" 
-                          id="password" 
-                          placeholder="••••••••" 
-                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " 
-                          required=""
-                          onChange={(e)=>setPassword(e.target.value)}
-                        />
-                      </div>
-                      <div className="flex items-center h-5">
-                        <input 
-                          id="remember" 
-                          type="checkbox" 
-                          value="" 
-                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" 
-                          required />
-
-                        <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          Mantener sesi&oacute;n
-                        </label>
-                      </div>
-                          {loginError? <div className='text-red-600 font-medium text-center'>{loginError}</div> : ""}
-                      <button onClick={onLogin} className="w-full text-white font-semibold bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center">
-                        Acceder
-                      </button>
-
-                    </form>
+                    <Formik 
+                      initialValues={{ email: "", password: ""}}
+                      onSubmit={onSubmit}
+                      validationSchema={validationSchema}
+                      
+                    >                   
+                      {({values, handleSubmit, handleChange, errors, touched, handleBlur, isSubmitting}) => (
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                          <div>
+                            <div className="flex">
+                              <label htmlFor="email" className="text-sm font-medium text-gray-900">
+                                Email
+                              </label>
+                            </div>
+                            <input 
+                              id="email" 
+                              type="email" 
+                              name="email" 
+                              value={values.email} 
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={`${errors.email 
+                                ? "bg-red-200 border border-red-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5t" 
+                                : "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"}`}
+                              placeholder="nombre@mail.com" 
+                              required
+                            />
+                              <div className='form-errors'>
+                                {errors.email && touched.email && errors.email}
+                              </div>
+                          </div>
+                          <div>
+                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                              Password
+                            </label>
+                            <input 
+                              id="password" 
+                              type="password" 
+                              name="password" 
+                              placeholder="••••••••" 
+                              className={`${errors.password 
+                                ? "bg-red-200 border border-red-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" 
+                                : "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"}`}
+                              value={values.password} 
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              required
+                            />
+                            <div className='form-errors'>
+                              {errors.password && touched.password && errors.password}
+                            </div>
+                          </div>
+                          {displayNameInput ? 
+                            <div>
+                              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Nombre
+                              </label>
+                              <input 
+                                id="name" 
+                                type="text" 
+                                name="name" 
+                                placeholder="Nombre" 
+                                className={`${errors.name 
+                                  ? "bg-red-200 border border-red-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" 
+                                  : "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"}`}
+                                value={values.name} 
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                required
+                              />
+                              <div className='form-errors'>
+                                {errors.name && touched.name && errors.name}
+                              </div>
+                            </div> 
+                            : ""}
+                          <div className="flex items-center h-5">
+                            <input 
+                              id="remember" 
+                              type="checkbox" 
+                              value="" 
+                              className="w-4 h-4 mt-2 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" 
+                            />
+                            <label htmlFor="remember" className="pl-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                              Mantener sesi&oacute;n iniciada
+                            </label>
+                          </div>
+                              
+                          <button 
+                            type='submit'
+                            disabled={isSubmitting} 
+                            className="w-full text-white font-semibold bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center">
+                            Acceder
+                          </button>
+                        </form>
+                      )}
+                    </Formik>
                   </div>
               </div>
             </div>

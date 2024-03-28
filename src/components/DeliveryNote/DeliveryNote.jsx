@@ -83,8 +83,8 @@ const DeliveryNote = () => {
          >    
           <EditItem item={itemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
         </Popup>
-        <input id='searchInput' className='w-auto rounded-sm pl-1 ml-1 h-8' onChange={(e) => filterData(e.target.value)} placeholder="Nombre o c&oacute;digo"/>
-        <button className='flex justify-between p-2 pl-4 pr-4 rounded-md bg-blue-700 text-white text-sm'
+        <input id='searchInput' className='w-5/12 rounded-sm pl-1 ml-1 h-8' onChange={(e) => filterData(e.target.value)} placeholder="Nombre o c&oacute;digo"/>
+        <button className='flex justify-between p-2 pl-2 pr-2 rounded-md bg-blue-700 text-white text-sm'
                 onClick={() => navigate("/home")}
         >
           Albar&aacute;n {reviewFileNumber}
@@ -93,12 +93,12 @@ const DeliveryNote = () => {
       <div className='m-2 h-auto flex justify-between'>
         {openScanner && data != undefined
           ? <div>
-              <button onClick={() => setOpenScanner(false)} className="stop-scan-button">
+              <button onClick={() => setOpenScanner(false)} className="stop-scan-button ">
                 <StopBarcodeScannerIcon/>
                 Stop Scan
               </button>
             </div>
-          : <button onClick={() => setOpenScanner(true)} className="start-scan-button">
+          : <button disabled onClick={() => setOpenScanner(true)} className="start-scan-button">
               <StartBarcodeScannerIcon/>
               Escanear
             </button>
@@ -149,8 +149,7 @@ const DeliveryNote = () => {
                 className={`${
                   item?.checked ? "bg-green-200" 
                 :  item?.incidents ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
-                // item?.unitsReceived > 0 && item?.unitsReceived!= item?.unitsBilled
-                onDoubleClick={() => handleEditItem(item)}
+                onClick={() => handleEditItem(item)}
               >  
                 <td className="px-2 py-3 text-center">
                   {item.code} 
@@ -168,7 +167,7 @@ const DeliveryNote = () => {
                   {item.barcode}
                 </td>                
                 <td className="px-16">
-                  {item.checkedby === "garmontdev@gmail.com" ? "CARLOS" : ""}
+                  {item.checkedby}
                 </td>
               </tr>        
             ))}

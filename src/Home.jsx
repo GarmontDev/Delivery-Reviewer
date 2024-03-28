@@ -1,10 +1,11 @@
 import "./index.css"
 import { useNavigate } from 'react-router-dom';
 import DeliveryFiles from './components/DeliveryFiles/DeliveryFiles';
-import { logout } from './config/firebase';
+import { auth, logout } from './config/firebase';
 import FaviconIcon from './assets/icons/FaviconIcon';
 import { useUserContext } from "./context/UserContext";
 import { useEffect } from "react";
+import Footer from "./components/Footer";
 
 function Home() {
 
@@ -26,16 +27,15 @@ function Home() {
             <FaviconIcon size={32}/>
             Delivery Reviewer
           </div>
-          <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 pt-1 pb-1"
-                  onClick={() => navigate("/create")}
-          >
-            +Albar&aacute;n
-          </button>
-          <button onClick={() => logout()} className='text-sm pl-2 pr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-red-700 hover:text-white'>
+
+          <button 
+            onClick={() => {if (window.confirm("Seguro que deseas salir?")) logout() }} 
+            className='text-sm pl-2 pr-2 mr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-red-700 hover:text-white'>
             Salir
           </button>
         </div>
         <DeliveryFiles/>
+        <Footer/>
       </div>
     </>
   )

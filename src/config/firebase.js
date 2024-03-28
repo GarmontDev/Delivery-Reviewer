@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 
 import {
   getFirestore,
@@ -34,9 +34,35 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const db = getFirestore(app);
 
+export const login = ({ email, password, name, displayNameInput}) => {
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      updateUserProfile(name, displayNameInput)
+      return user
+    })
+    .catch ((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    })
+    
+}
+
 export const logout = () => {
   return signOut(auth);
 };
+
+export const updateUserProfile = async(name, displayNameInput) => {
+  if(displayNameInput){
+    updateProfile(auth.currentUser, {
+      displayName: name
+    }).then(() => {
+      alert("Nombre actualizado")
+    }).catch((error) => {
+      alert("Ha ocurrido un error actualizando tu nombre")
+    });
+  }
+}
 
 export const fetchReviewFiles = async(reviewFileNumber) => {
   try {
@@ -51,10 +77,10 @@ export const fetchReviewFiles = async(reviewFileNumber) => {
   }
 }
 
-export const updateItem = async (item, newUnits, newCheck, incidents, reviewFileNumber, email) => {
+export const updateItem = async (item, newUnits, newCheck, incidents, reviewFileNumber, displayName) => {
   try {
     const itemRef = doc(db, reviewFileNumber, item.code)
-    updateDoc(itemRef, {unitsReceived: newUnits, checked: newCheck, incidents: incidents, checkedby: email})
+    updateDoc(itemRef, {unitsReceived: newUnits, checked: newCheck, incidents: incidents, checkedby: displayName})
 
     return fetchReviewFiles(reviewFileNumber)
   } catch (error) {
