@@ -1,0 +1,19 @@
+.container{
+  @apply
+  flex items-center place-content-center w-full
+  justify-between text-center pl-4 mb-2 text-gray-500 bg-white rounded-lg border-2 shadow
+}
+
+.files-counter{
+  @apply
+  inline-flex items-center justify-center ml-2
+  flex-shrink-0 w-8 h-8 m-2 
+  text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200
+}
+
+@media (min-width: 768px) {
+  .delivery-files-main-container{
+    @apply
+    flex flex-col items-center justify-center w-[768px]
+  }
+}

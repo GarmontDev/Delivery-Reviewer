@@ -2,7 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .popup-overlay {  
   background: rgba(0, 0, 0, 0.5);
+}
+
+.home-container{
+  @apply
+  mt-4 ml-2 mr-2
+}
+
+.header-container{
+  @apply
+  bg-gray-100 flex justify-between pt-2 pb-2 pl-1 pr-1 mb-1 h-12
+}
+
+.header-icon{
+  @apply
+  flex self-center whitespace-nowrap
+  text-xl text-blue-700 font-semibold 
+}
+
+@media (min-width: 768px) {
+  .home-container{
+    @apply
+    flex flex-col items-center justify-center
+  }
+  .header-container{
+    @apply
+    w-[768px]
+  }
 }

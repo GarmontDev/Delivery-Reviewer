@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { updateItem } from "../config/firebase"
+import { useUserContext } from "../context/UserContext"
 
 const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData}) => { 
 
   const [units, setUnits] = useState(item.unitsReceived)
   const [newCheck, setNewCheck] = useState(item.checked)
+
+  const {user} = useUserContext();
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -18,14 +21,16 @@ const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData})
   }
 
   function handleEditting (item){
-    updateItem(item, units, newCheck, fileNumber)
-    .then((res) => {
-      if(res){
-        setData(res)
-        setFilteredData(res)
+    const incidents = (item.unitsBilled != units)
+    updateItem(item, units, newCheck, incidents, fileNumber, user.email)
+      .then((res) => {
+        if(res){
+          setData(res)
+          setFilteredData(res)
+          setOpenEditItem(false)
+        }
       }
-    })
-    setOpenEditItem(false)
+    )
   }
 
   return(

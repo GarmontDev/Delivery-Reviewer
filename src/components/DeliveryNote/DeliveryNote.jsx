@@ -22,6 +22,10 @@ const DeliveryNote = () => {
   const [openEditItem, setOpenEditItem] = useState(false);
 
   useEffect(() => {
+    refreshData()
+  }, [])
+
+  function refreshData(){
     if(reviewFileNumber != ""){
       fetchReviewFiles(reviewFileNumber)
       .then((res) =>{
@@ -30,7 +34,7 @@ const DeliveryNote = () => {
         }
       )
     }
-  }, [])
+  }
 
  function filterData(value){
     setFilteredData(data.filter((item) =>
@@ -53,7 +57,7 @@ const DeliveryNote = () => {
 
   function displayIncidents(){
     setFilteredData(data.filter((item) =>
-      item.checked === false
+      item.incidents === true
     ))
   }
 
@@ -73,9 +77,9 @@ const DeliveryNote = () => {
           modal
           nested
           open={openEditItem} 
-          onClose={() => (setOpenEditItem(false))} 
+          onClose={() => (setOpenEditItem(false), refreshData())} 
           repositionOnResize
-          position="right center"
+          position="top center"
          >    
           <EditItem item={itemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
         </Popup>
@@ -119,8 +123,8 @@ const DeliveryNote = () => {
         <table className="note-table">
           <thead className="text-xs text-gray-700 uppercase bg-gray-200">
             <tr>
-              <th className="px-2 py-2 w-14 ">
-                C&oacute;digo
+              <th className="px-2 py-2 w-14 text-center">
+                C&oacute;d.
               </th>
               <th className="px-1.5 w-6">
                 Rec.
@@ -128,11 +132,14 @@ const DeliveryNote = () => {
               <th className="px-3 w-8">
                 Fact
               </th>
-              <th className="px-3 w-screen">
+              <th className="px-3 w-screen lg:w-96">
                 Descripci&oacute;n
               </th>
-              <th className="px-2">
+              <th className="px-2 w-16">
                 Barcode
+              </th>
+              <th className="px-16 w-20">
+                Revisado
               </th>
             </tr>
           </thead>
@@ -141,23 +148,27 @@ const DeliveryNote = () => {
               <tr key={index} 
                 className={`${
                   item?.checked ? "bg-green-200" 
-                : item?.unitsReceived > 0 && item?.unitsReceived!= item?.unitsBilled ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
+                :  item?.incidents ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
+                // item?.unitsReceived > 0 && item?.unitsReceived!= item?.unitsBilled
                 onDoubleClick={() => handleEditItem(item)}
               >  
-                <td className="px-2">
+                <td className="px-2 py-3 text-center">
                   {item.code} 
                 </td>
-                <td scope="col" className="px-4 py-4">
+                <td scope="col" className="px-4">
                   {item.unitsReceived}
                 </td>
-                <td scope="col" className="px-4 py-4">
+                <td scope="col" className="px-4">
                   {item.unitsBilled}
                 </td>
-                <th className="px-2 py-2">
+                <th className="px-3">
                   {item.description}
                 </th>
-                <td className="">
+                <td className="px-2">
                   {item.barcode}
+                </td>                
+                <td className="px-16">
+                  {item.checkedby === "garmontdev@gmail.com" ? "CARLOS" : ""}
                 </td>
               </tr>        
             ))}

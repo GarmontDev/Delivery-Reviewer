@@ -38,10 +38,6 @@ export const logout = () => {
   return signOut(auth);
 };
 
-function removedDuplicates(arr){
-  return arr.filter((item, index) => arr.indexOf(item) === index)
-}
-
 export const fetchReviewFiles = async(reviewFileNumber) => {
   try {
     const files = await getDocs(collection(db, reviewFileNumber));
@@ -55,15 +51,10 @@ export const fetchReviewFiles = async(reviewFileNumber) => {
   }
 }
 
-export const updateItem = async (item, newUnits, newCheck, reviewFileNumber) => {
+export const updateItem = async (item, newUnits, newCheck, incidents, reviewFileNumber, email) => {
   try {
-    const q = query(collection(db, reviewFileNumber), where("code", "==", item.code));
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((line) => {
-      const itemRef = doc(db, reviewFileNumber, item.code)
-      updateDoc(itemRef, {"unitsReceived": newUnits, "checked": newCheck})
-    });
+    const itemRef = doc(db, reviewFileNumber, item.code)
+    updateDoc(itemRef, {unitsReceived: newUnits, checked: newCheck, incidents: incidents, checkedby: email})
 
     return fetchReviewFiles(reviewFileNumber)
   } catch (error) {
@@ -71,9 +62,12 @@ export const updateItem = async (item, newUnits, newCheck, reviewFileNumber) => 
   }
 };
 
+function removedDuplicates(arr){
+  return arr.filter((item, index) => arr.indexOf(item) === index)
+}
+
 export const loadFile = async(fileNumber, content) => {
   const filteredData = []
-
   try {
     if(content){
       var separatedLines = content.split(/\r?\n|\r|\n/g);
@@ -93,18 +87,17 @@ export const loadFile = async(fileNumber, content) => {
   }
 }
 
-
 export const createFile = async (fileNumber, lines) => {
   try {
     lines.forEach((item) => {
       console.log("Adding items to the database...");
-      // addDoc(collection(db, filename), {
       setDoc(doc(db, fileNumber, item[0]),{
         code: item[0],
         description: item[1],
         barcode: item[2],
         unitsBilled: item[5],
         unitsReceived: 0,
+        incidents: false,
         checked: false,
         checkedby: "",
         time: ""
@@ -115,12 +108,37 @@ export const createFile = async (fileNumber, lines) => {
   }
 };
 
+export const updateIncidents = async(fileNumber) => {
+  try {
+    const incidentsFound = []
+
+    const q = query(collection(db, fileNumber), where("incidents", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      incidentsFound.push(doc.data())
+    });
+    if(incidentsFound.length > 0){
+      const fileRef = doc(db, "listOfCollections",fileNumber)
+      updateDoc(fileRef, {incidents: true})
+      return true
+    }else{
+      const fileRef = doc(db, "listOfCollections",fileNumber)
+      updateDoc(fileRef, {incidents: false})
+      return false
+    }
+  } catch (error) {
+    console.log("Error updating the item, error: " + error);
+  }
+}
+
 export const addToListOfCollections = async (fileNumber, fileDescription) => {
   try {
       console.log("Adding to list of collections...");
       setDoc(doc(db, "listOfCollections", fileNumber),{
         number: fileNumber,
         description: fileDescription,
+        incidents: false,
+        completed: false,
       });
       return true
   } catch (error) {
@@ -153,12 +171,13 @@ export const deleteFileFromCollections = async (fileNumber) => {
   }
 }
 
+//TODO it does not delete the lines
 export const deleteFile = async (fileNumber) => {
   try {
     const q = query(collection(db, "listOfCollections"));
     const collections = await getDocs(q);
     collections.docs.forEach((line) => {
-      const itemRef = doc(db, fileNumber, line)
+      const itemRef = doc(db, fileNumber, line.data().number)
       deleteDoc(itemRef)
     });
     return true

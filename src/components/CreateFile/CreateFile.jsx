@@ -1,3 +1,4 @@
+import "./CreateFile.css"
 import { useNavigate } from "react-router-dom";
 import { addToListOfCollections, loadFile } from "../../config/firebase";
 
@@ -44,36 +45,36 @@ const CreateFile = () => {
 
   return(
     <>
-      <div className='bg-white m-4 mt-10 overflow-clip'>
-        <h1 className="block mb-4 text-lg font-bold text-gray-900">
-          DeliveryReviewer - Cargar albar&aacute;n
-        </h1>
+      <main>
         <form>
-          <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" 
+          <h1>
+            DeliveryReviewer - Cargar albar&aacute;n
+          </h1>
+          <input className="input-file" 
                 id="inputFile" 
                 type="file"
                 />
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">S&oacute;lo archivos txt.</p>
           <div>
-            <label htmlFor="fileNumber" className="block mb-2 mt-4 text-sm font-medium text-gray-900 dark:text-white">N&uacute;mero de albar&aacute;n</label>
+            <label htmlFor="fileNumber">N&uacute;mero de albar&aacute;n</label>
             <input 
               type="text" 
               id="fileNumber" 
               name="fileNumber"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
+              className="text-input" 
               placeholder="Ex: 01205490" 
               required 
             />
           </div>
           <div>
-            <label htmlFor="fileDescription" className="block mb-2 mt-4 text-sm font-medium text-gray-900 dark:text-white">
+            <label htmlFor="fileDescription">
               Descripci&oacute;n
             </label>
             <input 
               type="text" 
               id="fileDescription" 
               name="fileDescription" 
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+              className="text-input" 
               placeholder="Ex: pedido camión" 
               required 
             />
@@ -87,7 +88,7 @@ const CreateFile = () => {
             </button>
           </div>
         </form>
-      </div>
+      </main>
     </>
   ) 
 }
