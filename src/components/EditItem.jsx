@@ -47,8 +47,8 @@ const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData})
             id="unitsReceivedInput" 
             value={units} 
             onChange={handleChange}
+            onFocus={e => e.target.select()}
             className="w-24 text-center rounded-md border-2 border-gray-200" 
-            autoFocus 
             placeholder="0"
           />
         </div>

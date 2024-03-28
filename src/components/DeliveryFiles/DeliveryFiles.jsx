@@ -131,7 +131,7 @@ const DeliveryFiles = () => {
             </div>
 
       </div>
-      : <div className="flex items-center w-full text-center pl-4 text-gray-500 bg-white rounded-lg border-2 shadow">
+      : <div className="no-files-available">
           No hay albaranes disponibles
         </div>
       }
