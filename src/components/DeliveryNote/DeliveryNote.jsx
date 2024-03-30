@@ -9,6 +9,7 @@ import EditItem from "../EditItem"
 import { StartBarcodeScannerIcon, StopBarcodeScannerIcon } from "../../assets/icons/BarcodeScannerIcon"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
 import ClipboardIcon from "../../assets/icons/ClipboardIcon"
+import XClearIcon from "../../assets/icons/XClearIcon"
 
 const DeliveryNote = () => { 
   const navigate = useNavigate();
@@ -83,7 +84,15 @@ const DeliveryNote = () => {
          >    
           <EditItem item={itemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
         </Popup>
-        <input id='searchInput' className='w-5/12 rounded-sm pl-1 ml-1 h-8' onChange={(e) => filterData(e.target.value)} placeholder="Nombre o c&oacute;digo"/>
+        <div className="flex h-8 relative">
+          <input id='searchInput' className='rounded-sm pl-1 ml-1' onChange={(e) => filterData(e.target.value)} placeholder="Nombre o c&oacute;digo"/>
+          <button 
+            className="p-1 absolute top-0 right-0 hover:bg-red-400" 
+            onClick={() => handleClearFilteredData()}
+          >
+            <XClearIcon />
+          </button>
+        </div>
         <button className='flex justify-between p-2 pl-2 pr-2 rounded-md bg-blue-700 text-white text-sm'
                 onClick={() => navigate("/home")}
         >
