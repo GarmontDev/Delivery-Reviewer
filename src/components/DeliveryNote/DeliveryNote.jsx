@@ -8,6 +8,7 @@ import EditItem from "../EditItem"
 import { StartBarcodeScannerIcon, StopBarcodeScannerIcon } from "../../assets/icons/BarcodeScannerIcon"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
 import ClipboardIcon from "../../assets/icons/ClipboardIcon"
+import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon"
 import XClearIcon from "../../assets/icons/XClearIcon"
 
 const DeliveryNote = () => { 
@@ -61,6 +62,12 @@ const DeliveryNote = () => {
     ))
   }
 
+  function displayNotReviewed(){
+    setFilteredData(data.filter((item) =>
+      item.unitsReceived === 0
+    ))
+  }
+
   function handleScannerResult(result){
     filterData(result)
   }
@@ -98,8 +105,8 @@ const DeliveryNote = () => {
           Albar&aacute;n {reviewFileNumber}
         </button>
       </div>
-      <div className='m-2 h-auto flex justify-between'>
-        {openScanner && data != undefined
+      <div className='m-2 h-8 flex justify-between'>
+        {/* {openScanner && data != undefined
           ? <div>
               <button onClick={() => setOpenScanner(false)} className="stop-scan-button ">
                 <StopBarcodeScannerIcon/>
@@ -110,14 +117,20 @@ const DeliveryNote = () => {
               <StartBarcodeScannerIcon/>
               Escanear
             </button>
-        }
-        <button className="text-sm px-2 gap-1 font-medium text-center inline-flex items-center text-gray-900 bg-green-400 rounded-md hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                onClick={() => handleClearFilteredData()}
+        } */}
+        <button className="filter-button bg-green-400 hover:bg-green-600"
+          onClick={() => handleClearFilteredData()}
         >
           <ClipboardIcon/>
           Ver todo
         </button>
-        <button className="text-sm px-2 gap-1 font-medium text-center inline-flex items-center text-gray-900 bg-[#F7BE38] rounded-md hover:bg-[#f79e38] focus:ring-4 focus:outline-none focus:ring-blue-300"
+        <button className="filter-button bg-blue-400 hover:bg-blue-600"
+                onClick={() => displayNotReviewed()}
+        >
+          <ClipboardEmptyIcon/>
+          No repasado
+        </button>
+        <button className="filter-button bg-[#F7BE38]  hover:bg-[#f79e38]"
                 onClick={() => displayIncidents()}
         >
           <AlertTriangleIcon/>

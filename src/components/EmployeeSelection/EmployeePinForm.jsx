@@ -2,7 +2,6 @@ import { Formik } from "formik"
 import * as Yup from "yup";
 import { employeePinLogin } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
-import { useEmployeeContext } from "../../context/EmployeeContext";
 
 const EmployeePinForm = ({employeeSelected, setEmployee}) => { 
   
@@ -44,18 +43,20 @@ const EmployeePinForm = ({employeeSelected, setEmployee}) => {
           <form 
             onSubmit={handleSubmit} 
             className="bg-gray-100 grid grid-cols-1 grid-rows-3 place-items-center p-4 rounded-md"
+            autoComplete="false"
           >
             <label htmlFor="pin" className="text-base font-semibold tracking-wider text-gray-800">
               PIN
             </label>
             <input 
               id="pin" 
-              type="pin" 
+              type="password" 
               name="pin" 
               value={values.pin} 
               onChange={handleChange}
               onBlur={handleBlur}
               maxLength={4}
+              autoComplete="false"
               className={`p-2 w-full block border text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600
                 ${errors.pin 
                 ? "bg-red-200 border-red-300 " 
