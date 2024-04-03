@@ -4,14 +4,20 @@ import DeliveryFiles from './components/DeliveryFiles/DeliveryFiles';
 import { auth, logout } from './config/firebase';
 import FaviconIcon from './assets/icons/FaviconIcon';
 import { useUserContext } from "./context/UserContext";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Footer from "./components/Footer";
+import EmployeeSelection from "./components/EmployeeSelection/EmployeeSelection";
+import { useEmployeeContext } from "./context/EmployeeContext";
 
 function Home() {
 
   const navigate = useNavigate()
 
   const {user} = useUserContext();
+  const {employee, setEmployee} = useEmployeeContext()
+
+
+
 
   useEffect(() => {
     if (!user){
@@ -34,7 +40,11 @@ function Home() {
             Salir
           </button>
         </div>
-        <DeliveryFiles/>
+        {employee
+          ? <DeliveryFiles employee={employee} setEmployee={setEmployee}/>
+          : <EmployeeSelection setEmployee={setEmployee}/>
+        }
+        
         <Footer/>
       </div>
     </>

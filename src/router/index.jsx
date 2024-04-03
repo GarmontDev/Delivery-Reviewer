@@ -5,6 +5,7 @@ import Login from "../pages/Login.jsx";
 import Home from "../Home.jsx"
 import DeliveryNote from "../components/DeliveryNote/DeliveryNote.jsx";
 import CreateFile from "../components/CreateFile/CreateFile.jsx"
+import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -44,7 +45,17 @@ export const router = createBrowserRouter([
                       element: <CreateFile/>
                   }
               ]
-          }
+          },
+          {
+            path: '/userselection',
+            element: <LayoutPrivate/>,
+            children: [
+                {
+                    index: true,
+                    element: <UserSelection/>
+                }
+            ]
+        }
         ]
     }
 ])

@@ -3,7 +3,6 @@ import { fetchReviewFiles } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
-import Scandit from "../Scandit"
 
 import EditItem from "../EditItem"
 import { StartBarcodeScannerIcon, StopBarcodeScannerIcon } from "../../assets/icons/BarcodeScannerIcon"
@@ -126,7 +125,7 @@ const DeliveryNote = () => {
         </button>
       </div>
       {openScanner && data != undefined ? 
-        <Scandit handleScannerResult={handleScannerResult}/> 
+        <Html5QrcodePlugin handleScannerResult={handleScannerResult}/> 
       : ""}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="note-table">

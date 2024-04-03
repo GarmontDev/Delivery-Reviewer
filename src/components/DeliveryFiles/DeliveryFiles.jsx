@@ -6,7 +6,7 @@ import FileCheckIcon from "../../assets/icons/FileCheckIcon.jsx"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon.jsx"
 import { useUserContext } from "../../context/UserContext.jsx";
 
-const DeliveryFiles = () => { 
+const DeliveryFiles = ({employee, setEmployee}) => { 
 
   const navigate = useNavigate();
   const {user} = useUserContext();
@@ -55,9 +55,9 @@ const DeliveryFiles = () => {
   return(
     <> 
         <div className="delivery-files-container">
-          <div className="user-name">
-            {user.displayName}
-          </div>
+          <button className="user-name" onClick={() => (navigate("/home"),setEmployee(""))}>
+            {employee ? employee : "No user selected"}
+          </button>
           <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
                   onClick={() => navigate("/create")}
           >

@@ -1,6 +1,5 @@
 import "./Login.css"
 import React, {useEffect, useState} from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, login } from '../config/firebase';
 import { useNavigate } from 'react-router-dom'
 import FaviconIcon from "../assets/icons/FaviconIcon.jsx"

@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { updateItem } from "../config/firebase"
-import { useUserContext } from "../context/UserContext"
+import { useEmployeeContext } from "../context/EmployeeContext"
 
 const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData}) => { 
 
   const [units, setUnits] = useState(item.unitsReceived)
   const [newCheck, setNewCheck] = useState(item.checked)
 
-  const {user} = useUserContext(); 
+  const {employee} = useEmployeeContext()
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -22,7 +22,7 @@ const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData})
 
   function handleEditting (item){
     const incidents = (item.unitsBilled != units)
-    updateItem(item, units, newCheck, incidents, fileNumber, user.displayName)
+    updateItem(item, units, newCheck, incidents, fileNumber, employee)
       .then((res) => {
         if(res){
           setData(res)

@@ -19,7 +19,6 @@ import {
 
 import "firebase/firestore";
 
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -51,6 +50,38 @@ export const login = ({ email, password, name, displayNameInput}) => {
 export const logout = () => {
   return signOut(auth);
 };
+
+export const employeePinLogin = async (employeeSelected, pin) => {
+  try {
+    const q = query(collection(db, "employees"));
+    const collections = await getDocs(q);
+    const itemFound = []
+    collections.docs.forEach((line) => {
+      if((line.data().name === employeeSelected) && (line.data().pin === pin)){
+        itemFound.push(line.data().name)
+      }
+    })
+    return (itemFound)
+    
+  } catch (error) {
+    console.log("Error logging employee with pin, error: " + error);
+  }
+}
+
+// export const employeePinLogin = async(employeeSelected, pin) => {
+  
+//   try {
+//     const q = query(collection(db, "employees"));
+//     const querySnapshot = await getDocs(q);
+//     querySnapshot.forEach((doc) => {
+//       if((doc.data().name === employeeSelected) && (doc.data().pin === pin)){
+//         return true
+//       }
+//     })
+//   } catch (error) {
+//     console.log("Error while logging in: " + error)
+//   }
+// }
 
 export const updateUserProfile = async(name, displayNameInput) => {
   if(displayNameInput){
@@ -179,6 +210,16 @@ export const ListAllFiles = async () => {
     return collections.docs.map(doc => doc.data());
   } catch (error) {
     console.log("Error listing all the files")
+  }
+}
+
+export const fetchAllEmployees = async () => {
+  try {
+    const q = query(collection(db, "employees"));
+    const collections = await getDocs(q);
+    return collections.docs.map(doc => doc.data());
+  } catch (error) {
+    console.log("Error listing all the employees")
   }
 }
 
