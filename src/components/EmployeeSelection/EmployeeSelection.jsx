@@ -16,9 +16,9 @@ const EmployeeSelection = ({setEmployee}) => {
     }) 
   }, [])
 
-  function handleEmployeeChange(name){
-    setEmployeeSelected(name)
-    if(employeeSelected === name){
+  function handleEmployeeChange(value){
+    setEmployeeSelected(value)
+    if(employeeSelected.name === value.name){
       setEmployeePinModal(true)
     }
   }
@@ -41,7 +41,7 @@ const EmployeeSelection = ({setEmployee}) => {
           <button 
             key={employee+index} 
             className="bg-gray-200 text-blue-700 font-medium w-24 p-2 rounded-md border-2 border-gray-400"
-            onClick={() => handleEmployeeChange(employee.name)}
+            onClick={() => handleEmployeeChange(employee)}
           >
             {employee.name}
           </button>

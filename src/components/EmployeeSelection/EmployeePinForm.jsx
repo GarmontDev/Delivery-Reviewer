@@ -9,8 +9,8 @@ const EmployeePinForm = ({employeeSelected, setEmployee}) => {
 
   const onSubmit = async ({pin}, { setSubmitting, setErrors, resetForm }) =>{
     try {
-      const result = await employeePinLogin(employeeSelected, pin)
-        if(result[0] === employeeSelected){
+      const result = await employeePinLogin(employeeSelected.name, pin)
+        if(result[0].name === employeeSelected.name){
           setEmployee(employeeSelected)
           navigate("/home")
         }else{
@@ -51,6 +51,7 @@ const EmployeePinForm = ({employeeSelected, setEmployee}) => {
             <input 
               id="pin" 
               type="password" 
+              inputMode="numeric"
               name="pin" 
               value={values.pin} 
               onChange={handleChange}

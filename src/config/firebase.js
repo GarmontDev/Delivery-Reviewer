@@ -58,7 +58,7 @@ export const employeePinLogin = async (employeeSelected, pin) => {
     const itemFound = []
     collections.docs.forEach((line) => {
       if((line.data().name === employeeSelected) && (line.data().pin === pin)){
-        itemFound.push(line.data().name)
+        itemFound.push(line.data())
       }
     })
     return (itemFound)
@@ -67,21 +67,6 @@ export const employeePinLogin = async (employeeSelected, pin) => {
     console.log("Error logging employee with pin, error: " + error);
   }
 }
-
-// export const employeePinLogin = async(employeeSelected, pin) => {
-  
-//   try {
-//     const q = query(collection(db, "employees"));
-//     const querySnapshot = await getDocs(q);
-//     querySnapshot.forEach((doc) => {
-//       if((doc.data().name === employeeSelected) && (doc.data().pin === pin)){
-//         return true
-//       }
-//     })
-//   } catch (error) {
-//     console.log("Error while logging in: " + error)
-//   }
-// }
 
 export const updateUserProfile = async(name, displayNameInput) => {
   if(displayNameInput){
@@ -147,7 +132,6 @@ export const loadFile = async(fileNumber, content) => {
 export const createFile = async (fileNumber, lines) => {
   try {
     lines.forEach((item) => {
-      console.log("Adding items to the database...");
       setDoc(doc(db, fileNumber, item[0]),{
         code: item[0],
         description: item[1],
@@ -160,6 +144,21 @@ export const createFile = async (fileNumber, lines) => {
         time: ""
       });
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addToListOfCollections = async (fileNumber, fileDescription) => {
+  try {
+      setDoc(doc(db, "listOfCollections", fileNumber),{
+        number: fileNumber,
+        description: fileDescription,
+        incidents: false,
+        completed: false,
+        visible: true,
+      });
+      return true
   } catch (error) {
     console.log(error);
   }
@@ -188,28 +187,42 @@ export const updateIncidents = async(fileNumber) => {
   }
 }
 
-export const addToListOfCollections = async (fileNumber, fileDescription) => {
-  try {
-      console.log("Adding to list of collections...");
-      setDoc(doc(db, "listOfCollections", fileNumber),{
-        number: fileNumber,
-        description: fileDescription,
-        incidents: false,
-        completed: false,
-      });
-      return true
-  } catch (error) {
-    console.log(error);
+export const updateFile = async(fileNumber, incidents, completed, visible) => {
+  const fileRef = doc(db, "listOfCollections",fileNumber)
+  if(fileRef){
+    updateDoc(fileRef, {
+      incidents: incidents,
+      completed: completed,
+      visible: visible
+    })
+    return true
   }
-};
+}
 
-export const ListAllFiles = async () => {
+
+
+export const ListAllFiles = async (visible) => {
   try {
-    const q = query(collection(db, "listOfCollections"));
+    const q = query(collection(db, "listOfCollections"), where("visible", "==", visible));
     const collections = await getDocs(q);
     return collections.docs.map(doc => doc.data());
   } catch (error) {
     console.log("Error listing all the files")
+  }
+}
+
+export const fetchVisibleFiles = async() => {
+  try {
+    const visibleFiles = []
+
+    const q = query(collection(db, "listOfCollections"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      visibleFiles.push(doc.data())
+    });
+    return visibleFiles
+  } catch (error) {
+    console.log("Error fetching visible files: " + error);
   }
 }
 
@@ -238,13 +251,12 @@ export const deleteFileFromCollections = async (fileNumber) => {
   }
 }
 
-//TODO it does not delete the lines
 export const deleteFile = async (fileNumber) => {
   try {
-    const q = query(collection(db, "listOfCollections"));
-    const collections = await getDocs(q);
-    collections.docs.forEach((line) => {
-      const itemRef = doc(db, fileNumber, line.data().number)
+    const querySnapshot = await getDocs(collection(db, fileNumber));
+
+    querySnapshot.forEach((item) => {
+      const itemRef = doc(db, fileNumber, item.data().code)
       deleteDoc(itemRef)
     });
     return true

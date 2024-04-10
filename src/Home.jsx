@@ -16,9 +16,6 @@ function Home() {
   const {user} = useUserContext();
   const {employee, setEmployee} = useEmployeeContext()
 
-
-
-
   useEffect(() => {
     if (!user){
       navigate('/');

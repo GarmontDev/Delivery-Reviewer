@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
 import EditItem from "../EditItem"
-import { StartBarcodeScannerIcon, StopBarcodeScannerIcon } from "../../assets/icons/BarcodeScannerIcon"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
 import ClipboardIcon from "../../assets/icons/ClipboardIcon"
 import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon"
@@ -43,9 +42,7 @@ const DeliveryNote = () => {
       || item.code.includes(value)
       || item.barcode.includes(value)
     ))
-    if(filteredData.length > 0){
-      {setOpenScanner(false)}
-    }else{
+    if(filteredData.length === 0){
       alert("No se han encontrado productos que correspondan con: "+ value)
       handleClearFilteredData()
     }

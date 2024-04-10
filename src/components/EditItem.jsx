@@ -22,7 +22,7 @@ const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData})
 
   function handleEditting (item){
     const incidents = (item.unitsBilled != units)
-    updateItem(item, units, newCheck, incidents, fileNumber, employee)
+    updateItem(item, units, newCheck, incidents, fileNumber, employee.name)
       .then((res) => {
         if(res){
           setData(res)

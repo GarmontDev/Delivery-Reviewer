@@ -19,6 +19,14 @@
   flex items-center text-center place-content-center pt-2 pb-2 text-gray-500 bg-white rounded-lg border-2 shadow
 }
 
+.delete-table-button{
+  @apply
+  font-medium text-sm px-2 py-0.5 text-center
+  border rounded-md
+  text-red-700 hover:text-white border-red-700 hover:bg-red-800 
+  focus:ring-4 focus:outline-none focus:ring-red-300
+}
+
 @media (min-width: 768px) {
   .delivery-files-container{
     @apply
