@@ -84,11 +84,14 @@ const DeliveryFiles = ({employee, setEmployee}) => {
                     </button>
             : ""
           }
-          <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
-            onClick={() => navigate("/create")}
-          >
-            Subir Albar&aacute;n
-          </button>
+          {employee.admin ?
+            <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
+              onClick={() => navigate("/create")}
+            >
+              Subir Albar&aacute;n
+            </button>
+            : ""
+          }
 
           <button 
             className="bg-blue-500 text-white text-sm rounded-md pl-2 pr-2 h-6 mt-1 mr-4"
