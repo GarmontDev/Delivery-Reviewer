@@ -19,6 +19,11 @@
   focus:ring-4 focus:outline-none focus:ring-blue-300
 }
 
+.albaran-button{
+  @apply
+  flex p-2 rounded-md bg-blue-700 text-white text-sm
+}
+
 .stop-scan-button{
   @apply
   text-sm px-2 py-2 font-medium text-center inline-flex items-center text-white bg-red-700 rounded-md hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300

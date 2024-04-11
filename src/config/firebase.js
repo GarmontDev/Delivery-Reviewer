@@ -15,6 +15,7 @@ import {
   arrayRemove,
   getDoc,
   deleteDoc,
+  getCountFromServer,
 } from "firebase/firestore";
 
 import "firebase/firestore";
@@ -187,6 +188,26 @@ export const updateIncidents = async(fileNumber) => {
   }
 }
 
+export const updateCompleted = async(fileNumber) => {
+  try {
+    const incidentsFound = []
+
+    const q = query(collection(db, fileNumber), where("checked", "!=", true));
+    const querySnapshot = await getCountFromServer(q)
+    if(querySnapshot.data().count > 0){
+      const fileRef = doc(db, "listOfCollections",fileNumber)
+      updateDoc(fileRef, {completed: false})
+      return true
+    }else{
+      const fileRef = doc(db, "listOfCollections",fileNumber)
+      updateDoc(fileRef, {completed: true})
+      return false
+    }
+  } catch (error) {
+    console.log("Error updating the item, error: " + error);
+  }
+}
+
 export const updateFile = async(fileNumber, incidents, completed, visible) => {
   const fileRef = doc(db, "listOfCollections",fileNumber)
   if(fileRef){
@@ -201,7 +222,7 @@ export const updateFile = async(fileNumber, incidents, completed, visible) => {
 
 
 
-export const ListAllFiles = async (visible) => {
+export const listAllFiles = async (visible) => {
   try {
     const q = query(collection(db, "listOfCollections"), where("visible", "==", visible));
     const collections = await getDocs(q);

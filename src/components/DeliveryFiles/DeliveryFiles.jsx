@@ -1,6 +1,6 @@
 import "./DeliveryFiles.css"
 import { useEffect, useState } from "react";
-import { ListAllFiles, deleteFile, deleteFileFromCollections, fetchVisibleFiles, updateFile, updateIncidents, updateUserProfile } from "../../config/firebase.js";
+import { deleteFile, deleteFileFromCollections, fetchVisibleFiles, listAllFiles, updateFile, updateIncidents, updateCompleted, updateUserProfile } from "../../config/firebase.js";
 import { useNavigate } from "react-router-dom";
 import FileCheckIcon from "../../assets/icons/FileCheckIcon.jsx"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon.jsx"
@@ -19,29 +19,27 @@ const DeliveryFiles = ({employee, setEmployee}) => {
     handleListAllFiles(true)
   }, [])
 
-  // useEffect(() => {
-  //   setFilteredFiles(files)
-  // }, [files])
-
-  // useEffect(() => {
-  //   filterVisibleFiles(showVisibleFiles)
-  // }, [files])
-
-  function handleListAllFiles(visible){
-    ListAllFiles(visible)
+  function refreshFilesState(){
+    listAllFiles(showVisibleFiles)
     .then((res) => {
       if(res){
         res.forEach(element => {
           updateIncidents(element.number)
+          updateCompleted(element.number)
         });
         setFiles(res)
       }
     })
   }
 
-  // function filterVisibleFiles(value){
-  //   setFilteredFiles(files.filter((item) => item.visible === value))
-  // }
+  function handleListAllFiles(visible){
+    listAllFiles(visible)
+    .then((res) => {
+      if(res){
+        setFiles(res)
+      }
+    })
+  }
 
   function handleDeliveryFile(value){
     navigate("/notes", {state: {reviewFileNumber: value.toString()}})
@@ -72,16 +70,16 @@ const DeliveryFiles = ({employee, setEmployee}) => {
           </button>
           {employee.admin 
             ? !showVisibleFiles
-                  ? <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
-                      onClick={() => (handleListAllFiles(true), setShowVisibleFiles(true))}
-                    >
-                      Visibles
-                    </button>
-                  : <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
-                      onClick={() => (handleListAllFiles(false), setShowVisibleFiles(false))}
-                    >
-                      Ver ocultos
-                    </button>
+                ? <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
+                    onClick={() => (handleListAllFiles(true), setShowVisibleFiles(true))}
+                  >
+                    Visibles
+                  </button>
+                : <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
+                    onClick={() => (handleListAllFiles(false), setShowVisibleFiles(false))}
+                  >
+                    Ver ocultos
+                  </button>
             : ""
           }
           {employee.admin ?
@@ -95,7 +93,7 @@ const DeliveryFiles = ({employee, setEmployee}) => {
 
           <button 
             className="bg-blue-500 text-white text-sm rounded-md pl-2 pr-2 h-6 mt-1 mr-4"
-            onClick={() => {handleListAllFiles(showVisibleFiles)}}
+            onClick={() => {refreshFilesState()}}
           >
             Refresh
           </button>
@@ -108,8 +106,8 @@ const DeliveryFiles = ({employee, setEmployee}) => {
                         <th scope="col" className="px-4 py-2 w-16">
                             Albar&aacute;n
                         </th>
-                        <th scope="col" className="px-2 py-2 w-20">
-                            Descripci&oacute;n
+                        <th scope="col" className="px-2 py-2 w-16">
+                            Descripc.
                         </th>
                         <th scope="col" className="px-4 py-2 w-8">
                             Inc.
@@ -139,7 +137,7 @@ const DeliveryFiles = ({employee, setEmployee}) => {
                         {item.number}
                       </button>
                     </th>
-                    <td className="px-2 py-2 w-24">
+                    <td className="px-4 py-2 w-16">
                       {item.description}
                     </td>
                     <td className="px-4 py-2 w-8">

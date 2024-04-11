@@ -96,25 +96,13 @@ const DeliveryNote = () => {
             <XClearIcon />
           </button>
         </div>
-        <button className='flex justify-between p-2 pl-2 pr-2 rounded-md bg-blue-700 text-white text-sm'
+        <button className='albaran-button'
                 onClick={() => navigate("/home")}
         >
           Albar&aacute;n {reviewFileNumber}
         </button>
       </div>
       <div className='m-2 h-8 flex justify-between'>
-        {/* {openScanner && data != undefined
-          ? <div>
-              <button onClick={() => setOpenScanner(false)} className="stop-scan-button ">
-                <StopBarcodeScannerIcon/>
-                Stop Scan
-              </button>
-            </div>
-          : <button disabled onClick={() => setOpenScanner(true)} className="start-scan-button">
-              <StartBarcodeScannerIcon/>
-              Escanear
-            </button>
-        } */}
         <button className="filter-button bg-green-400 hover:bg-green-600"
           onClick={() => handleClearFilteredData()}
         >
