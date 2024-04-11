@@ -6,11 +6,13 @@ import Home from "../Home.jsx"
 import DeliveryNote from "../components/DeliveryNote/DeliveryNote.jsx";
 import CreateFile from "../components/CreateFile/CreateFile.jsx"
 import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
+import Page404 from "../pages/Page404.jsx";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <LayoutRoot/>,
+        errorElement: <Page404/>,
         children:   [
             {
                 index: true,
@@ -55,7 +57,7 @@ export const router = createBrowserRouter([
                     element: <UserSelection/>
                 }
             ]
-        }
+          }
         ]
     }
 ])
