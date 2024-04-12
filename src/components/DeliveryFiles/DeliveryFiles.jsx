@@ -6,6 +6,7 @@ import FileCheckIcon from "../../assets/icons/FileCheckIcon.jsx"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon.jsx"
 import { EyeOpenIcon } from "../../assets/icons/EyeIcon.jsx";
 import { EyeOffIcon } from "../../assets/icons/EyeIcon.jsx";
+import secureLocalStorage from "react-secure-storage";
 
 const DeliveryFiles = ({employee, setEmployee}) => { 
 
@@ -61,11 +62,17 @@ const DeliveryFiles = ({employee, setEmployee}) => {
       }
     })
   }
+
+  function handleEmployeeButton(){
+    secureLocalStorage.removeItem("employee")
+    setEmployee("")
+    navigate("/home")
+  }
   
   return(
     <> 
         <div className="delivery-files-container">
-          <button className="user-name" onClick={() => (navigate("/home"),setEmployee(""))}>
+          <button className="user-name" onClick={() => (handleEmployeeButton())}>
             {employee ? employee.name : "No user selected"}
           </button>
           {employee.admin 

@@ -27,6 +27,11 @@ function Home() {
     setEmployee(JSON.parse(secureLocalStorage.getItem("employee")))
   }, [])
 
+  function handleLogout(){
+    secureLocalStorage.removeItem("employee")
+    logout()
+  }
+
   return (
     <>
       <div className='home-container'>
@@ -37,7 +42,7 @@ function Home() {
           </div>
 
           <button 
-            onClick={() => {if (window.confirm("Seguro que deseas salir?")) logout() }} 
+            onClick={() => {if (window.confirm("Seguro que deseas salir?")) handleLogout() }} 
             className='text-sm pl-2 pr-2 mr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-red-700 hover:text-white'>
             Salir
           </button>
