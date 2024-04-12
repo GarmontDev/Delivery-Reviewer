@@ -21,9 +21,10 @@ const Login = () => {
   
   const onSubmit = async ({email, password, name}, { setSubmitting, setErrors, resetForm }) =>{
     try {
-        const credentialUser = await login({email, password, name, displayNameInput});
-        resetForm();
+        const credentialUser = login({email, password, name, displayNameInput});
+        //resetForm();
     } catch (error) {
+        console.log(error.code)
         if(error.code === "auth/user-not-found"){
             return setErrors({email: "User not found"})
         }
@@ -137,7 +138,7 @@ const validationSchema = Yup.object().shape({
                               </div>
                             </div> 
                             : ""}
-                          <div className="flex items-center h-5">
+                          {/* <div className="flex items-center h-5">
                             <input 
                               id="remember" 
                               type="checkbox" 
@@ -147,7 +148,7 @@ const validationSchema = Yup.object().shape({
                             <label htmlFor="remember" className="pl-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                               Mantener sesi&oacute;n iniciada
                             </label>
-                          </div>
+                          </div> */}
                               
                           <button 
                             type='submit'
