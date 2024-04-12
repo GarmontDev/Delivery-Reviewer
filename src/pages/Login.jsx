@@ -21,15 +21,11 @@ const Login = () => {
   
   const onSubmit = async ({email, password, name}, { setSubmitting, setErrors, resetForm }) =>{
     try {
-        const credentialUser = login({email, password, name, displayNameInput});
+        const credentialUser = await login({email, password, name, displayNameInput});
         //resetForm();
     } catch (error) {
-        console.log(error.code)
-        if(error.code === "auth/user-not-found"){
-            return setErrors({email: "User not found"})
-        }
-        if(error.code === "auth/wrong-password"){
-            return setErrors({password: "Password incorrect"})
+        if(error.code === "auth/invalid-credential"){
+          return setErrors({credentials: "Usuario y/o contraseña incorrecta"})
         }
     } finally {
         setSubmitting(false)
@@ -149,7 +145,9 @@ const validationSchema = Yup.object().shape({
                               Mantener sesi&oacute;n iniciada
                             </label>
                           </div> */}
-                              
+                            <div className='form-errors'>
+                              {errors.credentials}
+                            </div>
                           <button 
                             type='submit'
                             disabled={isSubmitting} 

@@ -34,18 +34,15 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const db = getFirestore(app);
 
-export const login = ({ email, password, name, displayNameInput}) => {
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      updateUserProfile(name, displayNameInput)
-      return user
-    })
-    .catch ((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    })
-    
+export const login = ({ email, password }) => {
+    return signInWithEmailAndPassword(auth, email, password)
+    // .then((userCredential) => {
+    //   const user = userCredential.user;
+    // })
+    // .catch ((error) => {
+    //   const errorCode = error.code;
+    //   const errorMessage = error.message;
+    // })
 }
 
 export const logout = () => {
