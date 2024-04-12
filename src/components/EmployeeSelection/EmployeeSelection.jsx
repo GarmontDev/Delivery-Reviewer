@@ -22,7 +22,6 @@ const EmployeeSelection = ({setEmployee}) => {
       setEmployeePinModal(true)
     }
   }
-  
 
   return(
     <>

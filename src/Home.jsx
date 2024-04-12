@@ -1,13 +1,14 @@
 import "./index.css"
 import { useNavigate } from 'react-router-dom';
 import DeliveryFiles from './components/DeliveryFiles/DeliveryFiles';
-import { auth, logout } from './config/firebase';
+import { logout } from './config/firebase';
 import FaviconIcon from './assets/icons/FaviconIcon';
 import { useUserContext } from "./context/UserContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import Footer from "./components/Footer";
 import EmployeeSelection from "./components/EmployeeSelection/EmployeeSelection";
 import { useEmployeeContext } from "./context/EmployeeContext";
+import secureLocalStorage from "react-secure-storage";
 
 function Home() {
 
@@ -21,6 +22,10 @@ function Home() {
       navigate('/');
     }
   }, [user])
+
+  useEffect(() => {
+    setEmployee(JSON.parse(secureLocalStorage.getItem("employee")))
+  }, [])
 
   return (
     <>

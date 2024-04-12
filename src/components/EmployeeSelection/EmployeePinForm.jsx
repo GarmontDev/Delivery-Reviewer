@@ -2,6 +2,7 @@ import { Formik } from "formik"
 import * as Yup from "yup";
 import { employeePinLogin } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
 
 const EmployeePinForm = ({employeeSelected, setEmployee}) => { 
   
@@ -12,6 +13,7 @@ const EmployeePinForm = ({employeeSelected, setEmployee}) => {
       const result = await employeePinLogin(employeeSelected.name, pin)
         if(result[0].name === employeeSelected.name){
           setEmployee(employeeSelected)
+          secureLocalStorage.setItem("employee", JSON.stringify(employeeSelected))
           navigate("/home")
         }else{
           alert("PIN INCORRECTO")

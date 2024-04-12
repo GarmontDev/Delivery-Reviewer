@@ -13,7 +13,8 @@ import XClearIcon from "../../assets/icons/XClearIcon"
 const DeliveryNote = () => { 
   const navigate = useNavigate();
   const location = useLocation();
-  const reviewFileNumber = location.state.reviewFileNumber;
+  var reviewFileNumber = ""
+  
 
   const [data, setData] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
@@ -22,6 +23,12 @@ const DeliveryNote = () => {
   const [openEditItem, setOpenEditItem] = useState(false);
 
   useEffect(() => {
+    if(location.state != null){
+      reviewFileNumber = location.state?.reviewFileNumber;
+    }else{
+      alert("No review number")
+      navigate("/home")
+    }
     refreshData()
   }, [])
 
