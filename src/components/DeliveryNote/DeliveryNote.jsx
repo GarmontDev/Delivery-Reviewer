@@ -9,6 +9,7 @@ import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
 import ClipboardIcon from "../../assets/icons/ClipboardIcon"
 import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon"
 import XClearIcon from "../../assets/icons/XClearIcon"
+import CBarras from "../../CBARRAS.json"
 
 const DeliveryNote = () => { 
   const navigate = useNavigate();
@@ -36,12 +37,20 @@ const DeliveryNote = () => {
     }
   }
 
- function filterData(value){
-    setFilteredData(data.filter((item) =>
-      item.description.toUpperCase().includes(value.toUpperCase())
-      || item.code.includes(value)
-      || item.barcode.includes(value)
-    ))
+  function filterData(value){
+    if(isNaN(Number(value))){
+      setFilteredData(data.filter((item) =>
+        item.description.toUpperCase().includes(value.toUpperCase())
+        || item.code.includes(value)
+      ))
+    }else{
+        CBarras.CBARRAS.find((item) => {
+          if(item.CODE === value){
+            setFilteredData(data.filter((element) => element.code.includes(item.CODEARTI)))
+          }
+        })
+    }
+
     if(filteredData.length === 0){
       alert("No se han encontrado productos que correspondan con: "+ value)
       handleClearFilteredData()
