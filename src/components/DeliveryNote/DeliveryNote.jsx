@@ -150,9 +150,9 @@ const DeliveryNote = () => {
               <th className="px-3 w-screen lg:w-96">
                 Descripci&oacute;n
               </th>
-              <th className="px-2 w-16">
+              {/* <th className="px-2 w-16">
                 Barcode
-              </th>
+              </th> */}
               <th className="px-16 w-20">
                 Revisado
               </th>
@@ -178,9 +178,9 @@ const DeliveryNote = () => {
                 <th className="px-3">
                   {item.description}
                 </th>
-                <td className="px-2">
+                {/* <td className="px-2">
                   {item.barcode}
-                </td>                
+                </td>                 */}
                 <td className="px-16">
                   {item.checkedby}
                 </td>
