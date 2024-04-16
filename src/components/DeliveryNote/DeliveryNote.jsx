@@ -1,5 +1,5 @@
 import "./DeliveryNote.css"
-import { fetchReviewFiles } from "../../config/firebase";
+import { fetchDeliveryNote } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -23,18 +23,32 @@ const DeliveryNote = () => {
   const [openEditItem, setOpenEditItem] = useState(false);
 
   useEffect(() => {
-    refreshData()
+    if(data === null){
+      fetchData()
+    }
   }, [])
 
-  function refreshData(){
+  function fetchData(){
     if(reviewFileNumber != ""){
-      fetchReviewFiles(reviewFileNumber)
+      console.log("ITEMS LOADED FROM THE SERVER")
+      fetchDeliveryNote(reviewFileNumber)
       .then((res) =>{
           setData(res),
           setFilteredData(res)
         }
       )
     }
+  }
+
+  function updateLocalData(){
+    console.log("ITEMS LOADED LOCALLY")
+    setFilteredData(data.map((item) => {
+      if(item.code === itemSelected.code){
+        return itemSelected
+      }else{
+        return item
+      }
+    }))
   }
 
   function filterData(value){
@@ -78,23 +92,18 @@ const DeliveryNote = () => {
     filterData(result)
   }
 
-  function handleEditItem(item){
-    setItemSelected(item)
-    setOpenEditItem(true)
-  }
-
   return(
     <>
-      <div className="pt-4 pb-4 pl-2 pr-2 bg-gray-300 flex justify-between">
+      <div className="delivery-note-container">
         <Popup 
           modal
           nested
           open={openEditItem} 
-          onClose={() => (setOpenEditItem(false), refreshData())} 
+          onClose={() => (updateLocalData(), setOpenEditItem(false))} 
           repositionOnResize
           position="top center"
          >    
-          <EditItem item={itemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
+          <EditItem item={itemSelected} setItemSelected={setItemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
         </Popup>
         <div className="flex h-8 relative">
           <input id='searchInput' className='rounded-sm pl-1 ml-1' onChange={(e) => filterData(e.target.value)} placeholder="Nombre o c&oacute;digo"/>
@@ -150,9 +159,6 @@ const DeliveryNote = () => {
               <th className="px-3 w-screen lg:w-96">
                 Descripci&oacute;n
               </th>
-              {/* <th className="px-2 w-16">
-                Barcode
-              </th> */}
               <th className="px-16 w-20">
                 Revisado
               </th>
@@ -160,11 +166,11 @@ const DeliveryNote = () => {
           </thead>
           <tbody className="odd:bg-white even:bg-gray-50 border-b">
             {filteredData?.map((item, index) => (
-              <tr key={index} 
+              <tr key={item.code+"-"+index} 
                 className={`${
                   item?.checked ? "bg-green-200" 
                 :  item?.incidents ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
-                onClick={() => handleEditItem(item)}
+                onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >  
                 <td className="px-2 py-3 text-center">
                   {item.code} 
@@ -178,9 +184,6 @@ const DeliveryNote = () => {
                 <th className="px-3">
                   {item.description}
                 </th>
-                {/* <td className="px-2">
-                  {item.barcode}
-                </td>                 */}
                 <td className="px-16">
                   {item.checkedby}
                 </td>

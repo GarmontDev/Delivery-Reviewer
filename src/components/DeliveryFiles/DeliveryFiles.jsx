@@ -1,6 +1,6 @@
 import "./DeliveryFiles.css"
 import { useEffect, useState } from "react";
-import { deleteFile, deleteFileFromCollections, fetchVisibleFiles, listAllFiles, updateFile, updateIncidents, updateCompleted, updateUserProfile } from "../../config/firebase.js";
+import { deleteFile, deleteFileFromCollections, listAllFiles, updateFile, updateIncidents, updateCompleted} from "../../config/firebase.js";
 import { useNavigate } from "react-router-dom";
 import FileCheckIcon from "../../assets/icons/FileCheckIcon.jsx"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon.jsx"

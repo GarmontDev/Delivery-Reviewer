@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { updateItem } from "../config/firebase"
 import { useEmployeeContext } from "../context/EmployeeContext"
 
-const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData}) => { 
+const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setData, setFilteredData}) => { 
 
   const [units, setUnits] = useState(item.unitsReceived)
   const [newCheck, setNewCheck] = useState(item.checked)
@@ -25,8 +25,13 @@ const EditItem = ({item, fileNumber, setOpenEditItem, setData, setFilteredData})
     updateItem(item, units, newCheck, incidents, fileNumber, employee.name)
       .then((res) => {
         if(res){
-          setData(res)
-          setFilteredData(res)
+          setItemSelected({ ...item, 
+            unitsReceived: units,
+            checked: newCheck, 
+            incidents: incidents, 
+            checkedby: employee.name
+          })
+          // setFilteredData(res)
           setOpenEditItem(false)
         }
       }

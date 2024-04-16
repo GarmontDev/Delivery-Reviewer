@@ -5,15 +5,11 @@ import {
   getFirestore,
   query,
   where,
-  addDoc,
   collection,
   getDocs,
   doc,
   updateDoc,
   setDoc,
-  arrayUnion,
-  arrayRemove,
-  getDoc,
   deleteDoc,
   getCountFromServer,
 } from "firebase/firestore";
@@ -36,13 +32,6 @@ const db = getFirestore(app);
 
 export const login = ({ email, password }) => {
     return signInWithEmailAndPassword(auth, email, password)
-    // .then((userCredential) => {
-    //   const user = userCredential.user;
-    // })
-    // .catch ((error) => {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    // })
 }
 
 export const logout = () => {
@@ -78,14 +67,11 @@ export const updateUserProfile = async(name, displayNameInput) => {
   }
 }
 
-export const fetchReviewFiles = async(reviewFileNumber) => {
+export const fetchDeliveryNote = async(reviewFileNumber) => {
   try {
-    const files = await getDocs(collection(db, reviewFileNumber));
-    var data = [];
-    files.forEach((item) => {
-      data.push(item.data());
-    });
-    return data;
+    const q = query(collection(db, reviewFileNumber));
+    const collections = await getDocs(q);
+    return collections.docs.map(doc => doc.data());
   } catch (error) {
     console.log("An error occured while fetching file data: " + error);
   }
@@ -95,8 +81,7 @@ export const updateItem = async (item, newUnits, newCheck, incidents, reviewFile
   try {
     const itemRef = doc(db, reviewFileNumber, item.code)
     updateDoc(itemRef, {unitsReceived: newUnits, checked: newCheck, incidents: incidents, checkedby: displayName})
-
-    return fetchReviewFiles(reviewFileNumber)
+    return true
   } catch (error) {
     console.log("Error updating the item, error: " + error);
   }
@@ -187,8 +172,6 @@ export const updateIncidents = async(fileNumber) => {
 
 export const updateCompleted = async(fileNumber) => {
   try {
-    const incidentsFound = []
-
     const q = query(collection(db, fileNumber), where("checked", "!=", true));
     const querySnapshot = await getCountFromServer(q)
     if(querySnapshot.data().count > 0){
