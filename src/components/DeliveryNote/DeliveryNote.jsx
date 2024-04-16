@@ -1,6 +1,6 @@
 import "./DeliveryNote.css"
 import { fetchDeliveryNote } from "../../config/firebase";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
@@ -21,6 +21,8 @@ const DeliveryNote = () => {
   const [openScanner, setOpenScanner] = useState(false)
   const [itemSelected, setItemSelected] = useState(null)
   const [openEditItem, setOpenEditItem] = useState(false);
+
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if(data === null){
@@ -99,14 +101,21 @@ const DeliveryNote = () => {
           modal
           nested
           open={openEditItem} 
-          onClose={() => (updateLocalData(), setOpenEditItem(false))} 
+          onClose={() => (updateLocalData(), setOpenEditItem(false), inputRef.current.focus())} 
           repositionOnResize
           position="top center"
          >    
           <EditItem item={itemSelected} setItemSelected={setItemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
         </Popup>
         <div className="flex h-8 relative">
-          <input id='searchInput' className='rounded-sm pl-1 ml-1' onChange={(e) => filterData(e.target.value)} placeholder="Nombre o c&oacute;digo"/>
+          <input 
+            id='searchInput' 
+            ref={inputRef}
+            autoFocus
+            className='rounded-sm pl-1 ml-1' 
+            onChange={(e) => filterData(e.target.value)} 
+            placeholder="Nombre o c&oacute;digo"
+          />
           <button 
             className="p-1 absolute top-0 right-0 hover:bg-red-400" 
             onClick={() => handleClearFilteredData()}
