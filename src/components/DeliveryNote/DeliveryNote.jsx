@@ -51,6 +51,7 @@ const DeliveryNote = () => {
         return item
       }
     }))
+    searchInput.value = ""
   }
 
   function filterData(value){
@@ -60,11 +61,11 @@ const DeliveryNote = () => {
         || item.code.includes(value)
       ))
     }else{
-        CBarras.CBARRAS.find((item) => {
-          if(item.CODE === value){
-            setFilteredData(data.filter((element) => element.code.includes(item.CODEARTI)))
-          }
-        })
+      CBarras.CBARRAS.find((item) => {
+        if(item.CODE === value){
+          setFilteredData(data.filter((element) => element.code.includes(item.CODEARTI)))
+        }
+      })
     }
 
     if(filteredData.length === 0){
@@ -142,7 +143,7 @@ const DeliveryNote = () => {
           <ClipboardEmptyIcon/>
           No repasado
         </button>
-        <button className="filter-button bg-[#F7BE38]  hover:bg-[#f79e38]"
+        <button className="filter-button bg-[#F7BE38] hover:bg-[#f79e38]"
                 onClick={() => displayIncidents()}
         >
           <AlertTriangleIcon/>
@@ -154,7 +155,7 @@ const DeliveryNote = () => {
       : ""}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="note-table">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-200">
+          <thead className="delivery-note-table-head">
             <tr>
               <th className="px-2 py-2 w-14 text-center">
                 C&oacute;d.
