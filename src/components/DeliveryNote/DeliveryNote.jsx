@@ -30,6 +30,11 @@ const DeliveryNote = () => {
     }
   }, [])
 
+  useEffect(() => {
+    handleClearFilteredData()
+    searchInput.value = ""
+  },[data])
+
   function fetchData(){
     if(reviewFileNumber != ""){
       console.log("ITEMS LOADED FROM THE SERVER")
@@ -44,14 +49,13 @@ const DeliveryNote = () => {
 
   function updateLocalData(){
     console.log("ITEMS LOADED LOCALLY")
-    setFilteredData(data.map((item) => {
+    setData(data.map((item) => {
       if(item.code === itemSelected.code){
         return itemSelected
       }else{
         return item
       }
     }))
-    searchInput.value = ""
   }
 
   function filterData(value){

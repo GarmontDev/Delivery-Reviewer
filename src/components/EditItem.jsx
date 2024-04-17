@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { updateItem } from "../config/firebase"
 import { useEmployeeContext } from "../context/EmployeeContext"
 
-const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setData, setFilteredData}) => { 
+const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => { 
 
   const [units, setUnits] = useState(item.unitsReceived)
   const [newCheck, setNewCheck] = useState(item.checked)
