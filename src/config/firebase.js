@@ -11,7 +11,6 @@ import {
   updateDoc,
   setDoc,
   deleteDoc,
-  getCountFromServer,
 } from "firebase/firestore";
 
 import "firebase/firestore";
@@ -80,13 +79,22 @@ export const fetchDeliveryNote = async(reviewFileNumber) => {
 export const updateItem = async (item, newUnits, newCheck, incidents, reviewFileNumber, notes, displayName) => {
   try {
     const itemRef = doc(db, reviewFileNumber, item.code)
-    updateDoc(itemRef, {
-      unitsReceived: newUnits, 
-      checked: newCheck, 
-      incidents: incidents, 
-      notes: notes, 
-      checkedby: displayName
-    })
+    if(item.notes){ //For newer documents with "notes" field
+      updateDoc(itemRef, {
+        unitsReceived: newUnits, 
+        checked: newCheck, 
+        incidents: incidents, 
+        notes: notes, 
+        checkedby: displayName
+      })
+    }else{ //For old documents created before adding the "notes" field
+      updateDoc(itemRef, {
+        unitsReceived: newUnits, 
+        checked: newCheck, 
+        incidents: incidents,  
+        checkedby: displayName
+      })
+    }
     return true
   } catch (error) {
     console.log("Error updating the item, error: " + error);
