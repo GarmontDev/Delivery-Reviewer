@@ -21,7 +21,7 @@
 
 .albaran-button{
   @apply
-  flex p-2 rounded-md bg-blue-700 text-white text-sm
+  flex justify-center p-2 rounded-md bg-blue-700 text-white text-sm w-24 h-9
 }
 
 .stop-scan-button{
@@ -38,7 +38,7 @@
 
 .delivery-note-container{
   @apply
-  pt-4 pb-4 pl-2 pr-2 bg-gray-300 flex justify-between
+  p-2 bg-gray-300 flex justify-between
 }
 
 .delivery-note-table-head{

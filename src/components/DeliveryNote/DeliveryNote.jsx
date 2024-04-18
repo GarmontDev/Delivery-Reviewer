@@ -130,7 +130,7 @@ const DeliveryNote = () => {
         <button className='albaran-button'
                 onClick={() => navigate("/home")}
         >
-          Albar&aacute;n {reviewFileNumber}
+          {reviewFileNumber}
         </button>
       </div>
       <div className='m-2 h-8 flex justify-between'>
