@@ -51,36 +51,44 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
         <div className="grid grid-rows-2 font-bold">
           <h1 className="text-2xl">{item.code}</h1>
           <h2 className="text-xl text-center border-2 ml-6 mr-6 p-2 -mt-4 rounded-md">{item.description}</h2>
-          
         </div>
-        <div className="grid grid-cols-2 px-10 text-center justify-center items-center">
-          <div className="">
-            Cantidad anterior: 
-            <div className="text-2xl font-semibold">
+        <div className="grid grid-rows-2 px-10 text-center justify-center items-center">
+          <div className="flex">
+            <h4>
+              Cantidad anterior: 
+            </h4>
+            <div className="text-xl w-28 h-10 font-semibold">
               {item.unitsReceived}
             </div>
           </div>
-          <div className="pt-4 grid grid-cols-1 place-items-center">
-            Reemplazar: 
+          <div className="flex place-items-center ">
+            <p className="mr-2">
+              Reemplazar con: 
+            </p>
             <input
               type="number" 
               inputMode="numeric"
               id="unitsReceivedInput" 
               value={units}
               autoFocus
+              max={9999}
+              maxLength={5}
               onChange={handleUnitsChange}
               onFocus={e => e.target.select()}
               className="w-28 h-16 text-center text-xl rounded-md border-2 border-gray-200" 
             />
+            <p className="ml-2">uds</p>
           </div>
         </div>
-        <div className="flex items-center justify-between p-4 border-t mt-2 border-gray-200 rounded-b">
+        <div className="flex items-center p-4 mt-4 justify-between border-t border-gray-200 rounded-b">
           <input 
             type="text"
             id="itemNotes" 
+            maxLength={40}
             value={notes}
             onChange={handleItemNotes}
-            className="w-full h-14 bg-gray-100 rounded-sm border-2"
+            className="w-full h-12 bg-gray-100 rounded-md border-2"
+            placeholder="Notas"
           />
         </div>
         <div className="flex items-center justify-between p-4 border-t mt-2 border-gray-200 rounded-b">

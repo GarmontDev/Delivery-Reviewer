@@ -177,19 +177,11 @@ export const updateIncidents = async(fileNumber) => {
   }
 }
 
-export const updateCompleted = async(fileNumber) => {
+export const updateCompleted = async(fileNumber, completed) => {
   try {
-    const q = query(collection(db, fileNumber), where("checked", "!=", true));
-    const querySnapshot = await getCountFromServer(q)
-    if(querySnapshot.data().count > 0){
-      const fileRef = doc(db, "listOfCollections",fileNumber)
-      updateDoc(fileRef, {completed: false})
-      return true
-    }else{
-      const fileRef = doc(db, "listOfCollections",fileNumber)
-      updateDoc(fileRef, {completed: true})
-      return false
-    }
+    const fileRef = doc(db, "listOfCollections",fileNumber)
+    updateDoc(fileRef, {completed: !completed})
+    return true
   } catch (error) {
     console.log("Error updating the item, error: " + error);
   }

@@ -38,7 +38,6 @@ const DeliveryNote = () => {
 
   function fetchData(){
     if(reviewFileNumber != ""){
-      console.log("ITEMS LOADED FROM THE SERVER")
       fetchDeliveryNote(reviewFileNumber)
       .then((res) =>{
           setData(res),
@@ -49,7 +48,6 @@ const DeliveryNote = () => {
   }
 
   function updateLocalData(){
-    console.log("ITEMS LOADED LOCALLY")
     setData(data.map((item) => {
       if(item.code === itemSelected.code){
         return itemSelected

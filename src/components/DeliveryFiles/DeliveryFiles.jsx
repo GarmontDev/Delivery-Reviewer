@@ -2,11 +2,12 @@ import "./DeliveryFiles.css"
 import { useEffect, useState } from "react";
 import { deleteFile, deleteFileFromCollections, listAllFiles, updateFile, updateIncidents, updateCompleted} from "../../config/firebase.js";
 import { useNavigate } from "react-router-dom";
-import FileCheckIcon from "../../assets/icons/FileCheckIcon.jsx"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon.jsx"
 import { EyeOpenIcon } from "../../assets/icons/EyeIcon.jsx";
 import { EyeOffIcon } from "../../assets/icons/EyeIcon.jsx";
 import secureLocalStorage from "react-secure-storage";
+import CheckIcon from "../../assets/icons/CheckIcon.jsx";
+import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon.jsx"
 
 const DeliveryFiles = ({employee, setEmployee}) => { 
 
@@ -26,7 +27,6 @@ const DeliveryFiles = ({employee, setEmployee}) => {
       if(res){
         res.forEach(element => {
           updateIncidents(element.number)
-          updateCompleted(element.number)
         });
         setFiles(res)
       }
@@ -38,6 +38,22 @@ const DeliveryFiles = ({employee, setEmployee}) => {
     .then((res) => {
       if(res){
         setFiles(res)
+      }
+    })
+  }
+
+  function handleUpdateCompleted(number, completed){
+    updateCompleted(number, completed)
+    .then((res) => {
+      if(res){
+        setFiles(files.map((file) => {
+          if(file.number === number){
+            return {...file, completed: !completed}
+          }else{
+            return file
+          }
+        }))
+
       }
     })
   }
@@ -120,7 +136,7 @@ const DeliveryFiles = ({employee, setEmployee}) => {
                             Inc.
                         </th>
                         <th scope="col" className="px-4 py-2 w-8">
-                            Rev.
+                            Comp.
                         </th>
                         {employee.admin 
                           ? <th scope="col" className="px-4 py-2 w-6">
@@ -151,7 +167,21 @@ const DeliveryFiles = ({employee, setEmployee}) => {
                       {item.incidents ? <AlertTriangleIcon/> : ""}
                     </td>
                     <td className="px-4 py-2 w-8">
-                      {item.completed ? <FileCheckIcon/> : ""}
+                      {item.completed ? 
+                        <button 
+                          disabled={!employee.admin} 
+                          className="disabled:cursor-not-allowed"
+                          onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
+                          <CheckIcon size={20}/>
+                        </button> 
+                        : 
+                        <button 
+                          disabled={!employee.admin} 
+                          className="disabled:cursor-not-allowed"
+                          onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
+                          <EmptyCheckIcon size={20}/>
+                        </button> 
+                      }
                     </td>
                     {employee.admin 
                         ? <td className="px-4 py-2 w-6">
