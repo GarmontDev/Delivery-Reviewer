@@ -189,7 +189,7 @@ const DeliveryNote = () => {
                 :  item?.incidents ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >  
-                <td className="px-2 py-3 text-center">
+                <td className="px-2 py-1.5 text-center">
                   {item.code} 
                 </td>
                 <td scope="col" className="px-4">
