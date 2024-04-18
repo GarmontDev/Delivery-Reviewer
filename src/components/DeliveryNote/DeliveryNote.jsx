@@ -116,7 +116,8 @@ const DeliveryNote = () => {
             id='searchInput' 
             ref={inputRef}
             autoFocus
-            className='rounded-sm pl-1 ml-1' 
+            maxLength={20}
+            className='rounded-sm pl-1 ml-1 w-40' 
             onChange={(e) => filterData(e.target.value)} 
             placeholder="Nombre o c&oacute;digo"
           />
