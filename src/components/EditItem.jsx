@@ -5,11 +5,12 @@ import { useEmployeeContext } from "../context/EmployeeContext"
 const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => { 
 
   const [units, setUnits] = useState(item.unitsReceived)
+  const [notes, setNotes] = useState(item.notes)
   const [newCheck, setNewCheck] = useState(item.checked)
 
   const {employee} = useEmployeeContext()
 
-  const handleChange = (e) => {
+  const handleUnitsChange = (e) => {
     e.preventDefault()
     setUnits(Number(e.target.value))
     
@@ -20,15 +21,21 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
     }
   }
 
+  const handleItemNotes = (e) => {
+    e.preventDefault()
+    setNotes(e.target.value)
+  }
+
   function handleEditting (item){
     const incidents = (item.unitsBilled != units)
-    updateItem(item, units, newCheck, incidents, fileNumber, employee.name)
+    updateItem(item, units, newCheck, incidents, fileNumber, notes, employee.name)
       .then((res) => {
         if(res){
           setItemSelected({ ...item, 
             unitsReceived: units,
             checked: newCheck, 
             incidents: incidents, 
+            notes: notes,
             checkedby: employee.name
           })
           // setFilteredData(res)
@@ -61,11 +68,20 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
               id="unitsReceivedInput" 
               value={units}
               autoFocus
-              onChange={handleChange}
+              onChange={handleUnitsChange}
               onFocus={e => e.target.select()}
               className="w-28 h-16 text-center text-xl rounded-md border-2 border-gray-200" 
             />
           </div>
+        </div>
+        <div className="flex items-center justify-between p-4 border-t mt-2 border-gray-200 rounded-b">
+          <input 
+            type="text"
+            id="itemNotes" 
+            value={notes}
+            onChange={handleItemNotes}
+            className="w-full h-14 bg-gray-100 rounded-sm border-2"
+          />
         </div>
         <div className="flex items-center justify-between p-4 border-t mt-2 border-gray-200 rounded-b">
           <button 

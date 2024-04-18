@@ -77,10 +77,16 @@ export const fetchDeliveryNote = async(reviewFileNumber) => {
   }
 }
 
-export const updateItem = async (item, newUnits, newCheck, incidents, reviewFileNumber, displayName) => {
+export const updateItem = async (item, newUnits, newCheck, incidents, reviewFileNumber, notes, displayName) => {
   try {
     const itemRef = doc(db, reviewFileNumber, item.code)
-    updateDoc(itemRef, {unitsReceived: newUnits, checked: newCheck, incidents: incidents, checkedby: displayName})
+    updateDoc(itemRef, {
+      unitsReceived: newUnits, 
+      checked: newCheck, 
+      incidents: incidents, 
+      notes: notes, 
+      checkedby: displayName
+    })
     return true
   } catch (error) {
     console.log("Error updating the item, error: " + error);
@@ -124,6 +130,7 @@ export const createFile = async (fileNumber, lines) => {
         incidents: false,
         checked: false,
         checkedby: "",
+        notes: "",
         time: ""
       });
     });

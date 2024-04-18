@@ -9,6 +9,7 @@ import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
 import ClipboardIcon from "../../assets/icons/ClipboardIcon"
 import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon"
 import XClearIcon from "../../assets/icons/XClearIcon"
+import NotesIcon from "../../assets/icons/NotesIcon"
 import CBarras from "../../CBARRAS.json"
 
 const DeliveryNote = () => { 
@@ -173,6 +174,9 @@ const DeliveryNote = () => {
               <th className="px-3 w-screen lg:w-96">
                 Descripci&oacute;n
               </th>
+              <th className="px-3 w-8">
+                Notas
+              </th>
               <th className="px-16 w-20">
                 Revisado
               </th>
@@ -198,6 +202,9 @@ const DeliveryNote = () => {
                 <th className="px-3">
                   {item.description}
                 </th>
+                <td scope="col" className="px-4">
+                  {item.notes ? <NotesIcon/> : ""}
+                </td>
                 <td className="px-16">
                   {item.checkedby}
                 </td>
