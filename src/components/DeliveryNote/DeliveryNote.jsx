@@ -22,6 +22,9 @@ const DeliveryNote = () => {
   const [openScanner, setOpenScanner] = useState(false)
   const [itemSelected, setItemSelected] = useState(null)
   const [openEditItem, setOpenEditItem] = useState(false);
+  const [isBarcode, setIsBarcode] = useState(true)
+
+  const toggleBarcode = () => {setIsBarcode(!isBarcode)}
 
   const inputRef = useRef(null);
 
@@ -57,18 +60,19 @@ const DeliveryNote = () => {
     }))
   }
 
-  function filterData(value){
-    if(isNaN(Number(value))){
-      setFilteredData(data.filter((item) =>
-        item.description.toUpperCase().includes(value.toUpperCase())
-        || item.code.includes(value)
-      ))
-    }else{
+ function filterData(value){
+    if(isBarcode && Number(value)){
       CBarras.CBARRAS.find((item) => {
         if(item.CODE === value){
           setFilteredData(data.filter((element) => element.code.includes(item.CODEARTI)))
         }
       })
+    }else{
+      setIsBarcode(false)
+      setFilteredData(data.filter((item) =>
+        item.description.toUpperCase().includes(value.toUpperCase())
+        || item.code.includes(value)
+      ))
     }
 
     if(filteredData.length === 0){
@@ -80,6 +84,7 @@ const DeliveryNote = () => {
   function handleClearFilteredData(){
     setFilteredData(data)
     searchInput.value = ""
+    setIsBarcode(true)
   }
 
   function displayIncidents(){
@@ -122,11 +127,16 @@ const DeliveryNote = () => {
             placeholder="Nombre o c&oacute;digo"
           />
           <button 
-            className="p-1 absolute top-0 right-0 hover:bg-red-400" 
+            className="p-1 relative top-0 right-8 hover:bg-red-400" 
             onClick={() => handleClearFilteredData()}
           >
             <XClearIcon />
           </button>
+          <label className="flex items-center mb-5 cursor-pointer">
+            <input type="checkbox" value="" checked={isBarcode} onClick={() => toggleBarcode()} className="sr-only peer"/>
+            <div className="relative w-9 h-5 bg-gray-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+            <span className="ms-2 text-sm font-medium text-gray-900">Barcode</span>
+          </label>
         </div>
         <button className='albaran-button'
                 onClick={() => navigate("/home")}
@@ -189,7 +199,7 @@ const DeliveryNote = () => {
                 :  item?.incidents ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >  
-                <td className="px-2 py-1.5 text-center">
+                <td className={"px-2 py-1.5 text-center"}>
                   {item.code} 
                 </td>
                 <td scope="col" className="px-4">
