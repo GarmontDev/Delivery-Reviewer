@@ -39,7 +39,7 @@ const EmployeeSelection = ({setEmployee}) => {
         {employees.map((employee, index) => (
           <button 
             key={employee+index} 
-            className="bg-gray-200 text-blue-700 font-medium w-24 p-2 rounded-md border-2 border-gray-400"
+            className="bg-white text-blue-700 font-medium w-24 p-2 rounded-md border-2 border-gray-400"
             onClick={() => handleEmployeeChange(employee)}
           >
             {employee.name}

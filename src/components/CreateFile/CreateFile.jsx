@@ -48,7 +48,7 @@ const CreateFile = () => {
       <main>
         <form>
           <h1>
-            DeliveryReviewer - Cargar albar&aacute;n
+            Subir nuevo albar&aacute;n
           </h1>
           <input className="input-file" 
                 id="inputFile" 

@@ -8,6 +8,11 @@
   text-gray-500 bg-white rounded-lg border-2 shadow mb-1 pt-1 pb-1
 }
 
+.delivery-files-items-container{
+  @apply
+  flex flex-col items-center justify-center
+}
+
 .user-name{
   @apply
   flex-shrink-0 m-1 pl-4 pr-4 font-bold 

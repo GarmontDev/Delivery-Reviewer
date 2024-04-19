@@ -8,6 +8,7 @@ import { EyeOffIcon } from "../../assets/icons/EyeIcon.jsx";
 import secureLocalStorage from "react-secure-storage";
 import CheckIcon from "../../assets/icons/CheckIcon.jsx";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon.jsx"
+import ControlPanel from "../ControlPanel/ControlPanel.jsx";
 
 const DeliveryFiles = ({employee, setEmployee}) => { 
 
@@ -16,7 +17,7 @@ const DeliveryFiles = ({employee, setEmployee}) => {
   const [files , setFiles] = useState([])
   const [filteredFiles, setFilteredFiles] = useState(null)
   const [showVisibleFiles, setShowVisibleFiles] = useState(true)
-
+  const [controlPanelActive, setControlPanelActive] = useState(false)
   useEffect(() => {
     handleListAllFiles(true)
   }, [])
@@ -91,7 +92,7 @@ const DeliveryFiles = ({employee, setEmployee}) => {
           <button className="user-name" onClick={() => (handleEmployeeButton())}>
             {employee ? employee.name : "No user selected"}
           </button>
-          {employee.admin 
+          {employee.admin && !controlPanelActive
             ? !showVisibleFiles
                 ? <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
                     onClick={() => (handleListAllFiles(true), setShowVisibleFiles(true))}
@@ -101,127 +102,111 @@ const DeliveryFiles = ({employee, setEmployee}) => {
                 : <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
                     onClick={() => (handleListAllFiles(false), setShowVisibleFiles(false))}
                   >
-                    Ver ocultos
+                    Ocultos
                   </button>
             : ""
           }
-          {employee.admin ?
-            <button className="rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1"
-              onClick={() => navigate("/create")}
+          {!controlPanelActive && employee.admin ?
+            <button 
+              className="bg-blue-500 text-white text-sm rounded-md pl-2 pr-2 h-6 mt-1 "
+              onClick={() => {refreshFilesState()}}
             >
-              Subir Albar&aacute;n
+              Refresc.
+            </button>
+          : ""  
+          }
+          {employee.admin ?
+            <button className="rounded-md bg-blue-800 text-white text-sm pl-2 pr-2 h-6 mt-1 mr-4"
+              onClick={() => setControlPanelActive(!controlPanelActive)}
+            >
+              Admin
             </button>
             : ""
           }
 
-          <button 
-            className="bg-blue-500 text-white text-sm rounded-md pl-2 pr-2 h-6 mt-1 mr-4"
-            onClick={() => {refreshFilesState()}}
-          >
-            Refresh
-          </button>
         </div>
-      {files?.length > 0 ?
-        <div className="relative overflow-x-auto delivery-files-main-container">
-            <table className="w-full text-sm table-fixed text-left text-gray-500">
-                <thead className="text-sm text-gray-700 bg-gray-200 ">
-                    <tr>
-                        <th scope="col" className="px-4 py-2 w-16">
-                            Albar&aacute;n
-                        </th>
-                        <th scope="col" className="px-2 py-2 w-16">
-                            Descripc.
-                        </th>
-                        <th scope="col" className="px-4 py-2 w-8">
-                            Inc.
-                        </th>
-                        <th scope="col" className="px-4 py-2 w-8">
-                            Comp.
-                        </th>
-                        {employee.admin 
-                          ? <th scope="col" className="px-4 py-2 w-6">
-                              Visib.
-                            </th>
-                          : ""} 
-                        <th scope="col" className="px-2 py-2 w-6">
-                            Eliminar
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                {files?.map((item, index) => (
-                  <tr className="bg-white border-b text-gray-900" key={item+"-"+index}>
-                    <th scope="row" className="px-2 py-4 w-16 font-bold whitespace-nowrap">
+      {files?.length > 0 && !controlPanelActive?
+        <div className="delivery-files-items-container">
+            {files?.map((item, index) => (
+              <div 
+                className="grid grid-cols-2 grid-rows-2 bg-white border-2 rounded-lg m-2 w-full h-14 text-gray-900" 
+                key={item+"-"+index}
+              >
+                <button className="grid grid-rows-2 grid-cols-1 ml-2 hover:text-green-800"
+                  onClick={() => handleDeliveryFile(item.number)}
+                >
+                  <div 
+                    id={item} 
+                    className="font-semibold flex justify-start pl-1 pt-1"
+                  >
+                    {item.number}
+                  </div>
+                  <div className="w-44 py-2 px-1 flex">
+                    {item.description}
+                  </div>
+                </button>  
+                <div className="grid grid-rows-1 grid-cols-4 pt-4">
+                  <div className="w-8">
+                    {item.incidents ? <AlertTriangleIcon/> : ""}
+                  </div>
+                  <div className="w-8">
+                    {item.completed ? 
                       <button 
-                        id={item} 
-                        className="hover:text-green-800"
-                        onClick={() => handleDeliveryFile(item.number)}
+                        disabled={!employee.admin} 
+                        className="disabled:cursor-not-allowed"
+                        onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
+                        <CheckIcon size={20}/>
+                      </button> 
+                      : 
+                      <button 
+                        disabled={!employee.admin} 
+                        className="disabled:cursor-not-allowed"
+                        onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
+                        <EmptyCheckIcon size={20}/>
+                      </button> 
+                    }
+                  </div>
+                  {employee.admin 
+                      ? <div className="w-6">
+                        {item.visible 
+                          ? <button onClick={() => (
+                              updateFile(item.number, item.incidents, item.completed, false), 
+                              handleListAllFiles(showVisibleFiles)
+                            )}>
+                              <EyeOpenIcon /> 
+                            </button>
+                          : <button onClick={() => (
+                              updateFile(item.number, item.incidents, item.completed, divue),
+                              handleListAllFiles(showVisibleFiles)
+                            )}>
+                              <EyeOffIcon /> 
+                            </button>
+                        }
+                      </div>
+                        : ""} 
+                  <div className="w-6">
+                    {employee.admin ? 
+                      <button 
+                        type="button" 
+                        className="delete-table-button"
+                        onClick={() => {if (window.confirm("Seguro que deseas eliminar este albarán?")) handleDeleteFile(item.number) }} 
                       >
-                        {item.number}
+                        X
                       </button>
-                    </th>
-                    <td className="px-4 py-2 w-16">
-                      {item.description}
-                    </td>
-                    <td className="px-4 py-2 w-8">
-                      {item.incidents ? <AlertTriangleIcon/> : ""}
-                    </td>
-                    <td className="px-4 py-2 w-8">
-                      {item.completed ? 
-                        <button 
-                          disabled={!employee.admin} 
-                          className="disabled:cursor-not-allowed"
-                          onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
-                          <CheckIcon size={20}/>
-                        </button> 
-                        : 
-                        <button 
-                          disabled={!employee.admin} 
-                          className="disabled:cursor-not-allowed"
-                          onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
-                          <EmptyCheckIcon size={20}/>
-                        </button> 
-                      }
-                    </td>
-                    {employee.admin 
-                        ? <td className="px-4 py-2 w-6">
-                          {item.visible 
-                            ? <button onClick={() => (
-                                updateFile(item.number, item.incidents, item.completed, false), 
-                                handleListAllFiles(showVisibleFiles)
-                              )}>
-                                <EyeOpenIcon /> 
-                              </button>
-                            : <button onClick={() => (
-                                updateFile(item.number, item.incidents, item.completed, true),
-                                handleListAllFiles(showVisibleFiles)
-                              )}>
-                                <EyeOffIcon /> 
-                              </button>
-                          }
-                        </td>
-                          : ""} 
-                    <td className="px-4 py-2 w-6">
-                      {employee.admin ? 
-                        <button 
-                          type="button" 
-                          className="delete-table-button"
-                          onClick={() => {if (window.confirm("Seguro que deseas eliminar este albarán?")) handleDeleteFile(item.number) }} 
-                        >
-                          X
-                        </button>
-                        : ""
-                      }
-                    </td>
-                </tr>
-                ))}
-                </tbody>
-            </table>
+                      : ""
+                    }
+                  </div>
+                </div>
+            </div>
+            ))}
         </div>
-      : <div className="no-files-available">
-          No hay albaranes disponibles
-        </div>
+      : !controlPanelActive ? 
+          <div className="no-files-available">
+            No hay albaranes disponibles
+          </div> 
+        : ""
       }
+      {controlPanelActive ? <ControlPanel/> : ""}
     </>
   )
  }
