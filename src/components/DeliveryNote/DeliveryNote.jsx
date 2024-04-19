@@ -103,11 +103,11 @@ const DeliveryNote = () => {
       <div className="delivery-note-container">
         <Popup 
           modal
+          position="top center"
           nested
           open={openEditItem} 
           onClose={() => (updateLocalData(), setOpenEditItem(false), inputRef.current.focus())} 
           repositionOnResize
-          position="top center"
          >    
           <EditItem item={itemSelected} setItemSelected={setItemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
         </Popup>

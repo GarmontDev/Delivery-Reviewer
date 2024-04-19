@@ -47,17 +47,17 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
 
   return(
     <>
-      <div className="bg-white rounded-md p-6 text-base leading-relaxed text-gray-600">
+      <div className="bg-gray-50 rounded-md p-2 text-base leading-relaxed text-gray-600">
         <div className="grid grid-rows-2 font-bold">
-          <h1 className="text-2xl">{item.code}</h1>
-          <h2 className="text-xl text-center border-2 ml-6 mr-6 p-2 -mt-4 rounded-md">{item.description}</h2>
+          <div className="text-xl flex justify-center">{item.code}</div>
+          <p className="text-lg text-center border-2 rounded-md pl-1 pr-1">{item.description}</p>
         </div>
-        <div className="grid grid-rows-2 px-10 text-center justify-center items-center">
+        <div className="grid grid-rows-2 px-2 text-center justify-center items-center">
           <div className="flex">
             <h4>
               Cantidad anterior: 
             </h4>
-            <div className="text-xl w-28 h-10 font-semibold">
+            <div className="text-xl w-20 h-4 font-semibold">
               {item.unitsReceived}
             </div>
           </div>
@@ -75,7 +75,7 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
               maxLength={5}
               onChange={handleUnitsChange}
               onFocus={e => e.target.select()}
-              className="w-28 h-16 text-center text-xl rounded-md border-2 border-gray-200" 
+              className="w-24 h-14 text-center text-xl rounded-md border-2 border-gray-200" 
             />
             <p className="ml-2">uds</p>
           </div>
