@@ -116,7 +116,8 @@ const DeliveryNote = () => {
             id='searchInput' 
             ref={inputRef}
             autoFocus
-            className='rounded-sm pl-1 ml-1' 
+            maxLength={20}
+            className='rounded-sm pl-1 ml-1 w-40' 
             onChange={(e) => filterData(e.target.value)} 
             placeholder="Nombre o c&oacute;digo"
           />
@@ -130,7 +131,7 @@ const DeliveryNote = () => {
         <button className='albaran-button'
                 onClick={() => navigate("/home")}
         >
-          Albar&aacute;n {reviewFileNumber}
+          {reviewFileNumber}
         </button>
       </div>
       <div className='m-2 h-8 flex justify-between'>
@@ -188,7 +189,7 @@ const DeliveryNote = () => {
                 :  item?.incidents ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >  
-                <td className="px-2 py-3 text-center">
+                <td className="px-2 py-1.5 text-center">
                   {item.code} 
                 </td>
                 <td scope="col" className="px-4">

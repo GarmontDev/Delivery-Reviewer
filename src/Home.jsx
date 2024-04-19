@@ -52,7 +52,7 @@ function Home() {
           : <EmployeeSelection setEmployee={setEmployee}/>
         }
         
-        <Footer/>
+        <Footer />
       </div>
     </>
   )
