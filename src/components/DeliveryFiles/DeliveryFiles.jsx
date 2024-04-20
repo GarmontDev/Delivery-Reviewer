@@ -75,7 +75,11 @@ const DeliveryFiles = ({employee, setEmployee}) => {
           }
 
         </div>
-          <FilesList employee={employee} controlPanelActive={controlPanelActive} showVisibleFiles={showVisibleFiles}/>
+          <FilesList 
+            employee={employee} 
+            controlPanelActive={controlPanelActive} 
+            showVisibleFiles={showVisibleFiles}
+          />
         
       {controlPanelActive ? <ControlPanel/> : ""}
     </>
