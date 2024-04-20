@@ -74,11 +74,6 @@ const DeliveryNote = () => {
         || item.code.includes(value)
       ))
     }
-
-    if(filteredData.length === 0){
-      alert("No se han encontrado productos que correspondan con: "+ value)
-      handleClearFilteredData()
-    }
   }
 
   function handleClearFilteredData(){
@@ -114,7 +109,14 @@ const DeliveryNote = () => {
           onClose={() => (updateLocalData(), setOpenEditItem(false), inputRef.current.focus())} 
           repositionOnResize
          >    
-          <EditItem item={itemSelected} setItemSelected={setItemSelected} fileNumber={reviewFileNumber} setOpenEditItem={setOpenEditItem} setData={setData} setFilteredData={setFilteredData}/>
+          <EditItem 
+            item={itemSelected} 
+            setItemSelected={setItemSelected} 
+            fileNumber={reviewFileNumber} 
+            setOpenEditItem={setOpenEditItem} 
+            setData={setData} 
+            setFilteredData={setFilteredData}
+          />
         </Popup>
         <div className="flex h-8 relative">
           <input 
