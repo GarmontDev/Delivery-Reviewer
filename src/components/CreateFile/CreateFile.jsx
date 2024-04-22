@@ -18,7 +18,7 @@ const CreateFile = () => {
   
       reader.onload = function(e) {
         var content = reader.result;
-        // Here the content has been read successfuly
+
         loadFile(fileNumber.value, content)
           .then((res) =>{
             if(res){
@@ -45,16 +45,17 @@ const CreateFile = () => {
 
   return(
     <>
-      <main>
+      <main className="rounded-lg p-2">
         <form>
           <h1>
             Subir nuevo albar&aacute;n
           </h1>
-          <input className="input-file" 
-                id="inputFile" 
-                type="file"
-                />
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">S&oacute;lo archivos txt.</p>
+          <input 
+            className="input-file" 
+            id="inputFile" 
+            type="file"
+          />
+          <p className="mt-1 text-sm text-gray-500" id="file_input_help">S&oacute;lo archivos txt.</p>
           <div>
             <label htmlFor="fileNumber">N&uacute;mero de albar&aacute;n</label>
             <input 

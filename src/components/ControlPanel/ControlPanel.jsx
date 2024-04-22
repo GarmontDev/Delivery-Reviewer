@@ -7,7 +7,7 @@ const ControlPanel = () => {
 
   return(
     <>
-      <ul className="flex flex-wrap text-sm mt-4 font-medium text-center text-gray-500 border-b border-gray-200">
+      <ul className="flex flex-wrap text-sm pt-2 font-medium text-center text-gray-500 border-b border-gray-200">
           <li className="me-2">
               <button
                 onClick={() => setActiveTab(0)}

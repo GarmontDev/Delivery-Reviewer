@@ -155,6 +155,7 @@ export const addToListOfCollections = async (fileNumber, fileDescription) => {
         incidents: false,
         completed: false,
         visible: true,
+        createdDate: new Date()
       });
       return true
   } catch (error) {
