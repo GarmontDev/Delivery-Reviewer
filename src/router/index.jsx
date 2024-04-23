@@ -60,12 +60,12 @@ export const router = createBrowserRouter([
             ]
           },
           {
-            path: '/controlpanel',
+            path: '/createfile',
             element: <LayoutPrivate/>,
             children: [
                 {
                     index: true,
-                    element: <ControlPanel/>
+                    element: <CreateFile/>
                 }
             ]
           }

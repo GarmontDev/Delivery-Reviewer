@@ -67,7 +67,7 @@ const DeliveryFiles = ({employee, setEmployee}) => {
           }
           {employee.admin ?
             <button className="rounded-md bg-blue-800 text-white text-sm pl-2 pr-2 h-6 mt-1 mr-4"
-              onClick={() => setControlPanelActive(!controlPanelActive)}
+              onClick={() => navigate("/createfile")}
             >
               Admin
             </button>
@@ -81,7 +81,7 @@ const DeliveryFiles = ({employee, setEmployee}) => {
             showVisibleFiles={showVisibleFiles}
           />
         
-      {controlPanelActive ? <ControlPanel/> : ""}
+      {/* {controlPanelActive ? <ControlPanel/> : ""} */}
     </>
   )
  }
