@@ -147,7 +147,7 @@ export const createFile = async (fileNumber, lines) => {
   }
 };
 
-export const addToListOfCollections = async (fileNumber, fileDescription) => {
+export const addToListOfCollections = async (fileNumber, fileDescription, fileDate) => {
   try {
       setDoc(doc(db, "listOfCollections", fileNumber),{
         number: fileNumber,
@@ -155,7 +155,7 @@ export const addToListOfCollections = async (fileNumber, fileDescription) => {
         incidents: false,
         completed: false,
         visible: true,
-        createdDate: new Date()
+        createdDate: fileDate
       });
       return true
   } catch (error) {

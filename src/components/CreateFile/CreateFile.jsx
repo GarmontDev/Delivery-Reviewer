@@ -13,7 +13,7 @@ const CreateFile = () => {
     var file = inputFile.files[0]
     var textType = /text.*/;
  
-    if (file.type.match(textType) && fileNumber.value != "" && fileDescription.value != "") {
+    if (file.type.match(textType) && fileNumber.value != "" && fileDescription.value != "" && fileDate.value != "") {
       var reader = new FileReader();
   
       reader.onload = function(e) {
@@ -22,7 +22,7 @@ const CreateFile = () => {
         loadFile(fileNumber.value, content)
           .then((res) =>{
             if(res){
-              addToListOfCollections(fileNumber.value, fileDescription.value)
+              addToListOfCollections(fileNumber.value, fileDescription.value, fileDate.value)
               .then((res) => {
                 if(res){
                   console.log("Added to list of collections")
@@ -77,6 +77,19 @@ const CreateFile = () => {
               name="fileDescription" 
               className="text-input" 
               placeholder="Ex: pedido camión" 
+              required 
+            />
+          </div>
+          <div>
+            <label htmlFor="fileDescription">
+              Fecha
+            </label>
+            <input 
+              type="text" 
+              id="fileDate" 
+              name="fileDate" 
+              className="text-input" 
+              placeholder={new Date().toLocaleDateString()}
               required 
             />
           </div>

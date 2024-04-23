@@ -80,7 +80,9 @@ const FilesList = ({employee, controlPanelActive, showVisibleFiles}) => {
                   >
                   {item.number}
                   <p className="ml-2 font-medium">
-                    {new Date(item.createdDate.seconds*1000).toLocaleDateString()}
+                    {typeof(item.createdDate) === "string" ? item.createdDate : 
+                      new Date(item.createdDate.seconds*1000).toLocaleDateString()
+                    }
                   </p>
                 </div>
                 <div className="w-44 py-2 px-1 flex">
