@@ -86,7 +86,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
                     }
                   </p>
                 </div>
-                <div className="w-44 py-2 px-1 flex">
+                <div className="w-44 py-2.5 px-1 flex text-blue-700">
                   {item.description}
                 </div>
               </button>  
