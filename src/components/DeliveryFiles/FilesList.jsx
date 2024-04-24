@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DeliveryFiles.css"
 
-const FilesList = ({employee, controlPanelActive, showVisibleFiles}) => { 
+const FilesList = ({employee, showVisibleFiles}) => { 
   const navigate = useNavigate();
 
   const [files , setFiles] = useState([])
@@ -64,12 +64,13 @@ const FilesList = ({employee, controlPanelActive, showVisibleFiles}) => {
 
   return(
     <>
-    {files?.length > 0 && !controlPanelActive
+    {files?.length > 0
       ? <div className="delivery-files-items-container">
           {files?.map((item, index) => (
             <div 
-            className="grid grid-cols-2 grid-rows-2 bg-white border-2 rounded-lg m-2 w-full h-14 text-gray-900" 
-            key={item+"-"+index}
+              className="grid grid-cols-2 grid-rows-2
+              bg-white border-2 rounded-lg m-2 w-full h-14 text-gray-900" 
+              key={item+"-"+index}
             >
               <button className="grid grid-rows-2 grid-cols-1 ml-2 hover:text-green-800"
                 onClick={() => handleDeliveryFile(item.number)}
@@ -144,11 +145,9 @@ const FilesList = ({employee, controlPanelActive, showVisibleFiles}) => {
             </div>
           ))}
         </div>
-        : !controlPanelActive 
-        ? <div className="no-files-available">
+        : <div className="no-files-available">
             No hay albaranes disponibles
-          </div> 
-        : ""
+          </div>
     }
         </>
   )
