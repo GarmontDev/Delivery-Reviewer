@@ -45,7 +45,7 @@ const CreateFile = () => {
 
   return(
     <>
-      <main className="rounded-lg p-2">
+      <main className="rounded-lg p-2 grid justify-center">
         <form>
           <h1>
             Subir nuevo albar&aacute;n
