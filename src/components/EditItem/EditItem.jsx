@@ -1,6 +1,6 @@
-import { useContext, useEffect, useRef, useState } from "react"
-import { updateItem } from "../config/firebase"
-import { useEmployeeContext } from "../context/EmployeeContext"
+import { useState } from "react"
+import { updateItem } from "../../config/firebase"
+import { useEmployeeContext } from "../../context/EmployeeContext"
 
 const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => { 
 
@@ -38,7 +38,6 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
             notes: notes,
             checkedby: employee.name
           })
-          // setFilteredData(res)
           setOpenEditItem(false)
         }
       }

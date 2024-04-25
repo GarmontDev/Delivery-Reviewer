@@ -72,7 +72,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
               bg-white border-2 rounded-lg m-2 w-full h-14 text-gray-900" 
               key={item+"-"+index}
             >
-              <button className="grid grid-rows-2 grid-cols-1 ml-2 hover:text-green-800"
+              <button className="grid grid-rows-2 grid-cols-1 ml-2 hover:text-blue-600"
                 onClick={() => handleDeliveryFile(item.number)}
                 >
                 <div 

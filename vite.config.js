@@ -6,4 +6,8 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), viteBasicSslPlugin(), nodePolyfills()],
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+  },
 })

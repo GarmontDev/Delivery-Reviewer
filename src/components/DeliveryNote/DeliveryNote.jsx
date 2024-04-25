@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
-import EditItem from "../EditItem"
+import EditItem from "../EditItem/EditItem"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
 import ClipboardIcon from "../../assets/icons/ClipboardIcon"
 import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon"
