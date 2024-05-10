@@ -4,6 +4,11 @@ export default {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
     extend: {},
+    screens: {
+      sm: "585px",
+      md: "787px",
+      lg: "1024px"
+    }
   },
   plugins: [require('flowbite/plugin')],
 }

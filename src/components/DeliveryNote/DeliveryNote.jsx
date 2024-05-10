@@ -8,27 +8,28 @@ import EditItem from "../EditItem/EditItem"
 import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
 import ClipboardIcon from "../../assets/icons/ClipboardIcon"
 import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon"
-import XClearIcon from "../../assets/icons/XClearIcon"
 import NotesIcon from "../../assets/icons/NotesIcon"
-import CBarras from "../../CBARRAS.json"
+import SearchBar from "../SearchBar/SearchBar";
+import { useEmployeeContext } from "../../context/EmployeeContext";
 
 const DeliveryNote = () => { 
-  const navigate = useNavigate();
+  const inputRef = useRef(null);
   const location = useLocation();
-  const reviewFileNumber = location.state?.reviewFileNumber;
+  const navigate = useNavigate();
 
+  const reviewFileNumber = location.state?.reviewFileNumber;
+  const {employee} = useEmployeeContext()
   const [data, setData] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
-  const [openScanner, setOpenScanner] = useState(false)
   const [itemSelected, setItemSelected] = useState(null)
   const [openEditItem, setOpenEditItem] = useState(false);
+  const [keepSearchValue, setKeepSearchValue] = useState(false)
   const [isBarcode, setIsBarcode] = useState(true)
 
-  const toggleBarcode = () => {setIsBarcode(!isBarcode)}
-
-  const inputRef = useRef(null);
-
   useEffect(() => {
+    if(typeof(employee.name) === "undefined"){
+      navigate("/home")
+    }
     if(data === null){
       fetchData()
     }
@@ -36,7 +37,6 @@ const DeliveryNote = () => {
 
   useEffect(() => {
     handleClearFilteredData()
-    searchInput.value = ""
   },[data])
 
   function fetchData(){
@@ -60,26 +60,11 @@ const DeliveryNote = () => {
     }))
   }
 
- function filterData(value){
-    if(isBarcode && Number(value)){
-      CBarras.CBARRAS.find((item) => {
-        if(item.CODE === value){
-          setFilteredData(data.filter((element) => element.code.includes(item.CODEARTI)))
-        }
-      })
-    }else{
-      setIsBarcode(false)
-      setFilteredData(data.filter((item) =>
-        item.description.toUpperCase().includes(value.toUpperCase())
-        || item.code.includes(value)
-      ))
-    }
-  }
-
   function handleClearFilteredData(){
-    setFilteredData(data)
-    searchInput.value = ""
-    setIsBarcode(true)
+    if(!keepSearchValue){
+      setFilteredData(data)
+      setIsBarcode(true)
+    }
   }
 
   function displayIncidents(){
@@ -92,10 +77,6 @@ const DeliveryNote = () => {
     setFilteredData(data.filter((item) =>
       item.unitsReceived === 0
     ))
-  }
-
-  function handleScannerResult(result){
-    filterData(result)
   }
 
   return(
@@ -118,46 +99,31 @@ const DeliveryNote = () => {
             setFilteredData={setFilteredData}
           />
         </Popup>
-        <div className="flex h-8 relative">
-          <input 
-            id='searchInput' 
-            ref={inputRef}
-            autoFocus
-            maxLength={20}
-            className='rounded-sm pl-1 ml-1 w-40' 
-            onChange={(e) => filterData(e.target.value)} 
-            placeholder="Nombre o c&oacute;digo"
-          />
-          <button 
-            className="p-1 relative top-0 right-8 hover:bg-red-400" 
-            onClick={() => handleClearFilteredData()}
-          >
-            <XClearIcon />
-          </button>
-          <label className="flex items-center mb-5 -ml-4 cursor-pointer">
-            <input type="checkbox" value="" checked={isBarcode} onChange={() => toggleBarcode()} className="sr-only peer"/>
-            <div className="relative w-9 h-5 bg-gray-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
-            <span className="ms-2 text-sm font-medium text-gray-900">Barcode</span>
-          </label>
-        </div>
-        <button className='albaran-button'
-                onClick={() => navigate("/home")}
-        >
-          {reviewFileNumber}
-        </button>
+        <SearchBar 
+          data={data}
+          isBarcode={isBarcode} 
+          setIsBarcode={setIsBarcode} 
+          setFilteredData={setFilteredData}
+          handleClearFilteredData={handleClearFilteredData}
+          reviewFileNumber={reviewFileNumber}
+          keepSearchValue={keepSearchValue}
+          setKeepSearchValue={setKeepSearchValue}
+          inputRef={inputRef}
+        />
+
       </div>
       <div className='m-2 h-8 flex justify-between'>
         <button className="filter-button bg-green-400 hover:bg-green-600"
           onClick={() => handleClearFilteredData()}
         >
           <ClipboardIcon/>
-          Ver todo
+          Todas
         </button>
         <button className="filter-button bg-blue-400 hover:bg-blue-600"
                 onClick={() => displayNotReviewed()}
         >
           <ClipboardEmptyIcon/>
-          No repasado
+          Pendiente
         </button>
         <button className="filter-button bg-[#F7BE38] hover:bg-[#f79e38]"
                 onClick={() => displayIncidents()}
@@ -166,9 +132,6 @@ const DeliveryNote = () => {
           Incidencias
         </button>
       </div>
-      {openScanner && data != undefined ? 
-        <Html5QrcodePlugin handleScannerResult={handleScannerResult}/> 
-      : ""}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="note-table">
           <thead className="delivery-note-table-head">
@@ -211,7 +174,7 @@ const DeliveryNote = () => {
                   {item.unitsBilled}
                 </td>
                 <th className="px-3">
-                  {item.description}
+                  {item.description.charAt(0).toUpperCase() + item.description.slice(1).toLowerCase()}
                 </th>
                 <td scope="col" className="px-4">
                   {item.notes ? <NotesIcon/> : ""}
