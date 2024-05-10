@@ -1,4 +1,4 @@
-export const StartBarcodeScannerIcon = () => { 
+export const BarcodeIcon = () => { 
   return(
     <>
       <svg  
@@ -31,7 +31,7 @@ export const StartBarcodeScannerIcon = () => {
   )
  }
 
-export const StopBarcodeScannerIcon = () => { 
+export const BarcodeDisabledIcon = () => { 
   return(
     <svg  
       xmlns="http://www.w3.org/2000/svg"  

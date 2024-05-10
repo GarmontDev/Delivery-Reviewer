@@ -9,7 +9,7 @@
 .home-container{
   @apply
   bg-gray-100
-  pt-4 pl-2 pr-2
+  pt-4 pl-2 pr-2 pb-6
 }
 
 .header-container{

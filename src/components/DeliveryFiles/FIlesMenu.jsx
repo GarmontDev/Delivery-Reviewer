@@ -56,7 +56,7 @@ const FilesMenu = ({employee, setEmployee, showVisibleFiles, setShowVisibleFiles
             <button className="menu-admin-button"
               onClick={() => navigate("/createfile")}
             >
-              Admin
+              Subir
             </button>
             : ""
           }
