@@ -4,50 +4,24 @@
 
 .main-search-bar{
   @apply
-  h-20 md:flex md:h-14 w-full place-items-center place-content-center
+  place-items-center place-content-center
+  flex bg-white justify-between
+  rounded-lg  pb-1.5 pl-2
 }
 
-.search-header{
+.search-input-container{
   @apply
-  flex justify-between mr-3
-}
-
-.search-employee-name{
-  @apply
-  rounded-lg text-slate-600 font-extrabold text-xl
-}
-
-.search-toolbar{
-  @apply
-  grid grid-cols-3 bg-white rounded-lg pt-2 pb-1
+  flex md:ml-20
 }
 
 .search-input{
   @apply
-  pl-2 w-36 rounded-l-lg hover:rounded-r-none focus:outline-none
-}
-
-.search-file-back-button{
-  @apply
-  flex p-2 pl-4 pr-4 w-16 ml-8 font-bold justify-center rounded-lg bg-blue-700 text-white text-sm
-}
-
-.search-toggle-label{
-  @apply
-  flex items-center ml-6 mt-4 cursor-pointer
-}
-
-.search-toggle-button{
-  @apply
-  relative w-9 h-5 bg-gray-400 
-}
-
-.search-toggle-span{
-  @apply
-  ms-2 text-sm font-medium text-gray-900
+  bg-white border-2 border-r-0
+  pl-2 w-40 rounded-l-lg 
+  hover:rounded-r-none focus:outline-none
 }
 
 .search-x-button{
   @apply
-  p-1 bg-white hover:bg-red-400 rounded-r-lg
+  p-1 border-r-2 border-t-2 border-b-2 hover:bg-red-400 rounded-r-lg
 }

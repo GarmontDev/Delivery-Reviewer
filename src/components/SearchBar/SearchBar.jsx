@@ -38,16 +38,7 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
   return(
     <>
       <div className="main-search-bar">
-        <div className="search-header">
-          <div className="font-bold text-xl text-slate-800 pl-1 pb-2">
-            Alb. {reviewFileNumber}
-          </div>
-          <div className="search-employee-name">
-            {employee.name}
-          </div>
-        </div>
-        <div className="search-toolbar">
-          <div className="relative flex h-8 md:ml-20">
+          <div className="search-input-container">
             <input 
               id='searchInput' 
               ref={inputRef}
@@ -65,18 +56,14 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
             </button>
           </div>
           <button 
-            className="w-6 ml-24 md:ml-10"
+            className={`${
+              isBarcode ? "flex mr-4 hover:bg-orange-300 p-1 rounded-lg"
+              : "text-red-600 flex mr-4 hover:bg-orange-300 p-1 rounded-lg"}`}
             onClick={() => toggleBarcode()}
           >
+            <span className="pr-2">Barcode</span>
             {isBarcode ? <BarcodeIcon/> : <BarcodeDisabledIcon/>}
           </button>
-          <button 
-            className='search-file-back-button'
-            onClick={() => navigate("/home")}
-          >
-           Volver
-          </button>
-        </div>
       </div>
     </>
   )

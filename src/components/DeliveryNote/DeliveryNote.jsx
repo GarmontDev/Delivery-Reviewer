@@ -81,8 +81,8 @@ const DeliveryNote = () => {
 
   return(
     <>
-      <div className="delivery-note-container">
-        <Popup 
+      <div className="delivery-note-container m-2 rounded-md">
+        <Popup
           modal
           position="top center"
           nested
@@ -99,18 +99,20 @@ const DeliveryNote = () => {
             setFilteredData={setFilteredData}
           />
         </Popup>
-        <SearchBar 
-          data={data}
-          isBarcode={isBarcode} 
-          setIsBarcode={setIsBarcode} 
-          setFilteredData={setFilteredData}
-          handleClearFilteredData={handleClearFilteredData}
-          reviewFileNumber={reviewFileNumber}
-          keepSearchValue={keepSearchValue}
-          setKeepSearchValue={setKeepSearchValue}
-          inputRef={inputRef}
-        />
-
+        <div className="delivery-note-header">
+          <div className="font-bold text-xl text-slate-800 pl-1">
+            Alb. {reviewFileNumber}
+          </div>
+          <div className="delivery-note-employee-name">
+            {employee.name}
+          </div>
+          <button 
+            className='go-back-button'
+            onClick={() => navigate("/home")}
+          >
+           Volver
+          </button>
+        </div>
       </div>
       <div className='m-2 h-8 flex justify-between'>
         <button className="filter-button bg-green-400 hover:bg-green-600"
@@ -132,6 +134,17 @@ const DeliveryNote = () => {
           Incidencias
         </button>
       </div>
+      <SearchBar 
+          data={data}
+          isBarcode={isBarcode} 
+          setIsBarcode={setIsBarcode} 
+          setFilteredData={setFilteredData}
+          handleClearFilteredData={handleClearFilteredData}
+          reviewFileNumber={reviewFileNumber}
+          keepSearchValue={keepSearchValue}
+          setKeepSearchValue={setKeepSearchValue}
+          inputRef={inputRef}
+        />
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="note-table">
           <thead className="delivery-note-table-head">
