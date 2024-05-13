@@ -15,7 +15,11 @@ export default function UserContextProvider({children}) {
         // return unsuscribe;
     }, [])
 
-    if (user === false) return (<p>Loading app...</p>)
+    if (user === false){
+      return (
+        <p className="ml-4 mt-4 w-screen h-screen">Loading app...</p>
+      )
+    }
 
     return (
         <UserContext.Provider value={{ user }}>

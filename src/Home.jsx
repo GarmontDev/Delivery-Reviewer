@@ -40,7 +40,6 @@ function Home() {
             <FaviconIcon size={32}/>
             Delivery Reviewer
           </div>
-
           <button 
             onClick={() => {if (window.confirm("Seguro que deseas salir?")) handleLogout() }} 
             className='text-sm pl-2 pr-2 mr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-red-700 hover:text-white'>
@@ -51,7 +50,7 @@ function Home() {
           ? <DeliveryFiles employee={employee} setEmployee={setEmployee}/>
           : <EmployeeSelection setEmployee={setEmployee}/>
         }
-        <Footer />
+        <Footer/>
       </div>
     </>
   )

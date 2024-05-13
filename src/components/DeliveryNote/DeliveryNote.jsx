@@ -18,6 +18,7 @@ const DeliveryNote = () => {
   const navigate = useNavigate();
 
   const reviewFileNumber = location.state?.reviewFileNumber;
+  const reviewFileDate = location.state?.createdDate;
   const {employee} = useEmployeeContext()
   const [data, setData] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
@@ -100,8 +101,11 @@ const DeliveryNote = () => {
           />
         </Popup>
         <div className="delivery-note-header">
-          <div className="font-bold text-xl text-slate-800 pl-1">
+          <div className="delivery-note-file-number">
             Alb. {reviewFileNumber}
+            <div className="delivery-note-file-date">
+              {reviewFileDate}
+            </div>
           </div>
           <div className="delivery-note-employee-name">
             {employee.name}
@@ -115,19 +119,19 @@ const DeliveryNote = () => {
         </div>
       </div>
       <div className='m-2 h-8 flex justify-between'>
-        <button className="filter-button bg-green-400 hover:bg-green-600"
+        <button className="filter-button bg-green-400 hover:bg-green-600 shadow-md"
           onClick={() => handleClearFilteredData()}
         >
           <ClipboardIcon/>
           Todas
         </button>
-        <button className="filter-button bg-blue-400 hover:bg-blue-600"
+        <button className="filter-button bg-blue-400 hover:bg-blue-600 shadow-md"
                 onClick={() => displayNotReviewed()}
         >
           <ClipboardEmptyIcon/>
           Pendiente
         </button>
-        <button className="filter-button bg-[#F7BE38] hover:bg-[#f79e38]"
+        <button className="filter-button bg-[#F7BE38] hover:bg-[#f79e38] shadow-md"
                 onClick={() => displayIncidents()}
         >
           <AlertTriangleIcon/>
@@ -145,7 +149,7 @@ const DeliveryNote = () => {
           setKeepSearchValue={setKeepSearchValue}
           inputRef={inputRef}
         />
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
         <table className="note-table">
           <thead className="delivery-note-table-head">
             <tr>

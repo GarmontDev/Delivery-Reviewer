@@ -7,14 +7,24 @@
   pt-4 pb-4 pl-2 pr-2 bg-slate-200
 }
 
-.delivery-note-employee-name{
-  @apply
-  rounded-lg text-slate-600 font-extrabold text-xl
-}
-
 .delivery-note-header{
   @apply
-  flex justify-between mr-3
+  flex justify-between mr-3 h-12
+}
+
+.delivery-note-file-number{
+  @apply
+  font-bold text-xl text-slate-800 pl-1
+}
+
+.delivery-note-file-date{
+  @apply
+  text-lg text-slate-400
+}
+
+.delivery-note-employee-name{
+  @apply
+  rounded-lg text-blue-700 font-semibold text-xl bg-white h-8 pl-2 pr-2 mt-2
 }
 
 .note-table{
@@ -26,8 +36,8 @@
 
 .go-back-button{
   @apply
-  flex p-2 pl-4 pr-4 w-16
-  font-bold justify-center rounded-lg 
+  flex p-2 pl-4 pr-4 w-16 h-9 mt-2
+  font-bold justify-center rounded-lg shadow-md
   bg-blue-700 hover:bg-blue-500 text-white text-sm
 }
 

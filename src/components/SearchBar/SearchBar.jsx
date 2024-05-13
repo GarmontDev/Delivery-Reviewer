@@ -1,17 +1,12 @@
 import XClearIcon from "../../assets/icons/XClearIcon";
 import CBarras from "../../CBARRAS.json"
-import { useEmployeeContext } from "../../context/EmployeeContext";
 import "./SearchBar.css"
-import { useNavigate } from "react-router-dom";
 import {BarcodeDisabledIcon, BarcodeIcon} from "../../assets/icons/BarcodeIcon"
 
-const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsBarcode, setFilteredData, handleClearFilteredData, reviewFileNumber, inputRef}) => { 
-  const navigate = useNavigate();
+const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsBarcode, setFilteredData, handleClearFilteredData, inputRef}) => { 
 
   const toogleKeepSearchValue = () => {setKeepSearchValue(!keepSearchValue)}
   const toggleBarcode = () => {setIsBarcode(!isBarcode)}
-
-  const {employee} = useEmployeeContext()
 
   function filterData(value){
     if(isBarcode && Number(value)){
@@ -56,9 +51,9 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
             </button>
           </div>
           <button 
-            className={`${
-              isBarcode ? "flex mr-4 hover:bg-orange-300 p-1 rounded-lg"
-              : "text-red-600 flex mr-4 hover:bg-orange-300 p-1 rounded-lg"}`}
+            className={`flex mr-4 p-1 rounded-lg pl-2 pr-2 ${
+              isBarcode ? " hover:bg-orange-300  bg-green-100"
+              : "text-red-600 hover:bg-orange-300  bg-red-100"}`}
             onClick={() => toggleBarcode()}
           >
             <span className="pr-2">Barcode</span>

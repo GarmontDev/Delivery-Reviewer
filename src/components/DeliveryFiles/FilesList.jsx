@@ -26,8 +26,8 @@ const FilesList = ({employee, showVisibleFiles}) => {
     })
   }
 
-  function handleDeliveryFile(value){
-    navigate("/notes", {state: {reviewFileNumber: value.toString()}})
+  function handleDeliveryFile(number, createdDate){
+    navigate("/notes", {state: {reviewFileNumber: number.toString(), createdDate: createdDate}})
   }
 
   function handleUpdateCompleted(number, completed){
@@ -73,7 +73,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
               key={item+"-"+index}
             >
               <button className="grid grid-rows-2 grid-cols-1 ml-2 hover:text-blue-600"
-                onClick={() => handleDeliveryFile(item.number)}
+                onClick={() => handleDeliveryFile(item.number, item.createdDate)}
                 >
                 <div 
                   id={item} 

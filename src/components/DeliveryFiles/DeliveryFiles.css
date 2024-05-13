@@ -4,7 +4,7 @@
 
 .delivery-files-container{
   @apply
-  flex justify-between
+  flex justify-between relative top-0
   text-gray-500 bg-white rounded-lg border-2 shadow mb-1 pt-1 pb-1
 }
 
