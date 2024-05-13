@@ -101,8 +101,9 @@ const DeliveryNote = () => {
           />
         </Popup>
         <div className="delivery-note-header">
-          <div className="delivery-note-file-number">
-            Alb. {reviewFileNumber}
+          <div className="delivery-note-file-number -mt-2">
+            <div className="text-sm text-gray-600 -mb-2">Albar&aacute;n</div>
+            {reviewFileNumber}
             <div className="delivery-note-file-date">
               {reviewFileDate}
             </div>
