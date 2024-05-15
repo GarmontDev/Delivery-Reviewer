@@ -140,7 +140,7 @@ export const createFile = async (fileNumber, lines) => {
         checked: false,
         checkedby: "",
         notes: "",
-        time: ""
+        time: now()
       });
     });
   } catch (error) {
@@ -208,7 +208,6 @@ export const updateFile = async(fileNumber, incidents, completed, visible) => {
     return true
   }
 }
-
 
 
 export const listAllFiles = async (visible) => {

@@ -50,7 +50,7 @@ function Home() {
           ? <DeliveryFiles employee={employee} setEmployee={setEmployee}/>
           : <EmployeeSelection setEmployee={setEmployee}/>
         }
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </>
   )

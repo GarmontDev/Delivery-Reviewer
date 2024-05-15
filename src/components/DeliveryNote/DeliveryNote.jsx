@@ -126,17 +126,17 @@ const DeliveryNote = () => {
           <ClipboardIcon/>
           Todas
         </button>
-        <button className="filter-button bg-blue-400 hover:bg-blue-600 shadow-md"
+        <button className="filter-button ml-2 overflow-hidden bg-blue-400 hover:bg-blue-600 shadow-md"
                 onClick={() => displayNotReviewed()}
         >
           <ClipboardEmptyIcon/>
-          Pendiente
+          Pend.
         </button>
-        <button className="filter-button bg-[#F7BE38] hover:bg-[#f79e38] shadow-md"
+        <button className="filter-button ml-2 overflow-hidden bg-[#F7BE38] hover:bg-[#f79e38] shadow-md"
                 onClick={() => displayIncidents()}
         >
           <AlertTriangleIcon/>
-          Incidencias
+          Incid.
         </button>
       </div>
       <SearchBar 

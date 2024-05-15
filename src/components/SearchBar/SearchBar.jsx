@@ -51,7 +51,7 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
             </button>
           </div>
           <button 
-            className={`flex mr-4 p-1 rounded-lg pl-2 pr-2 ${
+            className={`flex mr-4 ml-2 p-1 rounded-lg pl-2 pr-2 ${
               isBarcode ? " hover:bg-orange-300  bg-green-100"
               : "text-red-600 hover:bg-orange-300  bg-red-100"}`}
             onClick={() => toggleBarcode()}

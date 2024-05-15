@@ -7,11 +7,34 @@ import { deleteFile, deleteFileFromCollections, listAllFiles, updateCompleted, u
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DeliveryFiles.css"
+import SearchIcon from "../../assets/icons/SearchIcon.jsx";
+import CustomDatePicker from "../CustomDatePicker/CustomDatePicker.jsx";
 
 const FilesList = ({employee, showVisibleFiles}) => { 
   const navigate = useNavigate();
 
   const [files , setFiles] = useState([])
+  const [filteredFiles, setFilteredFiles] = useState([])
+  const [datePicked, setDatePicked] = useState([new Date(), new Date()])
+  const [calendarOpen, setCalendarOpen] = useState(false)
+
+  useEffect(() => {
+    if(!calendarOpen){
+      filterFilesByDate(datePicked[0], datePicked[1])
+    }
+  }, [calendarOpen])
+
+  function checkDateInRange(date1, date2){
+    const today = new Date()
+    const start = new Date(date1);
+    const end = new Date(date2);
+
+    if (today > start && today < end) {
+      console.log('in between');
+    } else {
+      console.log('outside');
+    }
+  }
 
   useEffect(() => {
     handleListAllFiles(showVisibleFiles)
@@ -22,8 +45,25 @@ const FilesList = ({employee, showVisibleFiles}) => {
     .then((res) => {
       if(res){
         setFiles(res)
+        setFilteredFiles(res)
       }
     })
+  }
+
+  function filterFilesByNumber(value){
+    setFilteredFiles(files.filter((file) => file.number.includes(value)))
+  }
+
+  function filterFilesByDate(start, end){
+    console.log(files.filter((file) => 
+      (file.createdDate.toDate() > start &&
+        file.createdDate.toDate() < end
+      )
+    ))
+    setFilteredFiles(files.filter((file) => 
+      (file.createdDate.toDate() > start &&
+        file.createdDate.toDate() < end
+    )))
   }
 
   function handleDeliveryFile(number, createdDate){
@@ -40,7 +80,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
           }else{
             return file
           }
-        }))
+        })), setFilteredFiles(files)
       }
     })
   }
@@ -64,9 +104,45 @@ const FilesList = ({employee, showVisibleFiles}) => {
 
   return(
     <>
-    {files?.length > 0
+    {!showVisibleFiles ? 
+      <div className="">
+        <div className="flex place-content-end">
+          
+          <span className="p-1 pr-2 mt-3">
+            Fecha
+          </span>
+          <div className="mt-2 w-full">
+            {calendarOpen ?             
+              <CustomDatePicker 
+                calendarOpen={calendarOpen}
+                setCalendarOpen={setCalendarOpen}
+                datePicked={datePicked} 
+                setDatePicked={setDatePicked}
+                isRange={true}
+              /> 
+            : 
+              <button className='text-input text-right' onClick={() => setCalendarOpen(true)}>
+                {datePicked[0].toLocaleDateString()} hasta {datePicked[1].toLocaleDateString()}
+              </button>
+            }
+          </div>
+        </div>
+        <div className="flex place-content-end">
+          <span className="p-1 pr-2 mt-3 ml-1 w-full">
+            Num. Albar&aacute;n
+          </span>
+          <input 
+            className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-full focus:outline-blue-700"
+            placeholder="Albar&aacute;n"
+            onChange={(e) => filterFilesByNumber(e.target.value)}
+          /> 
+        </div>
+    
+      </div>
+    : ""}
+    {filteredFiles?.length > 0
       ? <div className="delivery-files-items-container">
-          {files?.map((item, index) => (
+          {filteredFiles?.map((item, index) => (
             <div 
               className="grid grid-cols-2 grid-rows-2
               bg-white border-2 rounded-lg m-2 w-full h-14 text-gray-900" 

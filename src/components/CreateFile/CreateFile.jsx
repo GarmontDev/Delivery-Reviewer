@@ -1,10 +1,15 @@
 import "./CreateFile.css"
 import { useNavigate } from "react-router-dom";
-import { addToListOfCollections, loadFile } from "../../config/firebase";
+import { addToListOfCollections, loadFile} from "../../config/firebase";
+import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
+import { useState } from "react";
 
 const CreateFile = () => { 
 
   const navigate = useNavigate()
+
+  const [calendarOpen, setCalendarOpen] = useState(false)
+  const [datePicked, setDatePicked] = useState(new Date())
 
   function createNewFile () {
     if(inputFile.files[0] === undefined){
@@ -80,19 +85,29 @@ const CreateFile = () => {
               required 
             />
           </div>
+
           <div>
             <label htmlFor="fileDescription">
               Fecha
             </label>
-            <input 
-              type="text" 
-              id="fileDate" 
-              name="fileDate" 
-              className="text-input" 
-              placeholder={new Date().toLocaleDateString()}
-              required 
-            />
+
+            <div>
+            {calendarOpen ?             
+              <CustomDatePicker 
+                calendarOpen={calendarOpen}
+                setCalendarOpen={setCalendarOpen}
+                datePicked={datePicked} 
+                setDatePicked={setDatePicked}
+                isRange={false}
+              /> 
+            : 
+              <button className='text-input text-left' onClick={() => setCalendarOpen(true)}>
+                {datePicked.toLocaleDateString()}
+              </button>
+            }
+        </div>
           </div>
+
           <div className="mt-4 flex justify-between">
             <button type="button" onClick={() => createNewFile()} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Aceptar
