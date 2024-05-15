@@ -55,11 +55,6 @@ const FilesList = ({employee, showVisibleFiles}) => {
   }
 
   function filterFilesByDate(start, end){
-    console.log(files.filter((file) => 
-      (file.createdDate.toDate() > start &&
-        file.createdDate.toDate() < end
-      )
-    ))
     setFilteredFiles(files.filter((file) => 
       (file.createdDate.toDate() > start &&
         file.createdDate.toDate() < end
