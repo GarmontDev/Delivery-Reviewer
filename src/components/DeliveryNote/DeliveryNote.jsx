@@ -105,7 +105,7 @@ const DeliveryNote = () => {
             <div className="text-sm text-gray-600 -mb-2">Albar&aacute;n</div>
             {reviewFileNumber}
             <div className="delivery-note-file-date">
-              {reviewFileDate}
+              {(new Date(reviewFileDate.toMillis()).toLocaleDateString())}
             </div>
           </div>
           <div className="delivery-note-employee-name">
