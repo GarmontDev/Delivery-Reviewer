@@ -18,7 +18,7 @@ const CreateFile = () => {
     var file = inputFile.files[0]
     var textType = /text.*/;
  
-    if (file.type.match(textType) && fileNumber.value != "" && fileDescription.value != "" && fileDate.value != "") {
+    if (file.type.match(textType) && fileNumber.value != "" && fileDescription.value != "" && datePicked.toLocaleDateString() != "") {
       var reader = new FileReader();
   
       reader.onload = function(e) {
@@ -27,7 +27,7 @@ const CreateFile = () => {
         loadFile(fileNumber.value, content)
           .then((res) =>{
             if(res){
-              addToListOfCollections(fileNumber.value, fileDescription.value, fileDate.value)
+              addToListOfCollections(fileNumber.value, fileDescription.value, datePicked.toLocaleDateString())
               .then((res) => {
                 if(res){
                   console.log("Added to list of collections")
