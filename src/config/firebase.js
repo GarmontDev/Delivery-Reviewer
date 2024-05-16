@@ -106,7 +106,7 @@ function removedDuplicates(arr){
   return arr.filter((item, index) => arr.indexOf(item) === index)
 }
 
-export const loadFile = async(fileNumber, content) => {
+export const loadFile = async(fileNumber, content, datePicked) => {
   const filteredData = []
   try {
     if(content){
@@ -119,7 +119,7 @@ export const loadFile = async(fileNumber, content) => {
         item.push(linesCounter)
         filteredData.push(item)
       })
-      createFile(fileNumber, filteredData)
+      createFile(fileNumber, filteredData, datePicked)
       return filteredData
     }
   } catch (error) {
@@ -127,9 +127,9 @@ export const loadFile = async(fileNumber, content) => {
   }
 }
 
-export const createFile = async (fileNumber, lines) => {
+export const createFile = async (fileNumber, filteredData, datePicked) => {
   try {
-    lines.forEach((item) => {
+    filteredData.forEach((item) => {
       setDoc(doc(db, fileNumber, item[0]),{
         code: item[0],
         description: item[1],
@@ -140,7 +140,7 @@ export const createFile = async (fileNumber, lines) => {
         checked: false,
         checkedby: "",
         notes: "",
-        time: now()
+        time: datePicked
       });
     });
   } catch (error) {
@@ -148,7 +148,7 @@ export const createFile = async (fileNumber, lines) => {
   }
 };
 
-export const addToListOfCollections = async (fileNumber, fileDescription, fileDate) => {
+export const addToListOfCollections = async (fileNumber, fileDescription, datePicked) => {
   try {
       setDoc(doc(db, "listOfCollections", fileNumber),{
         number: fileNumber,
@@ -156,7 +156,7 @@ export const addToListOfCollections = async (fileNumber, fileDescription, fileDa
         incidents: false,
         completed: false,
         visible: true,
-        createdDate: fileDate
+        createdDate: datePicked
       });
       return true
   } catch (error) {

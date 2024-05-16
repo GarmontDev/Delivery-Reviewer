@@ -23,11 +23,10 @@ const CreateFile = () => {
   
       reader.onload = function(e) {
         var content = reader.result;
-
-        loadFile(fileNumber.value, content)
+        loadFile(fileNumber.value, content, datePicked)
           .then((res) =>{
             if(res){
-              addToListOfCollections(fileNumber.value, fileDescription.value, datePicked.toLocaleDateString())
+              addToListOfCollections(fileNumber.value, fileDescription.value, datePicked)
               .then((res) => {
                 if(res){
                   console.log("Added to list of collections")
