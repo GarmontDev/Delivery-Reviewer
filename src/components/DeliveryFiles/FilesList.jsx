@@ -24,18 +24,6 @@ const FilesList = ({employee, showVisibleFiles}) => {
     }
   }, [calendarOpen])
 
-  function checkDateInRange(date1, date2){
-    const today = new Date()
-    const start = new Date(date1);
-    const end = new Date(date2);
-
-    if (today > start && today < end) {
-      console.log('in between');
-    } else {
-      console.log('outside');
-    }
-  }
-
   useEffect(() => {
     handleListAllFiles(showVisibleFiles)
   }, [showVisibleFiles])
@@ -52,6 +40,10 @@ const FilesList = ({employee, showVisibleFiles}) => {
 
   function filterFilesByNumber(value){
     setFilteredFiles(files.filter((file) => file.number.includes(value)))
+  }
+
+  function filterFilesByDescription(value){
+    setFilteredFiles(files.filter((file) => file.description.includes(value)))
   }
 
   function filterFilesByDate(start, end){
@@ -123,6 +115,14 @@ const FilesList = ({employee, showVisibleFiles}) => {
           </div>
         </div>
         <div className="flex place-content-end">
+          <span className="p-1 pr-2 mt-3 ml-1 w-full">
+            Descripción
+          </span>
+          <input 
+            className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-full focus:outline-blue-700"
+            placeholder="Pedido"
+            onChange={(e) => filterFilesByDescription(e.target.value)}
+          /> 
           <span className="p-1 pr-2 mt-3 ml-1 w-full">
             Num. Albar&aacute;n
           </span>
