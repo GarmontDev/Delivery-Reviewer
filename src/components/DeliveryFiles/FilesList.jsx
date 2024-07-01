@@ -3,7 +3,7 @@ import { EyeOpenIcon } from "../../assets/icons/EyeIcon.jsx";
 import { EyeOffIcon } from "../../assets/icons/EyeIcon.jsx";
 import CheckIcon from "../../assets/icons/CheckIcon.jsx";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon.jsx"
-import { deleteFile, deleteFileFromCollections, listAllFiles, updateCompleted, updateFile, updateIncidents } from "../../config/firebase.js";
+import { deleteFile, deleteFileFromCollections, fetchHiddenFilesByDate, listAllFiles, updateCompleted, updateFile, updateIncidents } from "../../config/firebase.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DeliveryFiles.css"
@@ -15,21 +15,35 @@ const FilesList = ({employee, showVisibleFiles}) => {
 
   const [files , setFiles] = useState([])
   const [filteredFiles, setFilteredFiles] = useState([])
-  const [datePicked, setDatePicked] = useState([new Date(), new Date()])
+  const [datePicked, setDatePicked] = useState([new Date(new Date() - (7 * 86400000)), new Date()])
   const [calendarOpen, setCalendarOpen] = useState(false)
 
   useEffect(() => {
     if(!calendarOpen){
-      filterFilesByDate(datePicked[0], datePicked[1])
+      filterFilesByDate(showVisibleFiles)
     }
   }, [calendarOpen])
 
   useEffect(() => {
-    handleListAllFiles(showVisibleFiles)
+    if(showVisibleFiles){
+      handleListAllFiles(showVisibleFiles)
+    }else{
+      filterFilesByDate(showVisibleFiles)
+    }
   }, [showVisibleFiles])
 
   function handleListAllFiles(visible){
     listAllFiles(visible)
+    .then((res) => {
+      if(res){
+        setFiles(res)
+        setFilteredFiles(res)
+      }
+    })
+  }
+
+  function filterFilesByDate(visible){
+    fetchHiddenFilesByDate(visible, datePicked)
     .then((res) => {
       if(res){
         setFiles(res)
@@ -46,12 +60,13 @@ const FilesList = ({employee, showVisibleFiles}) => {
     setFilteredFiles(files.filter((file) => file.description.includes(value)))
   }
 
-  function filterFilesByDate(start, end){
-    setFilteredFiles(files.filter((file) => 
-      (file.createdDate.toDate() > start &&
-        file.createdDate.toDate() < end
-    )))
-  }
+  //TODO DELETE
+  // function filterFilesByDate(start, end){ 
+  //   setFilteredFiles(files.filter((file) => 
+  //     (file.createdDate.toDate() > start &&
+  //       file.createdDate.toDate() < end
+  //   )))
+  // }
 
   function handleDeliveryFile(number, createdDate){
     navigate("/notes", {state: {reviewFileNumber: number.toString(), createdDate: createdDate}})

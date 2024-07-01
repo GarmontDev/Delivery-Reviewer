@@ -7,7 +7,7 @@ import DeliveryNote from "../components/DeliveryNote/DeliveryNote.jsx";
 import CreateFile from "../components/CreateFile/CreateFile.jsx"
 import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
 import Page404 from "../pages/Page404.jsx";
-import ControlPanel from "../components/ControlPanel/ControlPanel.jsx";
+import BarcodeSearch from "../pages/BarcodeSearch.jsx"
 
 export const router = createBrowserRouter([
     {
@@ -48,27 +48,37 @@ export const router = createBrowserRouter([
                       element: <CreateFile/>
                   }
               ]
-          },
-          {
-            path: '/userselection',
-            element: <LayoutPrivate/>,
-            children: [
-                {
-                    index: true,
-                    element: <UserSelection/>
-                }
-            ]
-          },
-          {
-            path: '/createfile',
-            element: <LayoutPrivate/>,
-            children: [
-                {
-                    index: true,
-                    element: <CreateFile/>
-                }
-            ]
-          }
+            },
+            {
+              path: '/userselection',
+              element: <LayoutPrivate/>,
+              children: [
+                  {
+                      index: true,
+                      element: <UserSelection/>
+                  }
+              ]
+            },
+            {
+              path: '/createfile',
+              element: <LayoutPrivate/>,
+              children: [
+                  {
+                      index: true,
+                      element: <CreateFile/>
+                  }
+              ]
+            },
+            {
+              path: '/barcodesearch',
+              element: <LayoutPrivate/>,
+              children: [
+                  {
+                      index: true,
+                      element: <BarcodeSearch/>
+                  }
+              ]
+            }
         ]
     }
 ])

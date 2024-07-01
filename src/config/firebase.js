@@ -212,11 +212,37 @@ export const updateFile = async(fileNumber, incidents, completed, visible) => {
 
 export const listAllFiles = async (visible) => {
   try {
-    const q = query(collection(db, "listOfCollections"), where("visible", "==", visible));
+    const q = query(
+      collection(db, "listOfCollections"), 
+      where("visible", "==", visible)
+    );
     const collections = await getDocs(q);
     return collections.docs.map(doc => doc.data());
   } catch (error) {
     console.log("Error listing all the files")
+  }
+}
+
+export const fetchHiddenFilesByDate = async (visible, datePicked) => {
+  var itemsFound = []
+
+  try {
+    const q = query(
+      collection(db, "listOfCollections"),  
+      where("createdDate", ">=", datePicked[0]),
+      where("createdDate", "<=", datePicked[1])
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      if(doc.data().visible === visible){
+        itemsFound.push(doc.data())
+      }
+    });
+    return itemsFound
+    // const collections = await getDocs(q);
+    // return collections.docs.map(doc => doc.data());
+  } catch (error) {
+    console.log("Error listing hidden files by date")
   }
 }
 
