@@ -60,14 +60,6 @@ const FilesList = ({employee, showVisibleFiles}) => {
     setFilteredFiles(files.filter((file) => file.description.includes(value)))
   }
 
-  //TODO DELETE
-  // function filterFilesByDate(start, end){ 
-  //   setFilteredFiles(files.filter((file) => 
-  //     (file.createdDate.toDate() > start &&
-  //       file.createdDate.toDate() < end
-  //   )))
-  // }
-
   function handleDeliveryFile(number, createdDate, completed){
     navigate("/notes", {state: {reviewFileNumber: number.toString(), createdDate: createdDate, completed: completed}})
   }
@@ -166,7 +158,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
                   className="font-semibold flex justify-start pl-1 pt-1"
                   >
                   {item.number}
-                  <p className="ml-2 font-medium">
+                  <p className="ml-2 font-medium text-gray-600">
                     {typeof(item.createdDate) === "string" ? item.createdDate : 
                       new Date(item.createdDate.seconds*1000).toLocaleDateString()
                     }
