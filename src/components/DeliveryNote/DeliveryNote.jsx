@@ -1,102 +1,112 @@
-import "./DeliveryNote.css"
-import { fetchDeliveryNote } from "../../config/firebase";
+import "./DeliveryNote.css";
+import { fetchDeliveryNote, updateCompleted } from "../../config/firebase";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
-import EditItem from "../EditItem/EditItem"
-import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon"
-import ClipboardIcon from "../../assets/icons/ClipboardIcon"
-import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon"
-import NotesIcon from "../../assets/icons/NotesIcon"
+import EditItem from "../EditItem/EditItem";
+import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon";
+import ClipboardIcon from "../../assets/icons/ClipboardIcon";
+import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon";
+import NotesIcon from "../../assets/icons/NotesIcon";
 import SearchBar from "../SearchBar/SearchBar";
 import { useEmployeeContext } from "../../context/EmployeeContext";
+import CheckIcon from "../../assets/icons/CheckIcon";
+import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
-const DeliveryNote = () => { 
+const DeliveryNote = () => {
   const inputRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   const reviewFileNumber = location.state?.reviewFileNumber;
   const reviewFileDate = location.state?.createdDate;
-  const {employee} = useEmployeeContext()
-  const [data, setData] = useState(null)
-  const [filteredData, setFilteredData] = useState(null)
-  const [itemSelected, setItemSelected] = useState(null)
+  const [reviewFileCompleted, setReviewFileCompleted] = useState(
+    location.state?.completed
+  );
+
+  const { employee } = useEmployeeContext();
+  const [data, setData] = useState(null);
+  const [filteredData, setFilteredData] = useState(null);
+  const [itemSelected, setItemSelected] = useState(null);
   const [openEditItem, setOpenEditItem] = useState(false);
-  const [keepSearchValue, setKeepSearchValue] = useState(false)
-  const [isBarcode, setIsBarcode] = useState(true)
+  const [keepSearchValue, setKeepSearchValue] = useState(false);
+  const [isBarcode, setIsBarcode] = useState(true);
 
   useEffect(() => {
-    if(typeof(employee.name) === "undefined"){
-      navigate("/home")
+    if (typeof employee.name === "undefined") {
+      navigate("/home");
     }
-    if(data === null){
-      fetchData()
+    if (data === null) {
+      fetchData();
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    handleClearFilteredData()
-  },[data])
+    handleClearFilteredData();
+  }, [data]);
 
-  function fetchData(){
-    if(reviewFileNumber != ""){
-      fetchDeliveryNote(reviewFileNumber)
-      .then((res) =>{
-          setData(res),
-          setFilteredData(res)
+  function fetchData() {
+    if (reviewFileNumber != "") {
+      fetchDeliveryNote(reviewFileNumber).then((res) => {
+        setData(res), setFilteredData(res);
+      });
+    }
+  }
+
+  function updateLocalData() {
+    setData(
+      data.map((item) => {
+        if (item.code === itemSelected.code) {
+          return itemSelected;
+        } else {
+          return item;
         }
-      )
+      })
+    );
+  }
+
+  function handleClearFilteredData() {
+    if (!keepSearchValue) {
+      setFilteredData(data);
+      setIsBarcode(true);
     }
   }
 
-  function updateLocalData(){
-    setData(data.map((item) => {
-      if(item.code === itemSelected.code){
-        return itemSelected
-      }else{
-        return item
-      }
-    }))
+  function handleUpdateCompleted(number, completed) {
+    updateCompleted(number, completed)
+      .then((res) => {
+        setReviewFileCompleted(!completed)
+      });
   }
 
-  function handleClearFilteredData(){
-    if(!keepSearchValue){
-      setFilteredData(data)
-      setIsBarcode(true)
-    }
+  function displayIncidents() {
+    setFilteredData(data.filter((item) => item.incidents === true));
   }
 
-  function displayIncidents(){
-    setFilteredData(data.filter((item) =>
-      item.incidents === true
-    ))
+  function displayNotReviewed() {
+    setFilteredData(data.filter((item) => item.unitsReceived === 0));
   }
 
-  function displayNotReviewed(){
-    setFilteredData(data.filter((item) =>
-      item.unitsReceived === 0
-    ))
-  }
-
-  return(
+  return (
     <>
       <div className="delivery-note-container m-2 rounded-md">
         <Popup
           modal
           position="top center"
           nested
-          open={openEditItem} 
-          onClose={() => (updateLocalData(), setOpenEditItem(false), inputRef.current.focus())} 
+          open={openEditItem}
+          onClose={() => (
+            updateLocalData(), setOpenEditItem(false), inputRef.current.focus()
+          )}
           repositionOnResize
-         >    
-          <EditItem 
-            item={itemSelected} 
-            setItemSelected={setItemSelected} 
-            fileNumber={reviewFileNumber} 
-            setOpenEditItem={setOpenEditItem} 
-            setData={setData} 
+        >
+          <EditItem
+            item={itemSelected}
+            setItemSelected={setItemSelected}
+            fileNumber={reviewFileNumber}
+            setOpenEditItem={setOpenEditItem}
+            setData={setData}
             setFilteredData={setFilteredData}
           />
         </Popup>
@@ -104,87 +114,115 @@ const DeliveryNote = () => {
           <div className="delivery-note-file-number -mt-2">
             <div className="text-sm text-gray-600 -mb-2">Albar&aacute;n</div>
             {reviewFileNumber}
-            <div className="delivery-note-file-date">
-              {(new Date(reviewFileDate.toMillis()).toLocaleDateString())}
+            <div className="delivery-note-file-info">Fecha</div>
+            {new Date(reviewFileDate.toMillis()).toLocaleDateString()}
+          </div>
+          <div>
+            {reviewFileCompleted ? (
+              <button
+                disabled={!employee.admin}
+                className="disabled:cursor-not-allowed"
+                onClick={() => {
+                  handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
+                }}
+              >
+                <div className="delivery-note-file-number flex gap-2">
+                  Listo
+                  <div className="pt-1">
+                    <CheckIcon size={20} />
+                  </div>
+                </div>
+              </button>
+            ) : (
+              <button
+                disabled={!employee.admin}
+                className="disabled:cursor-not-allowed"
+                onClick={() => {
+                  handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
+                }}
+              >
+                <div className="delivery-note-file-number flex gap-2">
+                  Listo
+                  <div className="pt-1">
+                    <EmptyCheckIcon size={20} />
+                  </div>
+                </div>
+              </button>
+            )}
+          </div>
+          <div>
+            <div className="delivery-note-employee-name">
+              {employee.name.slice(0, 3).toUpperCase()}
             </div>
+            <button
+              className="go-back-button"
+              onClick={() => navigate("/home")}
+            >
+              Volver
+            </button>
           </div>
-          <div className="delivery-note-employee-name">
-            {employee.name}
-          </div>
-          <button 
-            className='go-back-button'
-            onClick={() => navigate("/home")}
-          >
-           Volver
-          </button>
         </div>
       </div>
-      <div className='m-2 h-8 flex justify-between'>
-        <button className="filter-button bg-green-400 hover:bg-green-600 shadow-md"
+      <div className="m-2 h-8 flex justify-between">
+        <button
+          className="filter-button bg-green-400 hover:bg-green-600 shadow-md"
           onClick={() => handleClearFilteredData()}
         >
-          <ClipboardIcon/>
+          <ClipboardIcon />
           Todas
         </button>
-        <button className="filter-button ml-2 overflow-hidden bg-blue-400 hover:bg-blue-600 shadow-md"
-                onClick={() => displayNotReviewed()}
+        <button
+          className="filter-button ml-2 overflow-hidden bg-blue-400 hover:bg-blue-600 shadow-md"
+          onClick={() => displayNotReviewed()}
         >
-          <ClipboardEmptyIcon/>
+          <ClipboardEmptyIcon />
           Pend.
         </button>
-        <button className="filter-button ml-2 overflow-hidden bg-[#F7BE38] hover:bg-[#f79e38] shadow-md"
-                onClick={() => displayIncidents()}
+        <button
+          className="filter-button ml-2 overflow-hidden bg-[#F7BE38] hover:bg-[#f79e38] shadow-md"
+          onClick={() => displayIncidents()}
         >
-          <AlertTriangleIcon/>
+          <AlertTriangleIcon />
           Incid.
         </button>
       </div>
-      <SearchBar 
-          data={data}
-          isBarcode={isBarcode} 
-          setIsBarcode={setIsBarcode} 
-          setFilteredData={setFilteredData}
-          handleClearFilteredData={handleClearFilteredData}
-          reviewFileNumber={reviewFileNumber}
-          keepSearchValue={keepSearchValue}
-          setKeepSearchValue={setKeepSearchValue}
-          inputRef={inputRef}
-        />
+      <SearchBar
+        data={data}
+        isBarcode={isBarcode}
+        setIsBarcode={setIsBarcode}
+        setFilteredData={setFilteredData}
+        handleClearFilteredData={handleClearFilteredData}
+        reviewFileNumber={reviewFileNumber}
+        keepSearchValue={keepSearchValue}
+        setKeepSearchValue={setKeepSearchValue}
+        inputRef={inputRef}
+      />
       <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
         <table className="note-table">
           <thead className="delivery-note-table-head">
             <tr>
-              <th className="px-2 py-2 w-14 text-center">
-                C&oacute;d.
-              </th>
-              <th className="px-1.5 w-6">
-                Rec.
-              </th>
-              <th className="px-3 w-8">
-                Fact
-              </th>
-              <th className="px-3 w-screen lg:w-96">
-                Descripci&oacute;n
-              </th>
-              <th className="px-3 w-8">
-                Notas
-              </th>
-              <th className="px-16 w-20">
-                Revisado
-              </th>
+              <th className="px-2 py-2 w-14 text-center">C&oacute;d.</th>
+              <th className="px-1.5 w-6">Rec.</th>
+              <th className="px-3 w-8">Fact</th>
+              <th className="px-3 w-screen lg:w-96">Descripci&oacute;n</th>
+              <th className="px-3 w-8">Notas</th>
+              <th className="px-16 w-20">Revisado</th>
             </tr>
           </thead>
           <tbody className="odd:bg-white even:bg-gray-50 border-b">
             {filteredData?.map((item, index) => (
-              <tr key={item.code+"-"+index} 
+              <tr
+                key={item.code + "-" + index}
                 className={`${
-                  item?.checked ? "bg-green-200" 
-                :  item?.incidents ? "bg-yellow-100" : "odd:bg-white even:bg-gray-100"}`}
+                  item?.checked
+                    ? "bg-green-200"
+                    : item?.incidents
+                    ? "bg-yellow-100"
+                    : "odd:bg-white even:bg-gray-100"
+                }`}
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
-              >  
-                <td className={"px-2 py-1.5 text-center"}>
-                  {item.code} 
-                </td>
+              >
+                <td className={"px-2 py-1.5 text-center"}>{item.code}</td>
                 <td scope="col" className="px-4">
                   {item.unitsReceived}
                 </td>
@@ -192,21 +230,20 @@ const DeliveryNote = () => {
                   {item.unitsBilled}
                 </td>
                 <th className="px-3">
-                  {item.description.charAt(0).toUpperCase() + item.description.slice(1).toLowerCase()}
+                  {item.description.charAt(0).toUpperCase() +
+                    item.description.slice(1).toLowerCase()}
                 </th>
                 <td scope="col" className="px-4">
-                  {item.notes ? <NotesIcon/> : ""}
+                  {item.notes ? <NotesIcon /> : ""}
                 </td>
-                <td className="px-16">
-                  {item.checkedby}
-                </td>
-              </tr>        
+                <td className="px-16">{item.checkedby}</td>
+              </tr>
             ))}
           </tbody>
         </table>
       </div>
     </>
-  )
- }
+  );
+};
 
- export default DeliveryNote;
+export default DeliveryNote;

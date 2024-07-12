@@ -68,8 +68,8 @@ const FilesList = ({employee, showVisibleFiles}) => {
   //   )))
   // }
 
-  function handleDeliveryFile(number, createdDate){
-    navigate("/notes", {state: {reviewFileNumber: number.toString(), createdDate: createdDate}})
+  function handleDeliveryFile(number, createdDate, completed){
+    navigate("/notes", {state: {reviewFileNumber: number.toString(), createdDate: createdDate, completed: completed}})
   }
 
   function handleUpdateCompleted(number, completed){
@@ -159,7 +159,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
               key={item+"-"+index}
             >
               <button className="grid grid-rows-2 grid-cols-1 ml-2 hover:text-blue-600"
-                onClick={() => handleDeliveryFile(item.number, item.createdDate)}
+                onClick={() => handleDeliveryFile(item.number, item.createdDate, item.completed)}
                 >
                 <div 
                   id={item} 
