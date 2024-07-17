@@ -46,7 +46,7 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
 
   return(
     <>
-      <div className="relative -top-40 bg-gray-50 rounded-md p-2 text-base leading-relaxed text-gray-600">
+      <div className="relative -top-10 bg-gray-50 rounded-md p-2 text-base leading-relaxed text-gray-600">
         <div className="grid grid-rows-2 font-bold">
           <div className="text-xl flex justify-center">{item.code}</div>
           <p className="text-lg text-center border-2 rounded-md pl-1 pr-1">{item.description}</p>
