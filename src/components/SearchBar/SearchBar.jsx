@@ -2,8 +2,9 @@ import XClearIcon from "../../assets/icons/XClearIcon";
 import CBarras from "../../CBARRAS.json"
 import "./SearchBar.css"
 import {BarcodeDisabledIcon, BarcodeIcon} from "../../assets/icons/BarcodeIcon"
+import { useEffect } from "react";
 
-const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsBarcode, setFilteredData, handleClearFilteredData, inputRef}) => { 
+const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsBarcode, setFilteredData, handleClearFilteredData, openEditItem, setOpenEditItem, inputRef}) => { 
 
   const toogleKeepSearchValue = () => {setKeepSearchValue(!keepSearchValue)}
   const toggleBarcode = () => {setIsBarcode(!isBarcode)}
@@ -24,10 +25,18 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
     }
   }
 
+  useEffect(() => {
+    if(!openEditItem){
+      searchInput.value = ""
+      searchInput.focus()
+    }
+  }, [openEditItem])
+
   function handleXButton(){
     setKeepSearchValue(false)
     handleClearFilteredData()
     searchInput.value = ""
+    searchInput.focus()
   }
 
   return(

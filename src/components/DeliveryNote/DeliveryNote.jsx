@@ -46,6 +46,13 @@ const DeliveryNote = () => {
     handleClearFilteredData();
   }, [data]);
 
+  useEffect(() => {
+    if(filteredData?.length == 1 && isBarcode){
+      setItemSelected(filteredData[0])
+      setOpenEditItem(true)
+    }
+  }, [filteredData])
+
   function fetchData() {
     if (reviewFileNumber != "") {
       fetchDeliveryNote(reviewFileNumber).then((res) => {
@@ -97,7 +104,7 @@ const DeliveryNote = () => {
           nested
           open={openEditItem}
           onClose={() => (
-            updateLocalData(), setOpenEditItem(false), inputRef.current.focus()
+            updateLocalData(), setOpenEditItem(false)
           )}
           repositionOnResize
         >
@@ -195,6 +202,8 @@ const DeliveryNote = () => {
         reviewFileNumber={reviewFileNumber}
         keepSearchValue={keepSearchValue}
         setKeepSearchValue={setKeepSearchValue}
+        openEditItem={openEditItem}
+        setOpenEditItem={setOpenEditItem}
         inputRef={inputRef}
       />
       <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
