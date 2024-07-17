@@ -46,12 +46,12 @@ const DeliveryNote = () => {
     handleClearFilteredData();
   }, [data]);
 
-  useEffect(() => {
-    if(filteredData?.length == 1 && isBarcode && data?.length > 1){
-      setItemSelected(filteredData[0])
-      setOpenEditItem(true)
-    }
-  }, [filteredData])
+  // useEffect(() => {
+  //   if(filteredData?.length == 1 && isBarcode && data?.length > 1){
+  //     setItemSelected(filteredData[0])
+  //     setOpenEditItem(true)
+  //   }
+  // }, [filteredData])
 
   function fetchData() {
     if (reviewFileNumber != "") {
