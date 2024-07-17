@@ -47,7 +47,7 @@ const DeliveryNote = () => {
   }, [data]);
 
   useEffect(() => {
-    if(filteredData?.length == 1 && isBarcode){
+    if(filteredData?.length == 1 && isBarcode && data?.length > 1){
       setItemSelected(filteredData[0])
       setOpenEditItem(true)
     }

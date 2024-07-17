@@ -79,21 +79,10 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
             <p className="ml-2">uds</p>
           </div>
         </div>
-        <div className="flex items-center p-4 mt-4 justify-between border-t border-gray-200 rounded-b">
-          <input 
-            type="text"
-            id="itemNotes" 
-            maxLength={40}
-            value={notes}
-            onChange={handleItemNotes}
-            className="w-full h-12 bg-gray-100 rounded-md border-2"
-            placeholder="Notas"
-          />
-        </div>
         <div className="flex items-center justify-between p-4 border-t mt-2 border-gray-200 rounded-b">
           <button 
             type="button" 
-            className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700"
+            className="py-2.5 px-5 ms-3 text-sm font-medium text-red-600 focus:outline-none bg-white rounded-lg border border-red-600 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700"
             onClick={() => setOpenEditItem(false)}
           >
             Cancelar
@@ -105,6 +94,17 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
           >
             Aceptar
           </button>
+        </div>
+        <div className="flex items-center p-4 justify-between border-t border-gray-200 rounded-b">
+          <input 
+            type="text"
+            id="itemNotes" 
+            maxLength={40}
+            value={notes}
+            onChange={handleItemNotes}
+            className="w-full h-12 bg-gray-100 rounded-md border-2"
+            placeholder="Notas"
+          />
         </div>
       </div>
     </>
