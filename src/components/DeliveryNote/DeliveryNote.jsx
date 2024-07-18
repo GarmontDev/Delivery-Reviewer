@@ -145,8 +145,10 @@ const DeliveryNote = () => {
                 disabled={!employee.admin}
                 className="disabled:cursor-not-allowed"
                 onClick={() => {
-                  handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
-                }}
+                  if (window.confirm("Marcar este albarán como completado?")){
+                    handleUpdateCompleted(reviewFileNumber, reviewFileCompleted)}
+                  }
+                }
               >
                 <div className="delivery-note-file-number flex gap-2">
                   Listo
