@@ -8,6 +8,7 @@ import CreateFile from "../components/CreateFile/CreateFile.jsx"
 import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
 import Page404 from "../pages/Page404.jsx";
 import BarcodeSearch from "../pages/BarcodeSearch.jsx"
+import CreateTemporaryFile from "../components/CreateFile/CreateTemporaryFile.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -66,6 +67,16 @@ export const router = createBrowserRouter([
                   {
                       index: true,
                       element: <CreateFile/>
+                  }
+              ]
+            },
+            {
+              path: '/createtemporaryfile',
+              element: <LayoutPrivate/>,
+              children: [
+                  {
+                      index: true,
+                      element: <CreateTemporaryFile/>
                   }
               ]
             },

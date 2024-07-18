@@ -41,7 +41,11 @@ const FilesMenu = ({employee, setEmployee, showVisibleFiles, setShowVisibleFiles
                 >
                   Ocultos
                 </button>
-            : ""
+            : <button className="menu-visible-button mr-2 tracking-wider"
+                onClick={() => navigate("/createtemporaryfile")}
+              >
+                Entrada manual
+              </button>
           }
           {employee.admin ?
             <button 
