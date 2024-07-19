@@ -8,7 +8,7 @@ import Footer from "./components/Footer";
 import EmployeeSelection from "./components/EmployeeSelection/EmployeeSelection";
 import { useEmployeeContext } from "./context/EmployeeContext";
 import secureLocalStorage from "react-secure-storage";
-import FilesMenu from "./components/DeliveryFiles/FilesMenu";
+import FilesMenu from "./components/DeliveryFiles/FIlesMenu";
 import FilesList from "./components/DeliveryFiles/FilesList";
 
 function Home() {
