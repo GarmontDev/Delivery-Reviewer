@@ -8,7 +8,7 @@ const CustomDatePicker = ({datePicked, setDatePicked, setCalendarOpen, isRange})
     <>
       <Calendar
         selectRange={isRange}
-        className="rounded-lg text-blue-700"
+        className="rounded-lg text-blue-700 bg-gray-100"
         returnValue='start'
         format='dd-MM-yy'
         locale='es-ES'
