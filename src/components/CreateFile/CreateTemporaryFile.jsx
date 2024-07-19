@@ -41,7 +41,7 @@ const CreateTemporaryFile = () => {
     <>
       <main className="rounded-lg p-2 grid justify-center">
         <form>
-          <h1>Recepci&oacute;n temporal</h1>
+          <h1>Entrada albar&aacute;n temporal</h1>
           <div>
             <label htmlFor="fileDescription">Descripci&oacute;n</label>
             <input

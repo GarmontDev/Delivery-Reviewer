@@ -16,3 +16,11 @@
   @apply
   rounded-md bg-blue-800 text-white text-sm pl-2 pr-2 h-6 mt-1 mr-4
 }
+
+.bm-burger-button {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  right: 0;
+  top: 10;
+}
