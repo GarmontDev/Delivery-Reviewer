@@ -65,7 +65,7 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
               : "text-red-600 hover:bg-orange-300  bg-red-100"}`}
             onClick={() => toggleBarcode()}
           >
-            <span className="pr-2">Barcode</span>
+            {/* <span className="pr-2">Barcode</span> */}
             {isBarcode ? <BarcodeIcon/> : <BarcodeDisabledIcon/>}
           </button>
       </div>

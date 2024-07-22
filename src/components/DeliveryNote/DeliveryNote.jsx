@@ -13,6 +13,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { useEmployeeContext } from "../../context/EmployeeContext";
 import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
+import { Select } from "flowbite-react";
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -81,10 +82,9 @@ const DeliveryNote = () => {
   }
 
   function handleUpdateCompleted(number, completed) {
-    updateCompleted(number, completed)
-      .then((res) => {
-        setReviewFileCompleted(!completed)
-      });
+    updateCompleted(number, completed).then((res) => {
+      setReviewFileCompleted(!completed);
+    });
   }
 
   function displayIncidents() {
@@ -103,9 +103,7 @@ const DeliveryNote = () => {
           position="top center"
           nested
           open={openEditItem}
-          onClose={() => (
-            updateLocalData(), setOpenEditItem(false)
-          )}
+          onClose={() => (updateLocalData(), setOpenEditItem(false))}
           repositionOnResize
         >
           <EditItem
@@ -145,10 +143,13 @@ const DeliveryNote = () => {
                 disabled={!employee.admin}
                 className="disabled:cursor-not-allowed"
                 onClick={() => {
-                  if (window.confirm("Marcar este albarán como completado?")){
-                    handleUpdateCompleted(reviewFileNumber, reviewFileCompleted)}
+                  if (window.confirm("Marcar este albarán como completado?")) {
+                    handleUpdateCompleted(
+                      reviewFileNumber,
+                      reviewFileCompleted
+                    );
                   }
-                }
+                }}
               >
                 <div className="delivery-note-file-number flex gap-2">
                   Listo
@@ -172,7 +173,7 @@ const DeliveryNote = () => {
           </div>
         </div>
       </div>
-      <div className="m-2 h-8 flex justify-between">
+      {/* <div className="m-2 h-8 flex justify-between">
         <button
           className="filter-button bg-green-400 hover:bg-green-600 shadow-md"
           onClick={() => handleClearFilteredData()}
@@ -194,20 +195,43 @@ const DeliveryNote = () => {
           <AlertTriangleIcon />
           Incid.
         </button>
+      </div> */}
+      <div className="flex">
+        <form className="search-input-container ml-2 mb-2 h-9">
+          <select
+            id="visible-lines"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          >
+            <option
+              value="all-filter"
+              selected
+              onClick={() => handleClearFilteredData()}
+            >
+              Todas
+            </option>
+            <option value="pending-filter" onClick={() => displayNotReviewed()}>
+              Pendientes
+            </option>
+            <option value="incidents-filter" onClick={() => displayIncidents()}>
+              Incidencias
+            </option>
+          </select>
+        </form>
+
+        <SearchBar
+          data={data}
+          isBarcode={isBarcode}
+          setIsBarcode={setIsBarcode}
+          setFilteredData={setFilteredData}
+          handleClearFilteredData={handleClearFilteredData}
+          reviewFileNumber={reviewFileNumber}
+          keepSearchValue={keepSearchValue}
+          setKeepSearchValue={setKeepSearchValue}
+          openEditItem={openEditItem}
+          setOpenEditItem={setOpenEditItem}
+          inputRef={inputRef}
+        />
       </div>
-      <SearchBar
-        data={data}
-        isBarcode={isBarcode}
-        setIsBarcode={setIsBarcode}
-        setFilteredData={setFilteredData}
-        handleClearFilteredData={handleClearFilteredData}
-        reviewFileNumber={reviewFileNumber}
-        keepSearchValue={keepSearchValue}
-        setKeepSearchValue={setKeepSearchValue}
-        openEditItem={openEditItem}
-        setOpenEditItem={setOpenEditItem}
-        inputRef={inputRef}
-      />
       <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
         <table className="note-table">
           <thead className="delivery-note-table-head">
