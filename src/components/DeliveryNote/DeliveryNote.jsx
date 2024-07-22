@@ -87,12 +87,20 @@ const DeliveryNote = () => {
     });
   }
 
-  function displayIncidents() {
-    setFilteredData(data.filter((item) => item.incidents === true));
-  }
-
-  function displayNotReviewed() {
-    setFilteredData(data.filter((item) => item.unitsReceived === 0));
+  function handleSelectChange(value) {
+    switch (value) {
+      case "all-filter":
+        handleClearFilteredData();
+        break;
+      case "pending-filter":
+        setFilteredData(data.filter((item) => item.unitsReceived === 0));
+        break;
+      case "incidents-filter":
+        setFilteredData(data.filter((item) => item.incidents === true));
+        break;
+      default:
+        break;
+    }
   }
 
   return (
@@ -173,48 +181,16 @@ const DeliveryNote = () => {
           </div>
         </div>
       </div>
-      {/* <div className="m-2 h-8 flex justify-between">
-        <button
-          className="filter-button bg-green-400 hover:bg-green-600 shadow-md"
-          onClick={() => handleClearFilteredData()}
-        >
-          <ClipboardIcon />
-          Todas
-        </button>
-        <button
-          className="filter-button ml-2 overflow-hidden bg-blue-400 hover:bg-blue-600 shadow-md"
-          onClick={() => displayNotReviewed()}
-        >
-          <ClipboardEmptyIcon />
-          Pend.
-        </button>
-        <button
-          className="filter-button ml-2 overflow-hidden bg-[#F7BE38] hover:bg-[#f79e38] shadow-md"
-          onClick={() => displayIncidents()}
-        >
-          <AlertTriangleIcon />
-          Incid.
-        </button>
-      </div> */}
       <div className="flex">
         <form className="search-input-container ml-2 mb-2 h-9">
           <select
             id="visible-lines"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+            onChange={(e) => handleSelectChange(e.target.value)}
           >
-            <option
-              value="all-filter"
-              selected
-              onClick={() => handleClearFilteredData()}
-            >
-              Todas
-            </option>
-            <option value="pending-filter" onClick={() => displayNotReviewed()}>
-              Pendientes
-            </option>
-            <option value="incidents-filter" onClick={() => displayIncidents()}>
-              Incidencias
-            </option>
+            <option value="all-filter" selected>Todas</option>
+            <option value="pending-filter">Pendientes</option>
+            <option value="incidents-filter">Incidencias</option>
           </select>
         </form>
 
