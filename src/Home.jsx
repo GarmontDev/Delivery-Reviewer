@@ -79,7 +79,7 @@ function Home() {
             className="menu-visible-button mr-2 font-semibold tracking-wider"
             onClick={() => handleEmployeeButton()}
           >
-            {employee ? employee.name : "No user selected"}
+            {employee ? employee.name : "Selección de usuario"}
           </button>
         </div>
         {employee ? (
