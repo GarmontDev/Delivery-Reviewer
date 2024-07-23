@@ -226,14 +226,14 @@ const DeliveryNote = () => {
                 key={item.code + "-" + index}
                 className={`${
                   item?.checked
-                    ? "bg-green-200"
+                    ? "bg-green-200 border-2"
                     : item?.incidents
-                    ? "bg-yellow-100"
-                    : "odd:bg-white even:bg-gray-100"
+                    ? "bg-yellow-100 border-2 border-gray-200"
+                    : "odd:bg-white even:bg-gray-100 border-2 border-gray-200"
                 }`}
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >
-                <td className={"px-2 py-1.5 text-center"}>{item.code}</td>
+                <td className={"px-2 py-2.5 text-center"}>{item.code}</td>
                 <td scope="col" className="px-4">
                   {item.unitsReceived}
                 </td>
