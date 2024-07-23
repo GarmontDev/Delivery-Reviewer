@@ -47,13 +47,6 @@ const DeliveryNote = () => {
     handleClearFilteredData();
   }, [data]);
 
-  // useEffect(() => {
-  //   if(filteredData?.length == 1 && isBarcode && data?.length > 1){
-  //     setItemSelected(filteredData[0])
-  //     setOpenEditItem(true)
-  //   }
-  // }, [filteredData])
-
   function fetchData() {
     if (reviewFileNumber != "") {
       fetchDeliveryNote(reviewFileNumber).then((res) => {
@@ -82,9 +75,19 @@ const DeliveryNote = () => {
   }
 
   function handleUpdateCompleted(number, completed) {
-    updateCompleted(number, completed).then((res) => {
-      setReviewFileCompleted(!completed);
-    });
+    if(!completed){
+      if (window.confirm("¿Marcar este albarán como completado?")) {
+        updateCompleted(number, completed).then((res) => {
+          setReviewFileCompleted(!completed);
+        });
+      }
+    }else{
+      if (window.confirm("Marcar este albarán como NO completado?")) {
+        updateCompleted(number, completed).then((res) => {
+          setReviewFileCompleted(!completed);
+        });
+      }
+    }
   }
 
   function handleSelectChange(value) {
@@ -131,42 +134,26 @@ const DeliveryNote = () => {
             {new Date(reviewFileDate.toMillis()).toLocaleDateString()}
           </div>
           <div>
-            {reviewFileCompleted ? (
-              <button
-                disabled={!employee.admin}
-                className="disabled:cursor-not-allowed"
-                onClick={() => {
-                  handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
-                }}
-              >
-                <div className="delivery-note-file-number flex gap-2">
-                  Listo
+            <button
+              disabled={!employee.admin}
+              className="disabled:cursor-not-allowed"
+              onClick={() => {
+                handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
+              }}
+            >
+              <div className="delivery-note-file-number flex gap-2">
+                Listo
+                {reviewFileCompleted ? (
                   <div className="pt-1">
                     <CheckIcon size={20} />
                   </div>
-                </div>
-              </button>
-            ) : (
-              <button
-                disabled={!employee.admin}
-                className="disabled:cursor-not-allowed"
-                onClick={() => {
-                  if (window.confirm("Marcar este albarán como completado?")) {
-                    handleUpdateCompleted(
-                      reviewFileNumber,
-                      reviewFileCompleted
-                    );
-                  }
-                }}
-              >
-                <div className="delivery-note-file-number flex gap-2">
-                  Listo
+                ) : (
                   <div className="pt-1">
                     <EmptyCheckIcon size={20} />
                   </div>
-                </div>
-              </button>
-            )}
+                )}
+              </div>
+            </button>
           </div>
           <div>
             <div className="delivery-note-employee-name">
@@ -188,7 +175,9 @@ const DeliveryNote = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             onChange={(e) => handleSelectChange(e.target.value)}
           >
-            <option value="all-filter" selected>Todas</option>
+            <option value="all-filter" selected>
+              Todas
+            </option>
             <option value="pending-filter">Pendientes</option>
             <option value="incidents-filter">Incidencias</option>
           </select>
