@@ -32,7 +32,7 @@ const FilesMenu = ({employee, setEmployee, showVisibleFiles, setShowVisibleFiles
           customBurgerIcon={<MenuIcon size={30}/>}
           customCrossIcon={<XClearIcon stroke="white"/>}
           right
-          className="w-10 h-10"
+          className="w-10 h-10 absolute top-0 right-0"
           menuClassName="bg-slate-800 rounded-tl-lg pt-2 pl-2"
           itemClassName="text-white tracking-wider ml-4 mt-4"
           crossButtonClassName="mr-2 mt-4 bg-red-400 rounded-sm"

@@ -87,12 +87,11 @@ function Home() {
         ) : (
           <EmployeeSelection setEmployee={setEmployee} />
         )}
-
         <button
           onClick={() => {
             if (window.confirm("Seguro que deseas salir?")) handleLogout();
           }}
-          className="absolute right-2 -bottom-2 text-sm pl-2 pr-2 mr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-red-700 hover:text-white"
+          className="absolute right-2 -bottom-2 text-sm pl-2 pr-2 mr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-white hover:text-red-700"
         >
           Salir
         </button>
