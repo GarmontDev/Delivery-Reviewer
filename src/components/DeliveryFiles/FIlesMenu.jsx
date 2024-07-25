@@ -20,8 +20,9 @@ const FilesMenu = ({employee, setEmployee, showVisibleFiles, setShowVisibleFiles
           updateIncidents(element.number)
         });
       }
-      alert("Files updated")
       setMenuOpen(false)
+      alert("Files updated")
+
     })
   }
 

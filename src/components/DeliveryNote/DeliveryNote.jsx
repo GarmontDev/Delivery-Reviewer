@@ -1,5 +1,9 @@
 import "./DeliveryNote.css";
-import { fetchDeliveryNote, updateCompleted } from "../../config/firebase";
+import {
+  fetchDeliveryNote,
+  updateCompleted,
+  updateIncidents,
+} from "../../config/firebase";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -22,6 +26,9 @@ const DeliveryNote = () => {
 
   const reviewFileNumber = location.state?.reviewFileNumber;
   const reviewFileDate = location.state?.createdDate;
+  const [reviewFileIncidents, setReviewFileIncidents] = useState(
+    location.state?.incidents
+  );
   const [reviewFileCompleted, setReviewFileCompleted] = useState(
     location.state?.completed
   );
@@ -32,7 +39,7 @@ const DeliveryNote = () => {
   const [itemSelected, setItemSelected] = useState(null);
   const [openEditItem, setOpenEditItem] = useState(false);
   const [keepSearchValue, setKeepSearchValue] = useState(false);
-  const [selectStatus, setSelectStatus] = useState("all-filter")
+  const [selectStatus, setSelectStatus] = useState("all-filter");
   const [isBarcode, setIsBarcode] = useState(true);
 
   useEffect(() => {
@@ -71,19 +78,19 @@ const DeliveryNote = () => {
   function handleClearFilteredData() {
     if (!keepSearchValue) {
       // setFilteredData(data);
-      handleSelectStatusChange(selectStatus)
+      handleSelectStatusChange(selectStatus);
       setIsBarcode(true);
     }
   }
 
   function handleUpdateCompleted(number, completed) {
-    if(!completed){
+    if (!completed) {
       if (window.confirm("¿Marcar este albarán como completado?")) {
         updateCompleted(number, completed).then((res) => {
           setReviewFileCompleted(!completed);
         });
       }
-    }else{
+    } else {
       if (window.confirm("Marcar este albarán como NO completado?")) {
         updateCompleted(number, completed).then((res) => {
           setReviewFileCompleted(!completed);
@@ -95,20 +102,26 @@ const DeliveryNote = () => {
   function handleSelectStatusChange(value) {
     switch (value) {
       case "all-filter":
-        setSelectStatus("all-filter")
-        setFilteredData(data)
+        setSelectStatus("all-filter");
+        setFilteredData(data);
         break;
       case "pending-filter":
-        setSelectStatus("pending-filter")
+        setSelectStatus("pending-filter");
         setFilteredData(data.filter((item) => item.unitsReceived === 0));
         break;
       case "incidents-filter":
-        setSelectStatus("incidents-filter")
+        setSelectStatus("incidents-filter");
         setFilteredData(data.filter((item) => item.incidents === true));
         break;
       default:
         break;
     }
+  }
+
+  function handleRefreshIncidents() {
+    updateIncidents(reviewFileNumber).then((res) => {
+      setReviewFileIncidents(res);
+    });
   }
 
   return (
@@ -129,6 +142,7 @@ const DeliveryNote = () => {
             setOpenEditItem={setOpenEditItem}
             setData={setData}
             setFilteredData={setFilteredData}
+            setReviewFileIncidents={setReviewFileIncidents}
           />
         </Popup>
         <div className="delivery-note-header">
@@ -159,6 +173,19 @@ const DeliveryNote = () => {
                 )}
               </div>
             </button>
+            {reviewFileIncidents ? (
+              <div className="delivery-note-file-number text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
+                <button onClick={() => handleRefreshIncidents()}>
+                  Con Incidencias
+                </button>
+              </div>
+            ) : (
+              <div className="delivery-note-file-number text-white bg-green-400 mt-2 pl-2 pr-2 pb-1 rounded-md">
+                <button onClick={() => handleRefreshIncidents()}>
+                  Sin incidencias
+                </button>
+              </div>
+            )}
           </div>
           <div>
             <div className="delivery-note-employee-name">

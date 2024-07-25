@@ -60,8 +60,8 @@ const FilesList = ({employee, showVisibleFiles}) => {
     setFilteredFiles(files.filter((file) => file.description.includes(value)))
   }
 
-  function handleDeliveryFile(number, createdDate, completed){
-    navigate("/notes", {state: {reviewFileNumber: number.toString(), createdDate: createdDate, completed: completed}})
+  function handleDeliveryFile(number, createdDate, completed, incidents){
+    navigate("/notes", {state: {reviewFileNumber: number.toString(), createdDate: createdDate, completed: completed, incidents: incidents}})
   }
 
   function handleUpdateCompleted(number, completed){
@@ -151,7 +151,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
               key={item+"-"+index}
             >
               <button className="grid grid-rows-2 grid-cols-1 ml-2 hover:text-blue-600"
-                onClick={() => handleDeliveryFile(item.number, item.createdDate, item.completed)}
+                onClick={() => handleDeliveryFile(item.number, item.createdDate, item.completed, item.incidents)}
                 >
                 <div 
                   id={item} 

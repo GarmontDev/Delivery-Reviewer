@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { updateItem } from "../../config/firebase"
+import { updateIncidents, updateItem } from "../../config/firebase"
 import { useEmployeeContext } from "../../context/EmployeeContext"
 
-const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => { 
+const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReviewFileIncidents}) => { 
 
   const [units, setUnits] = useState(item.unitsReceived)
   const [notes, setNotes] = useState(item.notes)
