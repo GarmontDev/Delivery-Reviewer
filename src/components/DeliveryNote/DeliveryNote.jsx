@@ -32,6 +32,7 @@ const DeliveryNote = () => {
   const [itemSelected, setItemSelected] = useState(null);
   const [openEditItem, setOpenEditItem] = useState(false);
   const [keepSearchValue, setKeepSearchValue] = useState(false);
+  const [selectStatus, setSelectStatus] = useState("all-filter")
   const [isBarcode, setIsBarcode] = useState(true);
 
   useEffect(() => {
@@ -69,7 +70,8 @@ const DeliveryNote = () => {
 
   function handleClearFilteredData() {
     if (!keepSearchValue) {
-      setFilteredData(data);
+      // setFilteredData(data);
+      handleSelectStatusChange(selectStatus)
       setIsBarcode(true);
     }
   }
@@ -90,15 +92,18 @@ const DeliveryNote = () => {
     }
   }
 
-  function handleSelectChange(value) {
+  function handleSelectStatusChange(value) {
     switch (value) {
       case "all-filter":
-        handleClearFilteredData();
+        setSelectStatus("all-filter")
+        setFilteredData(data)
         break;
       case "pending-filter":
+        setSelectStatus("pending-filter")
         setFilteredData(data.filter((item) => item.unitsReceived === 0));
         break;
       case "incidents-filter":
+        setSelectStatus("incidents-filter")
         setFilteredData(data.filter((item) => item.incidents === true));
         break;
       default:
@@ -173,9 +178,9 @@ const DeliveryNote = () => {
           <select
             id="visible-lines"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            onChange={(e) => handleSelectChange(e.target.value)}
+            onChange={(e) => handleSelectStatusChange(e.target.value)}
           >
-            <option defaultValue="all-filter" selected>
+            <option value="all-filter" selected>
               Todas
             </option>
             <option value="pending-filter">Pendientes</option>
