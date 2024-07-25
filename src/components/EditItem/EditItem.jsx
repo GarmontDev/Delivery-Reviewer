@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { updateIncidents, updateItem } from "../../config/firebase"
+import { updateFile, updateIncidents, updateItem } from "../../config/firebase"
 import { useEmployeeContext } from "../../context/EmployeeContext"
 
 const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReviewFileIncidents}) => { 
@@ -42,6 +42,8 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReview
         }
       }
     )
+    //TODO Check if there was a previous incident in "item" 
+    //TODO and if there is any now in "incidents"
   }
 
   return(

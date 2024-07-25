@@ -191,11 +191,11 @@ export const updateIncidents = async (fileNumber) => {
     });
     if (incidentsFound.length > 0) {
       const fileRef = doc(db, "listOfCollections", fileNumber);
-      updateDoc(fileRef, { incidents: true });
+      updateDoc(fileRef, { incidents: true, incidentscounter: incidentsFound.length });
       return true;
     } else {
       const fileRef = doc(db, "listOfCollections", fileNumber);
-      updateDoc(fileRef, { incidents: false });
+      updateDoc(fileRef, { incidents: false, incidentscounter: incidentsFound.length });
       return false;
     }
   } catch (error) {
