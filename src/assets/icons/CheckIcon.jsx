@@ -7,9 +7,9 @@ const CheckIcon = ({size}) => {
       viewBox="0 0 24 24"  
       fill="none"  
       stroke="#006e16"
-      strokeWidth="3"  
+      strokeWidth="2"  
       strokeLinecap="round"  
-      strokeLinejoin="round"  
+      strokeLinejoin="round"
       className="icon icon-tabler icons-tabler-outline icon-tabler-square-check"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>

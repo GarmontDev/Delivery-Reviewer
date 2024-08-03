@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "./DeliveryFiles.css"
 import SearchIcon from "../../assets/icons/SearchIcon.jsx";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker.jsx";
+import DeleteIcon from "../../assets/icons/DeleteIcon.jsx";
 
 const FilesList = ({employee, showVisibleFiles}) => { 
   const navigate = useNavigate();
@@ -178,7 +179,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
                     disabled={!employee.admin} 
                     className="disabled:cursor-not-allowed"
                     onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
-                      <CheckIcon size={20}/>
+                      <CheckIcon size={24}/>
                     </button> 
                     : 
                     <button 
@@ -211,10 +212,10 @@ const FilesList = ({employee, showVisibleFiles}) => {
                   {employee.admin ? 
                     <button 
                     type="button" 
-                    className="delete-table-button"
+                    // className="delete-table-button"
                     onClick={() => {if (window.confirm("Seguro que deseas eliminar este albarán?")) handleDeleteFile(item.number) }} 
                     >
-                      X
+                      <DeleteIcon/>
                     </button>
                     : ""
                   }
