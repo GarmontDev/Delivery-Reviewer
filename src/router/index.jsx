@@ -8,7 +8,6 @@ import CreateFile from "../components/CreateFile/CreateFile.jsx";
 import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
 import Page404 from "../pages/Page404.jsx";
 import CreateTemporaryFile from "../components/CreateFile/CreateTemporaryFile.jsx";
-import MergeTemporaryFiles from "../pages/MergeTemporaryFiles.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -77,16 +76,6 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <CreateTemporaryFile />,
-          },
-        ],
-      },
-      {
-        path: "/mergetemporaryfiles",
-        element: <LayoutPrivate />,
-        children: [
-          {
-            index: true,
-            element: <MergeTemporaryFiles />,
           },
         ],
       },

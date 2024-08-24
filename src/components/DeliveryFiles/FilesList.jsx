@@ -100,7 +100,11 @@ const FilesList = ({employee, showVisibleFiles}) => {
   function handleMergeButton(selectedFileNumber){
     let promptValue = window.prompt("Introduce el número de albarán sobre el que deseas migrar")
 
-    alert("Lets merge them! " + selectedFileNumber + " --> " + promptValue) 
+    if(promptValue === null){
+      alert("Shouldn't be null")
+    }else{
+      alert("Lets merge them! " + selectedFileNumber + " --> " + promptValue) 
+    }
   }
 
   return(
@@ -185,14 +189,14 @@ const FilesList = ({employee, showVisibleFiles}) => {
                     disabled={!employee.admin} 
                     className="disabled:cursor-not-allowed"
                     onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
-                      <CheckIcon size={24}/>
+                      <CheckIcon size={25}/>
                     </button> 
                     : 
                     <button 
                     disabled={!employee.admin} 
                     className="disabled:cursor-not-allowed"
                     onClick={() => {handleUpdateCompleted(item.number, item.completed)}}>
-                      <EmptyCheckIcon size={20}/>
+                      <EmptyCheckIcon size={21}/>
                     </button> 
                   }
                 </div>

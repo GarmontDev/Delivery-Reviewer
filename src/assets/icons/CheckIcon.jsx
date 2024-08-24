@@ -5,8 +5,8 @@ const CheckIcon = ({ size }) => {
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="#006e16"
+      fill="#2a9b09"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
