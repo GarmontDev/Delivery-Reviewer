@@ -180,10 +180,8 @@ export const addToListOfCollections = async (fileNumber,fileDescription,datePick
   }
 };
 
-//TODO
 export const addLineManually = async (reviewFileNumber, codeArti, descArti, unitsArti) => {
   try {
-    console.log(reviewFileNumber, codeArti, descArti, unitsArti)
     setDoc(doc(db, reviewFileNumber, codeArti), {
       code: codeArti,
       description: descArti,

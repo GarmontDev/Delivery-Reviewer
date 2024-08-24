@@ -3,11 +3,11 @@ import { EyeOpenIcon } from "../../assets/icons/EyeIcon.jsx";
 import { EyeOffIcon } from "../../assets/icons/EyeIcon.jsx";
 import CheckIcon from "../../assets/icons/CheckIcon.jsx";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon.jsx"
+import MergeIcon from "../../assets/icons/MergeIcon.jsx"
 import { deleteFile, deleteFileFromCollections, fetchHiddenFilesByDate, listAllFiles, updateCompleted, updateFile, updateIncidents } from "../../config/firebase.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DeliveryFiles.css"
-import SearchIcon from "../../assets/icons/SearchIcon.jsx";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker.jsx";
 import DeleteIcon from "../../assets/icons/DeleteIcon.jsx";
 
@@ -97,6 +97,12 @@ const FilesList = ({employee, showVisibleFiles}) => {
     })
   }
 
+  function handleMergeButton(selectedFileNumber){
+    let promptValue = window.prompt("Introduce el número de albarán sobre el que deseas migrar")
+
+    alert("Lets merge them! " + selectedFileNumber + " --> " + promptValue) 
+  }
+
   return(
     <>
     {!showVisibleFiles ? 
@@ -169,11 +175,11 @@ const FilesList = ({employee, showVisibleFiles}) => {
                   {item.description}
                 </div>
               </button>  
-              <div className="grid grid-rows-1 grid-cols-4 pt-4 ml-2">
+              <div className="grid grid-rows-1 grid-cols-5 pt-4 ml-2">
                 <div className="w-8">
                   {item.incidents ? <AlertTriangleIcon/> : ""}
                 </div>
-                <div className="w-8">
+                <div className="w-5">
                   {item.completed ? 
                     <button 
                     disabled={!employee.admin} 
@@ -191,7 +197,7 @@ const FilesList = ({employee, showVisibleFiles}) => {
                   }
                 </div>
                 {employee.admin 
-                    ? <div className="w-6">
+                    ? <div className="w-5">
                       {item.visible 
                         ? <button onClick={() => (
                           updateFile(item.number, item.incidents, item.completed, false), 
@@ -208,18 +214,29 @@ const FilesList = ({employee, showVisibleFiles}) => {
                       }
                     </div>
                       : ""} 
-                <div className="w-6">
+                
                   {employee.admin ? 
-                    <button 
-                    type="button" 
-                    // className="delete-table-button"
-                    onClick={() => {if (window.confirm("Seguro que deseas eliminar este albarán?")) handleDeleteFile(item.number) }} 
-                    >
-                      <DeleteIcon/>
-                    </button>
+                    <div className="w-5">
+                      <button 
+                      type="button" 
+                      onClick={() => {handleMergeButton(item.number)}} 
+                      >
+                        <MergeIcon/>
+                      </button>
+                    </div>
                     : ""
                   }
-                </div>
+                  {employee.admin ? 
+                    <div className="w-5">
+                      <button 
+                      type="button" 
+                      onClick={() => {if (window.confirm("Seguro que deseas eliminar este albarán?")) handleDeleteFile(item.number) }} 
+                      >
+                        <DeleteIcon/>
+                      </button>
+                    </div>
+                    : ""
+                  }
               </div>
             </div>
           ))}
