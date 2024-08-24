@@ -180,6 +180,27 @@ export const addToListOfCollections = async (fileNumber,fileDescription,datePick
   }
 };
 
+//TODO
+export const addLineManually = async (reviewFileNumber, codeArti, descArti, unitsArti) => {
+  try {
+    console.log(reviewFileNumber, codeArti, descArti, unitsArti)
+    setDoc(doc(db, reviewFileNumber, codeArti), {
+      code: codeArti,
+      description: descArti,
+      unitsBilled: 0,
+      unitsReceived: unitsArti,
+      incidents: false,
+      checked: false,
+      checkedby: "",
+      notes: "",
+      time: ""
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const updateIncidents = async (fileNumber) => {
   try {
     const incidentsFound = [];

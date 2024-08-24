@@ -1,5 +1,6 @@
 import "./DeliveryNote.css";
 import {
+  addLineManually,
   fetchDeliveryNote,
   updateCompleted,
   updateIncidents,
@@ -9,15 +10,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
 import EditItem from "../EditItem/EditItem";
-import AlertTriangleIcon from "../../assets/icons/AlertTriangleIcon";
-import ClipboardIcon from "../../assets/icons/ClipboardIcon";
-import ClipboardEmptyIcon from "../../assets/icons/ClipboardEmptyIcon";
+
 import NotesIcon from "../../assets/icons/NotesIcon";
 import SearchBar from "../SearchBar/SearchBar";
 import { useEmployeeContext } from "../../context/EmployeeContext";
 import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
-import { Select } from "flowbite-react";
+import BarcodeSearch from "../../pages/BarcodeSearch";
+import ManualLine from "./ManualLine";
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -41,6 +41,7 @@ const DeliveryNote = () => {
   const [keepSearchValue, setKeepSearchValue] = useState(false);
   const [selectStatus, setSelectStatus] = useState("all-filter");
   const [isBarcode, setIsBarcode] = useState(true);
+  const [newLineFieldVisible, setNewLineFieldVisible] = useState(false);
 
   useEffect(() => {
     if (typeof employee.name === "undefined") {
@@ -77,7 +78,6 @@ const DeliveryNote = () => {
 
   function handleClearFilteredData() {
     if (!keepSearchValue) {
-      // setFilteredData(data);
       handleSelectStatusChange(selectStatus);
       setIsBarcode(true);
     }
@@ -204,7 +204,17 @@ const DeliveryNote = () => {
         <form className="search-input-container ml-2 mb-2 h-9">
           <select
             id="visible-lines"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+            className={`bg-gray-50 border border-gray-300 text-white font-bold text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 
+              ${selectStatus === "all-filter" ? "bg-green-400" : "bg-gray-50"}
+              ${
+                selectStatus === "pending-filter" ? "bg-blue-400" : "bg-gray-50"
+              }
+              ${
+                selectStatus === "incidents-filter"
+                  ? "bg-yellow-300"
+                  : "bg-gray-50"
+              }
+            `}
             onChange={(e) => handleSelectStatusChange(e.target.value)}
           >
             <option value="all-filter" selected>
@@ -224,11 +234,23 @@ const DeliveryNote = () => {
           reviewFileNumber={reviewFileNumber}
           keepSearchValue={keepSearchValue}
           setKeepSearchValue={setKeepSearchValue}
+          newLineFieldVisible={newLineFieldVisible}
+          setNewLineFieldVisible={setNewLineFieldVisible}
           openEditItem={openEditItem}
           setOpenEditItem={setOpenEditItem}
           inputRef={inputRef}
         />
       </div>
+      {newLineFieldVisible ? (
+        <ManualLine
+          data={data}
+          filteredData={filteredData}
+          setFilteredData={setFilteredData}
+          reviewFileNumber={reviewFileNumber}
+        />
+      ) : (
+        ""
+      )}
       <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
         <table className="note-table">
           <thead className="delivery-note-table-head">

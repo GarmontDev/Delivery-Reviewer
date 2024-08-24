@@ -3,61 +3,52 @@ import XClearIcon from "../assets/icons/XClearIcon";
 import { useRef, useState } from "react";
 import CBarras from "../CBARRAS.json"
 
-const BarcodeSearch = () => {
+const BarcodeSearch = ({codeArti, setCodeArti}) => {
   const navigate = useNavigate();
 
-  const [data, setData] = useState()
   const inputRef = useRef(null);
 
   function filterData(value){
     if(Number(value)){
       CBarras.CBARRAS.find((item) => {
         if(item.CODE === value){
-          setData(item)
+          setCodeArti(item)
         }
       })
     }else{
-      setData("No encontrado")
+      setCodeArti("No encontrado")
     }
   } 
 
   function handleXButton(){
-    setData("")
+    setCodeArti("")
     searchInput.value = ""
   }
 
   return (
     <>
       <div className="relative mt-4">
-        <h1>Search Barcode</h1>
-        <div className="flex place-content-center">
+        <div className="flex place-content-start">
           <input 
             id='searchInput' 
             ref={inputRef}
             autoFocus
             maxLength={20}
-            className='search-input' 
-            onChange={(e) => filterData(e.target.value)} 
-            placeholder="Nombre o c&oacute;digo"
+            className='search-input w-40' 
+            onChange={(e) => (e.preventDefault(), filterData(e.target.value))} 
+            placeholder="C&oacute;digo de barras"
           />
-          <button 
+          <button
+            type="button" 
             className="search-x-button" 
-            onClick={() => (handleXButton())}
+            onClick={() => handleXButton()}
           >
-            <XClearIcon />
+            <XClearIcon stroke={"black"}/>
           </button>
-        </div>
-        {data ? 
-          <div className="text-xl flex place-content-center mt-4">
-            C&oacute;digo: {data?.CODEARTI}
+          <div className="text-lg flex place-content-center font-semibold mt-1 ml-2">
+            C&oacute;digo: {codeArti?.CODEARTI}
           </div>
-        : ""}
-        <button
-          className="absolute right-4 top-2 text-sm pl-2 pr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-red-700 hover:text-white"
-          onClick={() => navigate("/home")}
-        >
-          Volver
-        </button>
+        </div>
       </div>
     </>
   );

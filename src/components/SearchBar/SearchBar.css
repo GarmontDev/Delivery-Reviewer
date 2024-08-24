@@ -17,7 +17,7 @@
 .search-input{
   @apply
   bg-white border-2 border-r-0
-  pl-2 w-40 rounded-l-lg 
+  pl-2 w-32 rounded-l-lg 
   hover:rounded-r-none focus:outline-none
 }
 

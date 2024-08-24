@@ -2,12 +2,15 @@ import XClearIcon from "../../assets/icons/XClearIcon";
 import CBarras from "../../CBARRAS.json"
 import "./SearchBar.css"
 import {BarcodeDisabledIcon, BarcodeIcon} from "../../assets/icons/BarcodeIcon"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import PlusIcon from "../../assets/icons/PlusIcon";
 
-const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsBarcode, setFilteredData, handleClearFilteredData, openEditItem, setOpenEditItem, inputRef}) => { 
+const SearchBar = ({data, keepSearchValue, setKeepSearchValue,newLineFieldVisible, setNewLineFieldVisible, isBarcode, setIsBarcode, setFilteredData, handleClearFilteredData, openEditItem, setOpenEditItem, inputRef}) => { 
 
   const toogleKeepSearchValue = () => {setKeepSearchValue(!keepSearchValue)}
   const toggleBarcode = () => {setIsBarcode(!isBarcode)}
+
+  const toggleNewLineFieldVisible = () => {setNewLineFieldVisible(!newLineFieldVisible)}
 
   function filterData(value){
     if(isBarcode && Number(value)){
@@ -50,7 +53,7 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
               maxLength={20}
               className='search-input' 
               onChange={(e) => filterData(e.target.value)} 
-              placeholder="Nombre o c&oacute;digo"
+              placeholder="C&oacute;digo/nombre"
             />
             <button 
               className="search-x-button" 
@@ -60,13 +63,19 @@ const SearchBar = ({data, keepSearchValue, setKeepSearchValue, isBarcode, setIsB
             </button>
           </div>
           <button 
-            className={`flex mr-4 ml-2 p-1 rounded-lg pl-2 pr-2 ${
+            className={`flex mr-2 ml-2 p-1 rounded-lg pl-2 pr-2 ${
               isBarcode ? "barcode-enabled-btn"
               : "barcode-disabled-btn"}`}
             onClick={() => toggleBarcode()}
           >
             {/* <span className="pr-2">Barcode</span> */}
             {isBarcode ? <BarcodeIcon/> : <BarcodeDisabledIcon/>}
+          </button>
+          <button 
+            className="flex mr-2 p-1 rounded-lg border-2 border-gray-600"
+            onClick={() => toggleNewLineFieldVisible()}
+          >
+            <PlusIcon size={20}/>
           </button>
       </div>
     </>
