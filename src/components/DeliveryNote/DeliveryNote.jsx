@@ -1,6 +1,5 @@
 import "./DeliveryNote.css";
 import {
-  addLineManually,
   fetchDeliveryNote,
   updateCompleted,
   updateIncidents,
@@ -16,8 +15,6 @@ import SearchBar from "../SearchBar/SearchBar";
 import { useEmployeeContext } from "../../context/EmployeeContext";
 import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
-import BarcodeSearch from "../../pages/BarcodeSearch";
-import ManualLine from "./ManualLine";
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -41,7 +38,6 @@ const DeliveryNote = () => {
   const [keepSearchValue, setKeepSearchValue] = useState(false);
   const [selectStatus, setSelectStatus] = useState("all-filter");
   const [isBarcode, setIsBarcode] = useState(true);
-  const [newLineFieldVisible, setNewLineFieldVisible] = useState(false);
 
   useEffect(() => {
     if (typeof employee.name === "undefined") {
@@ -204,16 +200,13 @@ const DeliveryNote = () => {
         <form className="search-input-container ml-2 mb-2 h-9">
           <select
             id="visible-lines"
-            className={`bg-gray-50 border border-gray-300 text-white font-bold text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 
-              ${selectStatus === "all-filter" ? "bg-green-400" : "bg-gray-50"}
-              ${
-                selectStatus === "pending-filter" ? "bg-blue-400" : "bg-gray-50"
-              }
-              ${
-                selectStatus === "incidents-filter"
-                  ? "bg-yellow-300"
-                  : "bg-gray-50"
-              }
+            className={`w-auto border border-gray-300 
+              text-slate-800 font-bold text-sm rounded-lg 
+              focus:ring-blue-500 focus:border-blue-500 
+              
+              ${selectStatus === "all-filter" ? "bg-green-400" : ""}
+              ${selectStatus === "pending-filter" ? "bg-blue-400" : ""}
+              ${selectStatus === "incidents-filter" ? "bg-yellow-300" : ""}
             `}
             onChange={(e) => handleSelectStatusChange(e.target.value)}
           >
@@ -234,23 +227,11 @@ const DeliveryNote = () => {
           reviewFileNumber={reviewFileNumber}
           keepSearchValue={keepSearchValue}
           setKeepSearchValue={setKeepSearchValue}
-          newLineFieldVisible={newLineFieldVisible}
-          setNewLineFieldVisible={setNewLineFieldVisible}
           openEditItem={openEditItem}
           setOpenEditItem={setOpenEditItem}
           inputRef={inputRef}
         />
       </div>
-      {newLineFieldVisible ? (
-        <ManualLine
-          data={data}
-          filteredData={filteredData}
-          setFilteredData={setFilteredData}
-          reviewFileNumber={reviewFileNumber}
-        />
-      ) : (
-        ""
-      )}
       <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
         <table className="note-table">
           <thead className="delivery-note-table-head">

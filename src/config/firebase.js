@@ -164,7 +164,11 @@ export const createFile = async (fileNumber, filteredData, datePicked) => {
   }
 };
 
-export const addToListOfCollections = async (fileNumber,fileDescription,datePicked) => {
+export const addToListOfCollections = async (
+  fileNumber,
+  fileDescription,
+  datePicked
+) => {
   try {
     setDoc(doc(db, "listOfCollections", fileNumber), {
       number: fileNumber,
@@ -173,25 +177,6 @@ export const addToListOfCollections = async (fileNumber,fileDescription,datePick
       completed: false,
       visible: true,
       createdDate: datePicked,
-    });
-    return true;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addLineManually = async (reviewFileNumber, codeArti, descArti, unitsArti) => {
-  try {
-    setDoc(doc(db, reviewFileNumber, codeArti), {
-      code: codeArti,
-      description: descArti,
-      unitsBilled: 0,
-      unitsReceived: unitsArti,
-      incidents: false,
-      checked: false,
-      checkedby: "",
-      notes: "",
-      time: ""
     });
     return true;
   } catch (error) {
@@ -210,11 +195,17 @@ export const updateIncidents = async (fileNumber) => {
     });
     if (incidentsFound.length > 0) {
       const fileRef = doc(db, "listOfCollections", fileNumber);
-      updateDoc(fileRef, { incidents: true, incidentscounter: incidentsFound.length });
+      updateDoc(fileRef, {
+        incidents: true,
+        incidentscounter: incidentsFound.length,
+      });
       return true;
     } else {
       const fileRef = doc(db, "listOfCollections", fileNumber);
-      updateDoc(fileRef, { incidents: false, incidentscounter: incidentsFound.length });
+      updateDoc(fileRef, {
+        incidents: false,
+        incidentscounter: incidentsFound.length,
+      });
       return false;
     }
   } catch (error) {
@@ -273,8 +264,6 @@ export const fetchHiddenFilesByDate = async (visible, datePicked) => {
       }
     });
     return itemsFound;
-    // const collections = await getDocs(q);
-    // return collections.docs.map(doc => doc.data());
   } catch (error) {
     console.log("Error listing hidden files by date");
   }
