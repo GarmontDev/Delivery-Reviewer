@@ -40,10 +40,10 @@ const FilesMenu = ({employee, setEmployee, showVisibleFiles, setShowVisibleFiles
           burgerButtonClassName="size-10"
           burgerBarClassName="w-10 h-10"
         >
-          {employee 
+          {/* {employee 
             ? <a id="create-temporary-file" className="menu-item" href="/createtemporaryfile">Entrada temporal</a>
             : "" 
-          }         
+          }          */}
           {employee.admin 
             ? <button id="update-incidents" className="menu-item" onClick={() => refreshFilesState()}>Actualizar incidencias</button>
             : ""
