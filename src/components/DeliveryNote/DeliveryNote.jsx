@@ -238,7 +238,7 @@ const DeliveryNote = () => {
             <tr>
               <th className="px-2 py-2 w-14 text-center">C&oacute;d.</th>
               <th className="px-1.5 w-6">Rec</th>
-              <th className="px-3 w-screen lg:w-96">Descripci&oacute;n</th>
+              <th className="px-3 w-80 lg:w-96">Descripci&oacute;n</th>
               <th className="px-3 w-8">Notas</th>
               <th className="px-3 w-8">Fact</th>
               <th className="px-16 w-20">Revisado</th>
@@ -262,7 +262,7 @@ const DeliveryNote = () => {
                   {item.unitsReceived}
                 </td>
 
-                <th className="px-3">
+                <th className="px-3 truncate">
                   {item.description.charAt(0).toUpperCase() +
                     item.description.slice(1).toLowerCase()}
                 </th>
