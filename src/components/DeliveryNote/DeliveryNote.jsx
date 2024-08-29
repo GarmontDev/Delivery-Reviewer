@@ -239,8 +239,8 @@ const DeliveryNote = () => {
               <th className="px-2 py-2 w-14 text-center">C&oacute;d.</th>
               <th className="px-1.5 w-6">Rec</th>
               <th className="px-3 w-80 lg:w-96">Descripci&oacute;n</th>
-              <th className="px-3 w-8">Notas</th>
               <th className="px-3 w-8">Fact</th>
+              <th className="px-3 w-8">Notas</th>
               <th className="px-16 w-20">Revisado</th>
             </tr>
           </thead>
@@ -267,10 +267,10 @@ const DeliveryNote = () => {
                     item.description.slice(1).toLowerCase()}
                 </th>
                 <td scope="col" className="px-4">
-                  {item.notes ? <NotesIcon /> : ""}
-                </td>
-                <td scope="col" className="px-4">
                   {item.unitsBilled}
+                </td>
+                <td scope="col" className="px-4 ">
+                  {item.notes ? <NotesIcon /> : ""}
                 </td>
                 <td className="px-16">{item.checkedby}</td>
               </tr>
