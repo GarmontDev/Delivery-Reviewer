@@ -51,7 +51,7 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReview
       <div className="relative -top-14 bg-gray-50 rounded-md p-2 text-base leading-relaxed text-gray-600 ml-2 mr-2">
         <div className="grid grid-rows-2 font-bold">
           <div className="text-xl flex justify-center">{item.code}</div>
-          <p className="text-lg text-center border-2 rounded-md pl-1 pr-1 -mt-2">{item.description}</p>
+          <p className="text-lg text-center rounded-md pl-1 pr-1 -mt-2">{item.description}</p>
         </div>
         <div className="grid grid-rows-2 px-2 text-center justify-center items-center">
           <div className="flex">
