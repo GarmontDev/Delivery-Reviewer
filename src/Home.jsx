@@ -55,25 +55,6 @@ function Home() {
           />
         </div>
         <div className="delivery-files-container pl-2 pb-2">
-          {employee.admin ? (
-            !showVisibleFiles ? (
-              <button
-                className="menu-visible-button"
-                onClick={() => setShowVisibleFiles(true)}
-              >
-                Albaranes Inactivos
-              </button>
-            ) : (
-              <button
-                className="menu-visible-button"
-                onClick={() => setShowVisibleFiles(false)}
-              >
-                Albaranes Activos
-              </button>
-            )
-          ) : (
-            ""
-          )}
           <button
             id="user-name"
             className="menu-visible-button mr-2 font-semibold tracking-wider"
@@ -83,18 +64,14 @@ function Home() {
           </button>
         </div>
         {employee ? (
-          <FilesList employee={employee} showVisibleFiles={showVisibleFiles} />
+          <FilesList
+            employee={employee}
+            showVisibleFiles={showVisibleFiles}
+            setShowVisibleFiles={setShowVisibleFiles}
+          />
         ) : (
           <EmployeeSelection setEmployee={setEmployee} />
         )}
-        <button
-          onClick={() => {
-            if (window.confirm("Seguro que deseas salir?")) handleLogout();
-          }}
-          className="absolute right-2 -bottom-2 text-sm pl-2 pr-2 mr-2 pt-1 pb-1 bg-red-500 text-white border-2 border-red-500 rounded-md hover:bg-white hover:text-red-700"
-        >
-          Salir
-        </button>
         {/* <Footer/> */}
       </div>
     </>

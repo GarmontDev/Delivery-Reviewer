@@ -3,6 +3,7 @@ import {
   fetchDeliveryNote,
   updateCompleted,
   updateIncidents,
+  updateReviewed,
 } from "../../config/firebase";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,6 +29,9 @@ const DeliveryNote = () => {
   );
   const [reviewFileCompleted, setReviewFileCompleted] = useState(
     location.state?.completed
+  );
+  const [reviewFileReviewed, setReviewFileReviewed] = useState(
+    location.state?.reviewed || false
   );
 
   const { employee } = useEmployeeContext();
@@ -95,6 +99,22 @@ const DeliveryNote = () => {
     }
   }
 
+  function handleUpdateReviewed(number, reviewed) {
+    if (!reviewed) {
+      if (window.confirm("¿Marcar este albarán como revisado?")) {
+        updateReviewed(number, reviewed).then((res) => {
+          setReviewFileReviewed(!reviewed);
+        });
+      }
+    } else {
+      if (window.confirm("Marcar este albarán como NO revisado?")) {
+        updateReviewed(number, reviewed).then((res) => {
+          setReviewFileReviewed(!reviewed);
+        });
+      }
+    }
+  }
+
   function handleSelectStatusChange(value) {
     switch (value) {
       case "all-filter":
@@ -156,7 +176,7 @@ const DeliveryNote = () => {
                 handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
               }}
             >
-              <div className="delivery-note-file-number flex gap-2">
+              <div className="delivery-note-file-number flex gap-1">
                 Listo
                 {reviewFileCompleted ? (
                   <div className="pt-1">
@@ -169,14 +189,34 @@ const DeliveryNote = () => {
                 )}
               </div>
             </button>
+            <button
+              disabled={!employee.admin}
+              className="disabled:cursor-not-allowed"
+              onClick={() => {
+                handleUpdateReviewed(reviewFileNumber, reviewFileReviewed);
+              }}
+            >
+              <div className="delivery-note-file-number flex gap-1 ml-4">
+                Revisado
+                {reviewFileReviewed ? (
+                  <div className="pt-1">
+                    <CheckIcon size={20} />
+                  </div>
+                ) : (
+                  <div className="pt-1">
+                    <EmptyCheckIcon size={20} />
+                  </div>
+                )}
+              </div>
+            </button>
             {reviewFileIncidents ? (
-              <div className="delivery-note-file-number text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
+              <div className="delivery-note-file-number text-center text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
                 <button onClick={() => handleRefreshIncidents()}>
                   Con Incidencias
                 </button>
               </div>
             ) : (
-              <div className="delivery-note-file-number text-white bg-green-400 mt-2 pl-2 pr-2 pb-1 rounded-md">
+              <div className="delivery-note-file-number text-center text-white bg-green-400 mt-2 pl-2 pr-2 pb-1 rounded-md">
                 <button onClick={() => handleRefreshIncidents()}>
                   Sin incidencias
                 </button>

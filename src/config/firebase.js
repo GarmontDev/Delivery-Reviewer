@@ -223,6 +223,16 @@ export const updateCompleted = async (fileNumber, completed) => {
   }
 };
 
+export const updateReviewed = async (fileNumber, reviewed) => {
+  try {
+    const fileRef = doc(db, "listOfCollections", fileNumber);
+    updateDoc(fileRef, { reviewed: !reviewed });
+    return true;
+  } catch (error) {
+    console.log("Error updating the item, error: " + error);
+  }
+};
+
 export const updateFile = async (fileNumber, incidents, completed, visible) => {
   const fileRef = doc(db, "listOfCollections", fileNumber);
   if (fileRef) {
