@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import DeliveryNote from "./DeliveryNote.jsx";
-import { afterEach, describe, expect, it, test, vi } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
 import { useLocation } from "react-router-dom";
 import { useEmployeeContext } from "../../context/EmployeeContext.jsx";
 
@@ -14,13 +14,13 @@ vi.mock("react-secure-storage", () => ({
 }));
 
 vi.mock("react-router-dom", () => ({
-  ...vi.importActual("react-router-dom"), // Retain other functionality
+  ...vi.importActual("react-router-dom"),
   useLocation: vi.fn(),
   useNavigate: vi.fn(),
 }));
 
 vi.mock("../../context/EmployeeContext.jsx", () => ({
-  useEmployeeContext: vi.fn(), // Mock useEmployeeContext
+  useEmployeeContext: vi.fn(),
 }));
 
 const mockFilteredData = [
