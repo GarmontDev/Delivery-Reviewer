@@ -135,15 +135,15 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
   return (
     <>
       {employee.admin ? (
-          <VisibleFilesOptionBtn showVisibleFiles={showVisibleFiles} setShowVisibleFiles={setShowVisibleFiles}/>
+        <VisibleFilesOptionBtn showVisibleFiles={showVisibleFiles} setShowVisibleFiles={setShowVisibleFiles}/>
       ) : (
         ""
       )}
       {!showVisibleFiles ? (
-        <div className="">
+        <div>
           <div className="flex place-content-end justify-between">
             <span className="p-1 pr-2 mt-3 ">Fecha</span>
-            <div className="mt-2 w-full">
+            <div id="inactive-files-date" className="mt-2 w-auto text-center">
               {calendarOpen ? (
                 <CustomDatePicker
                   calendarOpen={calendarOpen}
@@ -154,7 +154,7 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
                 />
               ) : (
                 <button
-                  className="text-input text-right"
+                  className="text-input"
                   onClick={() => setCalendarOpen(true)}
                 >
                   {datePicked[0].toLocaleDateString()} hasta{" "}
@@ -163,7 +163,7 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
               )}
             </div>
           </div>
-          <div className="flex place-content-end">
+          <div id="inactive-files-data" className="flex place-content-end">
             <span className="p-1 pr-2 mt-3 ml-1 w-full">Descripción</span>
             <input
               className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-full focus:outline-blue-700"

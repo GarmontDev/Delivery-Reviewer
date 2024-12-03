@@ -8,6 +8,7 @@ import { useEmployeeContext } from "./context/EmployeeContext";
 import secureLocalStorage from "react-secure-storage";
 import FilesMenu from "./components/DeliveryFiles/Menu/FilesMenu";
 import FilesList from "./components/DeliveryFiles/List/FilesList";
+import Footer from "./components/Footer";
 
 function Home() {
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ function Home() {
         ) : (
           <EmployeeSelection setEmployee={setEmployee} />
         )}
-        {/* <Footer/> */}
+        <Footer/>
       </div>
     </>
   );

@@ -2,13 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: rgb(243 244 246);
+}
 .popup-overlay {  
   background: rgba(0, 0, 0, 0.5);
 }
 
 .home-container{
   @apply
-  bg-gray-100
   pt-4 pl-2 pr-2 pb-6
 }
 

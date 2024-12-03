@@ -22,7 +22,7 @@ const FilesListTable = ({
           {filteredFiles?.map((item, index) => (
             <div
               className="grid grid-cols-2 grid-rows-2
-              bg-white border-2 rounded-lg m-2 w-full h-14 text-gray-900 overflow-hidden"
+              bg-white hover:bg-slate-100 border-2 rounded-lg m-2 w-full h-14 text-gray-900 overflow-hidden"
               key={item + "-" + index}
             >
               <button

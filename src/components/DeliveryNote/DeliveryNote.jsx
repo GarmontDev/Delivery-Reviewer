@@ -171,7 +171,6 @@ const DeliveryNote = () => {
             {typeof reviewFileDate === 'string'
               ? reviewFileDate
               : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
-            {/* {new Date(reviewFileDate.toMillis()).toLocaleDateString()} */}
           </div>
           <div>
             <button
