@@ -5,14 +5,14 @@ import {
   listAllFiles,
   updateCompleted,
   updateReviewed,
-} from "../../config/firebase.js";
+} from "../../../config/firebase.js";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./DeliveryFiles.css";
-import CustomDatePicker from "../CustomDatePicker/CustomDatePicker.jsx";
+import "../DeliveryFiles.css";
+import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker.jsx";
 import FilesListTable from "./FilesListTable.jsx";
-import VisibleFilesOptionBtn from "./VisibleFilesOptionBtn.jsx";
+import VisibleFilesOptionBtn from "../VisibleFilesOptionBtn.jsx";
 
 const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
   const navigate = useNavigate();
@@ -141,8 +141,8 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
       )}
       {!showVisibleFiles ? (
         <div className="">
-          <div className="flex place-content-end">
-            <span className="p-1 pr-2 mt-3">Fecha</span>
+          <div className="flex place-content-end justify-between">
+            <span className="p-1 pr-2 mt-3 ">Fecha</span>
             <div className="mt-2 w-full">
               {calendarOpen ? (
                 <CustomDatePicker
@@ -170,8 +170,8 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
               placeholder="Pedido"
               onChange={(e) => filterFilesByDescription(e.target.value)}
             />
-            <span className="p-1 pr-2 mt-3 ml-1 w-full">
-              Num. Albar&aacute;n
+            <span className="p-1 pr-2 mt-3 ml-1 w-full text-right">
+              Número
             </span>
             <input
               className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-full focus:outline-blue-700"

@@ -160,17 +160,6 @@ const Login = () => {
                     ) : (
                       ""
                     )}
-                    {/* <div className="flex items-center h-5">
-                            <input 
-                              id="remember" 
-                              type="checkbox" 
-                              value="" 
-                              className="w-4 h-4 mt-2 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" 
-                            />
-                            <label htmlFor="remember" className="pl-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                              Mantener sesi&oacute;n iniciada
-                            </label>
-                          </div> */}
                     <div className="form-errors">{errors.credentials}</div>
                     <button
                       type="submit"

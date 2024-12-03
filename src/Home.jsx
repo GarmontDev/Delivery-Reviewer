@@ -1,15 +1,13 @@
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import { logout } from "./config/firebase";
 import FaviconIcon from "./assets/icons/FaviconIcon";
 import { useUserContext } from "./context/UserContext";
 import { useEffect, useState } from "react";
-import Footer from "./components/Footer";
 import EmployeeSelection from "./components/EmployeeSelection/EmployeeSelection";
 import { useEmployeeContext } from "./context/EmployeeContext";
 import secureLocalStorage from "react-secure-storage";
-import FilesMenu from "./components/DeliveryFiles/FIlesMenu";
-import FilesList from "./components/DeliveryFiles/FilesList";
+import FilesMenu from "./components/DeliveryFiles/Menu/FilesMenu";
+import FilesList from "./components/DeliveryFiles/List/FilesList";
 
 function Home() {
   const navigate = useNavigate();
@@ -28,11 +26,6 @@ function Home() {
     setEmployee(JSON.parse(secureLocalStorage.getItem("employee")) || "");
   }, []);
 
-  function handleLogout() {
-    secureLocalStorage.removeItem("employee");
-    logout();
-  }
-
   function handleEmployeeButton() {
     secureLocalStorage.removeItem("employee");
     setEmployee("");
@@ -46,6 +39,17 @@ function Home() {
           <div className="header-icon">
             <FaviconIcon size={32} />
             Delivery Reviewer
+            {employee ? 
+              <div className="pl-2 pb-2">
+                <button
+                  id="user-name"
+                  className="menu-visible-button mr-2 ml-10 font-semibold tracking-wider"
+                  onClick={() => handleEmployeeButton()}
+                >
+                  {employee.name}
+                </button>
+              </div>
+            : ""}
           </div>
           <FilesMenu
             employee={employee}
@@ -53,15 +57,6 @@ function Home() {
             showVisibleFiles={showVisibleFiles}
             setShowVisibleFiles={setShowVisibleFiles}
           />
-        </div>
-        <div className="delivery-files-container pl-2 pb-2">
-          <button
-            id="user-name"
-            className="menu-visible-button mr-2 font-semibold tracking-wider"
-            onClick={() => handleEmployeeButton()}
-          >
-            {employee ? employee.name : "Selección de usuario"}
-          </button>
         </div>
         {employee ? (
           <FilesList

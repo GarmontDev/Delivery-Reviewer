@@ -5,7 +5,7 @@ import {
   BarcodeDisabledIcon,
   BarcodeIcon,
 } from "../../assets/icons/BarcodeIcon";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const SearchBar = ({
   data,
@@ -48,17 +48,19 @@ const SearchBar = ({
   }
 
   useEffect(() => {
-    if (!openEditItem) {
-      searchInput.value = "";
-      searchInput.focus();
+    if (!openEditItem && inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.focus();
     }
   }, [openEditItem]);
 
   function handleXButton() {
     setKeepSearchValue(false);
     handleClearFilteredData();
-    searchInput.value = "";
-    searchInput.focus();
+    if(inputRef.current){
+      inputRef.current.value = "";
+      inputRef.current.focus();
+    }
   }
 
   return (

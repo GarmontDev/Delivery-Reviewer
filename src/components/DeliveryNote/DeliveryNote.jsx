@@ -54,6 +54,7 @@ const DeliveryNote = () => {
 
   useEffect(() => {
     handleClearFilteredData();
+    
   }, [data]);
 
   function fetchData() {
@@ -62,6 +63,7 @@ const DeliveryNote = () => {
         setData(res), setFilteredData(res);
       });
     }
+    
   }
 
   function updateLocalData() {
@@ -166,7 +168,10 @@ const DeliveryNote = () => {
             <div className="text-sm text-gray-600 -mb-2">Albar&aacute;n</div>
             {reviewFileNumber}
             <div className="delivery-note-file-info">Fecha</div>
-            {new Date(reviewFileDate.toMillis()).toLocaleDateString()}
+            {typeof reviewFileDate === 'string'
+              ? reviewFileDate
+              : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
+            {/* {new Date(reviewFileDate.toMillis()).toLocaleDateString()} */}
           </div>
           <div>
             <button
@@ -236,41 +241,43 @@ const DeliveryNote = () => {
           </div>
         </div>
       </div>
-      <div className="flex">
-        <form className="search-input-container ml-2 mb-2 h-9">
-          <select
-            id="visible-lines"
-            className={`w-auto border border-gray-300 
-              text-slate-800 font-bold text-sm rounded-lg 
-              focus:ring-blue-500 focus:border-blue-500 
-              
-              ${selectStatus === "all-filter" ? "bg-green-400" : ""}
-              ${selectStatus === "pending-filter" ? "bg-blue-400" : ""}
-              ${selectStatus === "incidents-filter" ? "bg-yellow-300" : ""}
-            `}
-            onChange={(e) => handleSelectStatusChange(e.target.value)}
-          >
-            <option value="all-filter" selected>
-              Todas
-            </option>
-            <option value="pending-filter">Pendientes</option>
-            <option value="incidents-filter">Incidencias</option>
-          </select>
-        </form>
+      <div className="ml-2 mb-2">
+        <div className="flex">
+          <form className="search-input-container h-9">
+            <select
+              id="visible-lines"
+              className={`w-auto border border-gray-300 
+                text-slate-800 font-bold text-sm rounded-lg 
+                focus:ring-blue-500 focus:border-blue-500 
+                
+                ${selectStatus === "all-filter" ? "bg-green-400" : ""}
+                ${selectStatus === "pending-filter" ? "bg-blue-400" : ""}
+                ${selectStatus === "incidents-filter" ? "bg-yellow-300" : ""}
+              `}
+              onChange={(e) => handleSelectStatusChange(e.target.value)}
+            >
+              <option value="all-filter" selected>
+                Todas
+              </option>
+              <option value="pending-filter">Pendientes</option>
+              <option value="incidents-filter">Incidencias</option>
+            </select>
+          </form>
 
-        <SearchBar
-          data={data}
-          isBarcode={isBarcode}
-          setIsBarcode={setIsBarcode}
-          setFilteredData={setFilteredData}
-          handleClearFilteredData={handleClearFilteredData}
-          reviewFileNumber={reviewFileNumber}
-          keepSearchValue={keepSearchValue}
-          setKeepSearchValue={setKeepSearchValue}
-          openEditItem={openEditItem}
-          setOpenEditItem={setOpenEditItem}
-          inputRef={inputRef}
-        />
+          <SearchBar
+            data={data}
+            isBarcode={isBarcode}
+            setIsBarcode={setIsBarcode}
+            setFilteredData={setFilteredData}
+            handleClearFilteredData={handleClearFilteredData}
+            reviewFileNumber={reviewFileNumber}
+            keepSearchValue={keepSearchValue}
+            setKeepSearchValue={setKeepSearchValue}
+            openEditItem={openEditItem}
+            setOpenEditItem={setOpenEditItem}
+            inputRef={inputRef}
+          />
+        </div>
       </div>
       <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
         <table className="note-table">
@@ -285,6 +292,7 @@ const DeliveryNote = () => {
             </tr>
           </thead>
           <tbody className="odd:bg-white even:bg-gray-50 border-b">
+            
             {filteredData?.map((item, index) => (
               <tr
                 key={item.code + "-" + index}
@@ -298,7 +306,10 @@ const DeliveryNote = () => {
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >
                 <td className={"px-2 py-2.5 text-center"}>{item.code}</td>
-                <td scope="col" className="px-4 font-bold flex justify-center mt-2">
+                <td
+                  scope="col"
+                  className="px-4 font-bold flex justify-center mt-2"
+                >
                   {item.unitsReceived}
                 </td>
 

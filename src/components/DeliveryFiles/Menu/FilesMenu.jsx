@@ -1,20 +1,16 @@
 import "./FilesMenu.css";
-import { useNavigate } from "react-router-dom";
-import { listAllFiles, updateIncidents } from "../../config/firebase.js";
+import {
+  listAllFiles,
+  logout,
+  updateIncidents,
+} from "../../../config/firebase.js";
 import secureLocalStorage from "react-secure-storage";
 import { slide as Menu } from "react-burger-menu";
 import { useState } from "react";
-import MenuIcon from "../../assets/icons/MenuIcon.jsx";
-import XClearIcon from "../../assets/icons/XClearIcon.jsx";
+import MenuIcon from "../../../assets/icons/MenuIcon.jsx";
+import XClearIcon from "../../../assets/icons/XClearIcon.jsx";
 
-const FilesMenu = ({
-  employee,
-  setEmployee,
-  showVisibleFiles,
-  setShowVisibleFiles,
-}) => {
-  const navigate = useNavigate();
-
+const FilesMenu = ({ employee, showVisibleFiles }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   function refreshFilesState() {
@@ -27,6 +23,11 @@ const FilesMenu = ({
       setMenuOpen(false);
       alert("Files updated");
     });
+  }
+
+  function handleLogout() {
+    secureLocalStorage.removeItem("employee");
+    logout();
   }
 
   return (
@@ -44,10 +45,6 @@ const FilesMenu = ({
           burgerButtonClassName="size-10"
           burgerBarClassName="w-10 h-10"
         >
-          {/* {employee 
-            ? <a id="create-temporary-file" className="menu-item" href="/createtemporaryfile">Entrada temporal</a>
-            : "" 
-          }          */}
           {employee.admin ? (
             <button
               id="update-incidents"
@@ -73,7 +70,7 @@ const FilesMenu = ({
             }}
             className="menu-item bg-red-500 pl-2 pr-2 rounded-md mt-14"
           >
-            Cerrar sesión
+            Cerrar sesi&oacute;n
           </button>
         </Menu>
       </div>

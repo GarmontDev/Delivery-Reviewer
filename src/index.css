@@ -8,7 +8,7 @@
 
 .home-container{
   @apply
-  bg-gray-100
+  bg-gray-100 h-screen
   pt-4 pl-2 pr-2 pb-6
 }
 
