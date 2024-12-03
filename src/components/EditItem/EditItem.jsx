@@ -42,8 +42,6 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReview
         }
       }
     )
-    //TODO Check if there was a previous incident in "item" 
-    //TODO and if there is any now in "incidents"
   }
 
   return(
