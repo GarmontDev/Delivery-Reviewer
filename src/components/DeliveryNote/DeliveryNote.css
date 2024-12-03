@@ -69,5 +69,5 @@
 
 .delivery-note-table-head{
   @apply
-  text-xs text-slate-700 uppercase bg-gray-200
+  text-sm h-6 text-slate-700 uppercase bg-slate-200
 }

@@ -278,14 +278,13 @@ const DeliveryNote = () => {
           />
         </div>
       </div>
-      <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-md">
+      <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-sm">
         <table className="note-table">
           <thead className="delivery-note-table-head">
             <tr>
-              <th className="px-2 py-2 w-14 text-center">C&oacute;d.</th>
-              <th className="px-1.5 w-6">Rec</th>
+              <th className="px-3 w-10">Rec</th>
               <th className="px-3 w-80 lg:w-96">Descripci&oacute;n</th>
-              <th className="px-3 w-8">Fact</th>
+              <th className="w-20">Facturado</th>
               <th className="px-3 w-8">Notas</th>
               <th className="px-16 w-20">Revisado</th>
             </tr>
@@ -295,28 +294,28 @@ const DeliveryNote = () => {
             {filteredData?.map((item, index) => (
               <tr
                 key={item.code + "-" + index}
-                className={`${
+                className={`h-20 text-base border-b border-gray-400 ${
                   item?.checked
-                    ? "bg-green-200 border-2"
+                    ? "bg-green-200"
                     : item?.incidents
-                    ? "bg-yellow-100 border-2 border-gray-200"
-                    : "odd:bg-white even:bg-gray-100 border-2 border-gray-200"
+                    ? "bg-yellow-100 "
+                    : "odd:bg-white even:bg-gray-100"
                 }`}
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >
-                <td className={"px-2 py-2.5 text-center"}>{item.code}</td>
                 <td
                   scope="col"
-                  className="px-4 font-bold flex justify-center mt-2"
+                  className="font-bold text-lg flex text-left place-content-center pt-6 text-green-600"
                 >
                   {item.unitsReceived}
                 </td>
 
                 <th className="px-3 truncate">
+                  <p className="flex gap-x-2">{item.code}{item.notes ? <NotesIcon /> : ""}</p>
                   {item.description.charAt(0).toUpperCase() +
                     item.description.slice(1).toLowerCase()}
                 </th>
-                <td scope="col" className="px-4">
+                <td scope="col" className="px-4 flex place-content-center">
                   {item.unitsBilled}
                 </td>
                 <td scope="col" className="px-4 ">

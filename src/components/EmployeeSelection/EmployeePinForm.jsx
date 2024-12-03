@@ -88,7 +88,7 @@ const EmployeePinForm = ({ employeeSelected, setEmployee }) => {
               />
             </div>
             <div className="form-errors">
-              {errors.pin && touched.pin && errors.pin}
+              {errors.pin ? "El PIN debería de ser número" : ""}
             </div>
             <button
               type="submit"
