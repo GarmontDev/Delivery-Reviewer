@@ -94,24 +94,13 @@ export const updateItem = async (
 ) => {
   try {
     const itemRef = doc(db, reviewFileNumber, item.code);
-    if (item.notes) {
-      //For newer documents with "notes" field
-      updateDoc(itemRef, {
-        unitsReceived: newUnits,
-        checked: newCheck,
-        incidents: incidents,
-        notes: notes,
-        checkedby: displayName,
-      });
-    } else {
-      //For old documents created before adding the "notes" field
-      updateDoc(itemRef, {
-        unitsReceived: newUnits,
-        checked: newCheck,
-        incidents: incidents,
-        checkedby: displayName,
-      });
-    }
+    updateDoc(itemRef, {
+      unitsReceived: newUnits,
+      checked: newCheck,
+      incidents: incidents,
+      notes: notes,
+      checkedby: displayName,
+    });
     return true;
   } catch (error) {
     console.log("Error updating the item, error: " + error);
