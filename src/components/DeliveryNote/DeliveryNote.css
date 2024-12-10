@@ -14,7 +14,7 @@
 
 .delivery-note-file-number{
   @apply
-  font-bold text-base text-slate-800 pl-1
+  font-bold text-base text-slate-800
 }
 
 .delivery-note-file-info{

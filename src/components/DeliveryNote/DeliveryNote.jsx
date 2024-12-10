@@ -62,7 +62,6 @@ const DeliveryNote = () => {
         setData(res), setFilteredData(res);
       });
     }
-    
   }
 
   function updateLocalData() {
@@ -167,9 +166,11 @@ const DeliveryNote = () => {
             <div className="text-sm text-gray-600 -mb-2">Albar&aacute;n</div>
             {reviewFileNumber}
             <div className="delivery-note-file-info">Fecha</div>
-            {typeof reviewFileDate === 'string'
+            {typeof reviewFileDate === "string"
               ? reviewFileDate
-              : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
+              : new Date(
+                  reviewFileDate?.toMillis?.() || 0
+                ).toLocaleDateString()}
           </div>
           <div>
             <button
@@ -213,11 +214,11 @@ const DeliveryNote = () => {
               </div>
             </button>
             {reviewFileIncidents ? (
-              <button onClick={() => handleRefreshIncidents()}>
-                <div className="delivery-note-file-number text-center text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
+              <div className="delivery-note-file-number text-center text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
+                <button onClick={() => handleRefreshIncidents()}>
                   Con Incidencias
-                </div>
-              </button>
+                </button>
+              </div>
             ) : (
               <div className="delivery-note-file-number text-center text-white bg-green-400 mt-2 pl-2 pr-2 pb-1 rounded-md">
                 <button onClick={() => handleRefreshIncidents()}>
@@ -289,7 +290,6 @@ const DeliveryNote = () => {
             </tr>
           </thead>
           <tbody className="odd:bg-white even:bg-gray-50 border-b">
-            
             {filteredData?.map((item, index) => (
               <tr
                 key={item.code + "-" + index}
@@ -310,7 +310,10 @@ const DeliveryNote = () => {
                 </td>
 
                 <th className="px-3 truncate">
-                  <p className="flex gap-x-2">{item.code}{item.notes ? <NotesIcon /> : ""}</p>
+                  <p className="flex gap-x-2">
+                    {item.code}
+                    {item.notes ? <NotesIcon /> : ""}
+                  </p>
                   {item.description.charAt(0).toUpperCase() +
                     item.description.slice(1).toLowerCase()}
                 </th>
