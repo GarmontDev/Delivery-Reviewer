@@ -54,7 +54,6 @@ const DeliveryNote = () => {
 
   useEffect(() => {
     handleClearFilteredData();
-    
   }, [data]);
 
   function fetchData() {
@@ -214,11 +213,11 @@ const DeliveryNote = () => {
               </div>
             </button>
             {reviewFileIncidents ? (
-              <div className="delivery-note-file-number text-center text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
-                <button onClick={() => handleRefreshIncidents()}>
+              <button onClick={() => handleRefreshIncidents()}>
+                <div className="delivery-note-file-number text-center text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
                   Con Incidencias
-                </button>
-              </div>
+                </div>
+              </button>
             ) : (
               <div className="delivery-note-file-number text-center text-white bg-green-400 mt-2 pl-2 pr-2 pb-1 rounded-md">
                 <button onClick={() => handleRefreshIncidents()}>

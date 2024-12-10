@@ -69,7 +69,6 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
     number,
     createdDate,
     completed,
-    reviewed,
     incidents
   ) {
     navigate("/notes", {
@@ -77,7 +76,6 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
         reviewFileNumber: number.toString(),
         createdDate: createdDate,
         completed: completed,
-        reviewed: reviewed,
         incidents: incidents,
       },
     });
