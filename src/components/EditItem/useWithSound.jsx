@@ -1,22 +1,31 @@
 import { useRef, useEffect } from "react";
 
-export const useWithSound = (audioSource) => {
+import rightSoundEffect from "../../assets/sounds/ring-sound-effect.mp3"
+import wrongSoundEffect  from "../../assets/sounds/wrong-sound-effect.mp3"
+
+export const useWithSound = () => {
   const soundRef = useRef();
 
-  useEffect(() => {
-    soundRef.current = new Audio(audioSource);
-  }, []);
+  // useEffect(() => {
+  //   soundRef.current = new Audio(audioSource);
+  // }, []);
 
-  const playSound = () => {
+  const playRightSound = () => {
+    soundRef.current = new Audio(rightSoundEffect);
     soundRef.current.play();
   };
 
-  const pauseSound = () => {
-    soundRef.current.pause();
+  const playWrongSound = () => {
+    soundRef.current = new Audio(wrongSoundEffect);
+    soundRef.current.play();
   };
 
+  // const pauseSound = () => {
+  //   soundRef.current.pause();
+  // };
+
   return {
-    playSound,
-    pauseSound,
+    playRightSound,
+    playWrongSound,
   };
 };

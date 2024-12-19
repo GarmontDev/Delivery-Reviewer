@@ -1,10 +1,9 @@
 import { useState } from "react"
-import { updateFile, updateIncidents, updateItem } from "../../config/firebase"
+import { updateItem } from "../../config/firebase"
 import { useEmployeeContext } from "../../context/EmployeeContext"
 import { useWithSound } from "./useWithSound"
-import checkSoundEffect from "../../assets/sounds/ring-sound-effect.mp3"
 
-const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReviewFileIncidents}) => { 
+const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => { 
 
   const [units, setUnits] = useState(item.unitsReceived)
   const [notes, setNotes] = useState(item.notes)
@@ -28,7 +27,8 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReview
     setNotes(e.target.value)
   }
 
-  const { playSound } = useWithSound(checkSoundEffect);
+  const { playRightSound } = useWithSound();
+  const { playWrongSound } = useWithSound();
 
   function handleEditting (item){
     const incidents = (item.unitsBilled != units)
@@ -43,7 +43,9 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem, setReview
             checkedby: employee.name
           })
           if(!incidents){
-            playSound()
+            playRightSound()
+          }else{
+            playWrongSound()
           }
           setOpenEditItem(false)
         }
