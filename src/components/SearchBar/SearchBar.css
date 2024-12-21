@@ -4,8 +4,7 @@
 
 .main-search-bar {
   @apply place-items-center place-content-center
-  flex bg-white justify-between w-full mr-2
-  rounded-lg pb-1.5 pl-2;
+  flex justify-between w-full mr-2 pl-2;
 }
 
 .search-input-container {
@@ -13,14 +12,14 @@
 }
 
 .search-input {
-  @apply bg-white border-2 border-r-0
-  pl-2 w-36 rounded-l-lg 
+  @apply bg-white border-2 border-r-0 h-9
+  pl-2 w-36 rounded-l-md 
   hover:rounded-r-none focus:outline-none;
 }
 
 .search-x-button {
-  @apply p-1 border-r-2 border-t-2 border-b-2 
-bg-red-400 rounded-r-lg hover:bg-white;
+  @apply p-1 border-r-2 border-t-2 border-b-2
+bg-red-400 rounded-r-md hover:bg-white;
 }
 
 .barcode-enabled-btn {

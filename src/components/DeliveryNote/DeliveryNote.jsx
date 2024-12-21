@@ -17,6 +17,8 @@ import { useEmployeeContext } from "../../context/EmployeeContext";
 import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
+import {isMobile} from 'react-device-detect';
+
 const DeliveryNote = () => {
   const inputRef = useRef(null);
   const location = useLocation();
@@ -193,26 +195,7 @@ const DeliveryNote = () => {
                 )}
               </div>
             </button>
-            <button
-              disabled={!employee.admin}
-              className="disabled:cursor-not-allowed"
-              onClick={() => {
-                handleUpdateReviewed(reviewFileNumber, reviewFileReviewed);
-              }}
-            >
-              <div className="delivery-note-file-number flex gap-1 ml-4">
-                Revisado
-                {reviewFileReviewed ? (
-                  <div className="pt-1">
-                    <CheckIcon size={20} />
-                  </div>
-                ) : (
-                  <div className="pt-1">
-                    <EmptyCheckIcon size={20} />
-                  </div>
-                )}
-              </div>
-            </button>
+            
             {reviewFileIncidents ? (
               <div className="delivery-note-file-number text-center text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
                 <button onClick={() => handleRefreshIncidents()}>
@@ -229,7 +212,7 @@ const DeliveryNote = () => {
           </div>
           <div>
             <div className="delivery-note-employee-name">
-              {employee.name.slice(0, 3).toUpperCase()}
+            {isMobile ? employee.name.slice(0, 3).toUpperCase() : employee.name.slice(0, 6).toUpperCase()}
             </div>
             <button
               className="go-back-button"
@@ -242,11 +225,11 @@ const DeliveryNote = () => {
       </div>
       <div className="ml-2 mb-2">
         <div className="flex">
-          <form className="search-input-container h-9">
+          <form>
             <select
               id="visible-lines"
-              className={`w-auto border border-gray-300 
-                text-slate-800 font-bold text-sm rounded-lg 
+              className={`w-auto border border-gray-300 h-9
+                text-slate-800 font-bold text-sm rounded-md 
                 focus:ring-blue-500 focus:border-blue-500 
                 
                 ${selectStatus === "all-filter" ? "bg-green-400" : ""}
