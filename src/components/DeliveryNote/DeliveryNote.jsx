@@ -190,16 +190,16 @@ const DeliveryNote = () => {
               </div>
             )}
           </div>
-          <div>
-            <div className="delivery-note-employee-name">
-            {isMobile ? employee.name.slice(0, 3).toUpperCase() : employee.name.slice(0, 6).toUpperCase()}
-            </div>
+          <div className="grid place-items-end">
             <button
               className="go-back-button"
               onClick={() => navigate("/home")}
             >
               Volver
             </button>
+            <div className="delivery-note-employee-name">
+            {isMobile ? employee.name.slice(0, 3).toUpperCase() : employee.name.slice(0, 6).toUpperCase()}
+            </div>
           </div>
         </div>
       </div>

@@ -32,48 +32,46 @@ const FilesMenu = ({ employee, showVisibleFiles }) => {
 
   return (
     <>
-      <div className="">
-        <Menu
-          isOpen={menuOpen}
-          customBurgerIcon={<MenuIcon size={30} />}
-          customCrossIcon={<XClearIcon stroke="white" />}
-          right
-          className="w-10 h-10 absolute top-0 right-0"
-          menuClassName="bg-slate-800 rounded-tl-lg pt-2 pl-2"
-          itemClassName="text-white tracking-wider ml-4 mt-4"
-          crossButtonClassName="mr-6 mt-4 bg-red-400 rounded-sm"
-          burgerButtonClassName="size-10"
-          burgerBarClassName="w-10 h-10"
-        >
-          {employee.admin ? (
-            <button
-              id="update-incidents"
-              className="menu-item"
-              onClick={() => refreshFilesState()}
-            >
-              Actualizar incidencias
-            </button>
-          ) : (
-            ""
-          )}
-          {employee.admin ? (
-            <a id="create-new-file" className="menu-item" href="/createfile">
-              Subir albarán
-            </a>
-          ) : (
-            ""
-          )}
+      <Menu
+        isOpen={menuOpen}
+        customBurgerIcon={<MenuIcon size={30} />}
+        customCrossIcon={<XClearIcon stroke="white" />}
+        right
+        className="asbolute top-4 right-10 bg-slate-800 rounded-tl-lg pt-2 pl-2"
+        itemClassName="text-white tracking-wider ml-4 mt-4"
+        crossButtonClassName="mr-6 mt-4 bg-red-400 rounded-sm"
+        burgerButtonClassName="size-10"
+        burgerBarClassName="w-10 h-10"
+      >
+        {employee.admin ? (
           <button
-            onClick={() => {
-              if (window.confirm("Seguro que deseas cerrar sesión?"))
-                handleLogout();
-            }}
-            className="menu-item bg-red-500 pl-2 pr-2 rounded-md mt-14"
+            id="update-incidents-button"
+            className="menu-item"
+            onClick={() => refreshFilesState()}
           >
-            Cerrar sesi&oacute;n
+            Actualizar incidencias
           </button>
-        </Menu>
-      </div>
+        ) : (
+          ""
+        )}
+        {employee.admin ? (
+          <a id="create-new-file" className="menu-item" href="/createfile">
+            Subir albarán
+          </a>
+        ) : (
+          ""
+        )}
+        <button
+          id="close-session-button"
+          onClick={() => {
+            if (window.confirm("Seguro que deseas cerrar sesión?"))
+              handleLogout();
+          }}
+          className="menu-item bg-red-500 pl-2 pr-2 rounded-md mt-14"
+        >
+          Cerrar sesi&oacute;n
+        </button>
+      </Menu>
     </>
   );
 };

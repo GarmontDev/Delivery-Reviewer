@@ -35,23 +35,25 @@ function Home() {
 
   return (
     <>
-      <div className="home-container relative">
+      <div className="home-container">
         <div className="header-container">
           <div className="header-icon">
             <FaviconIcon size={32} />
             Delivery Reviewer
-            {employee ? 
-              <div className="pl-2 pb-2">
-                <button
-                  id="user-name"
-                  className="menu-visible-button mr-2 ml-10 font-semibold tracking-wider"
-                  onClick={() => handleEmployeeButton()}
-                >
-                  {employee.name}
-                </button>
-              </div>
-            : ""}
           </div>
+          {employee ? (
+            <div className="pl-2 pb-2 flex items-center">
+              <button
+                id="user-name"
+                className="employee-name-button"
+                onClick={() => handleEmployeeButton()}
+              >
+                {employee.name}
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
           <FilesMenu
             employee={employee}
             setEmployee={setEmployee}
@@ -68,7 +70,7 @@ function Home() {
         ) : (
           <EmployeeSelection setEmployee={setEmployee} />
         )}
-        <Footer/>
+        <Footer />
       </div>
     </>
   );
