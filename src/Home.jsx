@@ -54,12 +54,14 @@ function Home() {
           ) : (
             ""
           )}
-          <FilesMenu
-            employee={employee}
-            setEmployee={setEmployee}
-            showVisibleFiles={showVisibleFiles}
-            setShowVisibleFiles={setShowVisibleFiles}
-          />
+          <div className="absolute right-0 top-1.5">
+            <FilesMenu
+              employee={employee}
+              setEmployee={setEmployee}
+              showVisibleFiles={showVisibleFiles}
+              setShowVisibleFiles={setShowVisibleFiles}
+            />
+          </div>
         </div>
         {employee ? (
           <FilesList

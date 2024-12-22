@@ -10,11 +10,11 @@ body {
 }
 
 .home-container {
-  @apply pt-4 pl-2 pr-2 pb-6;
+  @apply pt-4 pl-2 pr-2 pb-6 ;
 }
 
 .header-container {
-  @apply bg-white flex justify-between
+  @apply bg-white flex justify-between relative
   pt-2 pb-2 pl-1 pr-1 mb-3 h-12
   rounded-md border-2 shadow-md;
 }
@@ -25,7 +25,7 @@ body {
 }
 
 .employee-name-button {
-  @apply rounded-md pl-2 pr-2 mt-2 mr-6 bg-blue-700 hover:bg-blue-500 text-white text-sm 
+  @apply rounded-md pl-2 pr-2 mt-2 mr-14 bg-blue-700 hover:bg-blue-500 text-white text-sm 
   flex w-auto h-8 place-items-center font-semibold tracking-wider;
 }
 

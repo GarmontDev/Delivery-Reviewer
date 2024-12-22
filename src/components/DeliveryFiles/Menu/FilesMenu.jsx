@@ -39,8 +39,8 @@ const FilesMenu = ({ employee, showVisibleFiles }) => {
         right
         className="asbolute top-4 right-10 bg-slate-800 rounded-tl-lg pt-2 pl-2"
         itemClassName="text-white tracking-wider ml-4 mt-4"
-        crossButtonClassName="mr-6 mt-4 bg-red-400 rounded-sm"
-        burgerButtonClassName="size-10"
+        crossButtonClassName="mr-6 mt-6 bg-red-400 rounded-sm"
+        burgerButtonClassName="w-10 h-10"
         burgerBarClassName="w-10 h-10"
       >
         {employee.admin ? (
