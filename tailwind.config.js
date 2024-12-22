@@ -10,6 +10,6 @@ export default {
       lg: "1024px"
     }
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [],
 }
 

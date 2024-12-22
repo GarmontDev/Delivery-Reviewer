@@ -3,13 +3,12 @@ import {
   fetchDeliveryNote,
   updateCompleted,
   updateIncidents,
-  updateReviewed,
 } from "../../config/firebase";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
-import EditItem from "../EditItem/EditItem";
+import EditItem from "./EditItem/EditItem.jsx";
 
 import NotesIcon from "../../assets/icons/NotesIcon";
 import SearchBar from "../SearchBar/SearchBar";
@@ -31,9 +30,6 @@ const DeliveryNote = () => {
   );
   const [reviewFileCompleted, setReviewFileCompleted] = useState(
     location.state?.completed
-  );
-  const [reviewFileReviewed, setReviewFileReviewed] = useState(
-    location.state?.reviewed || false
   );
 
   const { employee } = useEmployeeContext();
@@ -96,22 +92,6 @@ const DeliveryNote = () => {
       if (window.confirm("Marcar este albarán como NO completado?")) {
         updateCompleted(number, completed).then((res) => {
           setReviewFileCompleted(!completed);
-        });
-      }
-    }
-  }
-
-  function handleUpdateReviewed(number, reviewed) {
-    if (!reviewed) {
-      if (window.confirm("¿Marcar este albarán como revisado?")) {
-        updateReviewed(number, reviewed).then((res) => {
-          setReviewFileReviewed(!reviewed);
-        });
-      }
-    } else {
-      if (window.confirm("Marcar este albarán como NO revisado?")) {
-        updateReviewed(number, reviewed).then((res) => {
-          setReviewFileReviewed(!reviewed);
         });
       }
     }
@@ -228,7 +208,7 @@ const DeliveryNote = () => {
           <form>
             <select
               id="visible-lines"
-              className={`w-auto border border-gray-300 h-9
+              className={`w-auto border border-gray-300 h-9 pl-1
                 text-slate-800 font-bold text-sm rounded-md 
                 focus:ring-blue-500 focus:border-blue-500 
                 

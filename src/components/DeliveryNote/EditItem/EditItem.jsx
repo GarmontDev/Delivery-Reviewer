@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { updateItem } from "../../config/firebase"
-import { useEmployeeContext } from "../../context/EmployeeContext"
+import { updateItem } from "../../../config/firebase"
+import { useEmployeeContext } from "../../../context/EmployeeContext"
 import { useWithSound } from "./useWithSound"
 
 const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => { 
