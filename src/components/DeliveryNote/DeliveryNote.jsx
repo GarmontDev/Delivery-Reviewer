@@ -17,6 +17,7 @@ import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
 import {isMobile} from 'react-device-detect';
+import swal from "sweetalert";
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -119,6 +120,11 @@ const DeliveryNote = () => {
   function handleRefreshIncidents() {
     updateIncidents(reviewFileNumber).then((res) => {
       setReviewFileIncidents(res);
+      if (res){
+        swal ( "Incidencias encontradas" ,  "" ,  "error" )
+      }else{
+        swal ( "Albarán sin incidencias" ,  "" ,  "success" )
+      }
     });
   }
 

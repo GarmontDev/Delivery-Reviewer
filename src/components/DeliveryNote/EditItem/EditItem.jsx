@@ -111,7 +111,7 @@ const EditItem = ({item, setItemSelected, fileNumber, setOpenEditItem}) => {
             maxLength={40}
             value={notes}
             onChange={handleItemNotes}
-            className="w-full h-12 bg-gray-100 rounded-md border-2"
+            className="w-full h-12 pl-2 bg-gray-100 rounded-md border-2"
             placeholder="Notas"
           />
         </div>
