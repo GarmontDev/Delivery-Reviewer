@@ -65,12 +65,7 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
     setFilteredFiles(files.filter((file) => file.description.includes(value)));
   }
 
-  function handleDeliveryFile(
-    number,
-    createdDate,
-    completed,
-    incidents
-  ) {
+  function handleDeliveryFile(number, createdDate, completed, incidents) {
     navigate("/notes", {
       state: {
         reviewFileNumber: number.toString(),
@@ -133,49 +128,54 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
   return (
     <>
       {employee.admin ? (
-        <VisibleFilesOptionBtn showVisibleFiles={showVisibleFiles} setShowVisibleFiles={setShowVisibleFiles}/>
+        <VisibleFilesOptionBtn
+          showVisibleFiles={showVisibleFiles}
+          setShowVisibleFiles={setShowVisibleFiles}
+        />
       ) : (
         ""
       )}
       {!showVisibleFiles ? (
-        <div>
-          <div className="flex place-content-end justify-between">
-            <span className="p-1 pr-2 mt-3 ">Fecha</span>
-            <div id="inactive-files-date" className="mt-2 w-auto text-center">
-              {calendarOpen ? (
-                <CustomDatePicker
-                  calendarOpen={calendarOpen}
-                  setCalendarOpen={setCalendarOpen}
-                  datePicked={datePicked}
-                  setDatePicked={setDatePicked}
-                  isRange={true}
-                />
-              ) : (
-                <button
-                  className="text-input"
-                  onClick={() => setCalendarOpen(true)}
-                >
-                  {datePicked[0].toLocaleDateString()} hasta{" "}
-                  {datePicked[1].toLocaleDateString()}
-                </button>
-              )}
+        <div className="grid grid-cols-1 grid-rows-3 h-40">
+          <div className="w-full">
+            <div id="inactive-files-date" className="flex">
+              <span className="p-1 pr-2 mt-3 ml-1">Fecha</span>
+              <div className="mt-2 w-full h-auto ">
+                {calendarOpen ? (
+                  <CustomDatePicker
+                    calendarOpen={calendarOpen}
+                    setCalendarOpen={setCalendarOpen}
+                    datePicked={datePicked}
+                    setDatePicked={setDatePicked}
+                    isRange={true}
+                  />
+                ) : (
+                  <button
+                    className="text-input"
+                    onClick={() => setCalendarOpen(true)}
+                  >
+                    {datePicked[0].toLocaleDateString()} hasta{" "}
+                    {datePicked[1].toLocaleDateString()}
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-          <div id="inactive-files-data" className="flex place-content-end">
-            <span className="p-1 pr-2 mt-3 ml-1 w-full">Descripción</span>
-            <input
-              className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-full focus:outline-blue-700"
-              placeholder="Pedido"
-              onChange={(e) => filterFilesByDescription(e.target.value)}
-            />
-            <span className="p-1 pr-2 mt-3 ml-1 w-full text-right">
-              Número
-            </span>
-            <input
-              className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-full focus:outline-blue-700"
-              placeholder="Albar&aacute;n"
-              onChange={(e) => filterFilesByNumber(e.target.value)}
-            />
+            <div id="inactive-files-description" className="flex">
+              <span className="p-1 pr-2 mt-3 ml-1 w-full">Descripción</span>
+              <input
+                className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-auto focus:outline-blue-700 col-span-3"
+                placeholder="Pedido"
+                onChange={(e) => filterFilesByDescription(e.target.value)}
+              />
+            </div>
+            <div id="inactive-files-number" className="flex">
+            <span className="p-1 pr-2 mt-3 ml-1 w-full">N&uacute;mero</span>
+              <input
+                className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-auto focus:outline-blue-700 col-span-3"
+                placeholder="Albar&aacute;n"
+                onChange={(e) => filterFilesByNumber(e.target.value)}
+              />
+            </div>
           </div>
         </div>
       ) : (
