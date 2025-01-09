@@ -62,7 +62,7 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
   }
 
   function filterFilesByDescription(value) {
-    setFilteredFiles(files.filter((file) => file.description.includes(value)));
+    setFilteredFiles(files.filter((file) => file.description.toUpperCase().includes(value.toUpperCase())));
   }
 
   function handleDeliveryFile(number, createdDate, completed, incidents) {
