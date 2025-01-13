@@ -9,7 +9,7 @@ const CustomDatePicker = ({datePicked, setDatePicked, setCalendarOpen, isRange})
       <div className='relative'>
         <Calendar
           selectRange={isRange}
-          className="rounded-lg text-blue-700 bg-gray-100 absolute -left-6 top-10"
+          className="rounded-lg text-blue-700 bg-gray-100"
           returnValue='start'
           format='dd-MM-yy'
           locale='es-ES'
@@ -17,7 +17,7 @@ const CustomDatePicker = ({datePicked, setDatePicked, setCalendarOpen, isRange})
           value={datePicked} 
           onChange={(value) => (setDatePicked(value), setCalendarOpen(false))} 
         />
-        <button className='h-87 w-full bg-red-800 hover:bg-red-600 text-white font-bold absolute top-5 -left-6 text-center rounded-t-md text-lg'
+        <button className='h-87 w-full bg-red-800 hover:bg-red-600 text-white font-bold absolute -top-5 left-0 text-center rounded-t-md text-lg'
         onClick={() => setCalendarOpen(false)}>
           Cerrar calendario
         </button>
