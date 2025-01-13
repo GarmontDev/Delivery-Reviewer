@@ -116,9 +116,9 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
         deleteFileFromCollections(value).then((res) => {
           if (res) {
             handleListAllFiles(showVisibleFiles);
-            alert("File deleted successfully");
+            swal("Albarán eliminado con éxito", "", "success");
           } else {
-            alert("Error deleting file");
+            swal("Ha ocurrido un error eliminando el albarán", "Inténtalo de nuevo", "error");
           }
         });
       }
