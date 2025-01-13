@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { addToListOfCollections, loadFile} from "../../config/firebase";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 import { useState } from "react";
+import swal from "sweetalert";
 
 const CreateFile = () => { 
 
@@ -10,10 +11,12 @@ const CreateFile = () => {
 
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [datePicked, setDatePicked] = useState(new Date())
+  const [fileNumber, setFileNumber] = useState("")
+  const [fileDescription, setFileDescription] = useState("")
 
   function createNewFile () {
     if(inputFile.files[0] === undefined){
-      return alert("Please select a file")
+      return swal("Selecciona un archivo compatible", "Por favor, inténtalo de nuevo", "Error")
     }
     var file = inputFile.files[0]
     var textType = /text.*/;
@@ -29,21 +32,21 @@ const CreateFile = () => {
               addToListOfCollections(fileNumber.value, fileDescription.value, datePicked)
               .then((res) => {
                 if(res){
-                  console.log("Added to list of collections")
+                  swal("Se ha cargado con éxito", "Haz click en aceptar para continuar", "success")
                   navigate("/home")
                 }else{
-                  console.log("Error loading to list of collection")
+                  swal("Error cargando el fichero en la base de datos", "Por favor, inténtalo de nuevo", "error")
                 }
               })
             }else{
-              alert("No content on the text file")
+              swal("El fichero no contiene datos", "Por favor, inténtalo de nuevo", "error")
             }
           })
 
       }
       reader.readAsText(file);  
     }else{
-      alert("Either the file type doesn't match or the file number is not correct")
+      swal("Either the file type doesn't match or the file number is not correct", "Por favor, inténtalo de nuevo", "error")
     }
   }
 
@@ -65,6 +68,8 @@ const CreateFile = () => {
             <input 
               type="text" 
               id="fileNumber" 
+              defaultValue={fileNumber}
+              onChange={(e) => setFileNumber(e.target.value)}
               name="fileNumber"
               className="text-input" 
               placeholder="Ex: 01205490" 
@@ -78,6 +83,8 @@ const CreateFile = () => {
             <input 
               type="text" 
               id="fileDescription" 
+              defaultValue={fileDescription}
+              onChange={(e) => setFileDescription(e.target.value)}
               name="fileDescription" 
               className="text-input" 
               placeholder="Ex: pedido camión" 
