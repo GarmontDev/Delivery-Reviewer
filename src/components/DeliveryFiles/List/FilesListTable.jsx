@@ -4,6 +4,7 @@ import CheckIcon from "../../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../../assets/icons/EmptyCheckIcon";
 import { EyeOffIcon, EyeOpenIcon } from "../../../assets/icons/EyeIcon";
 import { updateFile } from "../../../config/firebase";
+import Swal from "sweetalert2";
 
 const FilesListTable = ({
   employee,
@@ -12,7 +13,6 @@ const FilesListTable = ({
   handleListAllFiles,
   handleDeliveryFile,
   handleUpdateCompleted,
-  handleUpdateReviewed,
   handleDeleteFile,
 }) => {
   return (
@@ -120,12 +120,28 @@ const FilesListTable = ({
                     <button
                       type="button"
                       onClick={() => {
-                        if (
-                          window.confirm(
-                            "Seguro que deseas eliminar este albarán?"
-                          )
-                        )
-                          handleDeleteFile(item.number);
+                        Swal.fire({
+                          title:
+                            "¿Deseas eliminar este albar&aacute;n?",
+                          text: "Este proceso NO es reversible",
+                          icon: "warning",
+                          position: "top",
+                          showCancelButton: true,
+                          confirmButtonColor: "#3085d6",
+                          cancelButtonColor: "#d33",
+                          confirmButtonText: "Sí, adelante",
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            handleDeleteFile(item.number);
+                            Swal.fire({
+                              title: "¡Albarán eliminado con éxito!",
+                              icon: "success",
+                              position: "top",
+                              confirmButtonColor: "#3085d6",
+                              confirmButtonText: "Aceptar",
+                            });
+                          }
+                        });
                       }}
                     >
                       <DeleteIcon />

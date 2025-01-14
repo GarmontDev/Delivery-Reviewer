@@ -16,8 +16,8 @@ import { useEmployeeContext } from "../../context/EmployeeContext";
 import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
-import {isMobile} from 'react-device-detect';
-import swal from "sweetalert";
+import { isMobile } from "react-device-detect";
+import Swal from "sweetalert2";
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -118,12 +118,37 @@ const DeliveryNote = () => {
   }
 
   function handleRefreshIncidents() {
-    updateIncidents(reviewFileNumber).then((res) => {
-      setReviewFileIncidents(res);
-      if (res){
-        swal ( "Incidencias encontradas" ,  "" ,  "error" )
-      }else{
-        swal ( "Albarán sin incidencias" ,  "" ,  "success" )
+    Swal.fire({
+      title: "¿Deseas actualizar el estado del albar&aacute;n?",
+      text: "Esto marcará los artículos no revisados como incidencias",
+      icon: "warning",
+      position: "top",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, adelante",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updateIncidents(reviewFileNumber).then((res) => {
+          setReviewFileIncidents(res);
+          if (res) {
+            Swal.fire({
+              title: "¡Incidencias encontradas!",
+              icon: "error",
+              position: "top",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Aceptar",
+            });
+          } else {
+            Swal.fire({
+              title: "¡Todo en orden!",
+              icon: "success",
+              position: "top",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Aceptar",
+            });
+          }
+        });
       }
     });
   }
@@ -160,7 +185,7 @@ const DeliveryNote = () => {
                   reviewFileDate?.toMillis?.() || 0
                 ).toLocaleDateString()}
           </div>
-          <div>
+          <div className="grid gap-y-2">
             <button
               disabled={!employee.admin}
               className="disabled:cursor-not-allowed"
@@ -181,15 +206,15 @@ const DeliveryNote = () => {
                 )}
               </div>
             </button>
-            
+
             {reviewFileIncidents ? (
-              <div className="delivery-note-file-number text-center text-black bg-yellow-300 mt-2 pl-2 pr-2 pb-1 rounded-md">
+              <div className="delivery-note-file-number text-center text-black bg-yellow-400 hover:bg-yellow-600 hover:text-white  pl-2 pr-2 pb-1 rounded-md">
                 <button onClick={() => handleRefreshIncidents()}>
                   Con Incidencias
                 </button>
               </div>
             ) : (
-              <div className="delivery-note-file-number text-center text-white bg-green-400 mt-2 pl-2 pr-2 pb-1 rounded-md">
+              <div className="delivery-note-file-number text-center text-black bg-green-400 hover:bg-green-800 hover:text-white pl-2 pr-2 pb-1 rounded-md">
                 <button onClick={() => handleRefreshIncidents()}>
                   Sin incidencias
                 </button>
@@ -204,7 +229,9 @@ const DeliveryNote = () => {
               Volver
             </button>
             <div className="delivery-note-employee-name">
-            {isMobile ? employee.name.slice(0, 3).toUpperCase() : employee.name.slice(0, 6).toUpperCase()}
+              {isMobile
+                ? employee.name.slice(0, 3).toUpperCase()
+                : employee.name.slice(0, 6).toUpperCase()}
             </div>
           </div>
         </div>

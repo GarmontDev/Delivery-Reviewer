@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { addToListOfCollections, loadFile } from "../../config/firebase";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 import { useState } from "react";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 const CreateFile = () => {
   const navigate = useNavigate();
@@ -13,10 +13,11 @@ const CreateFile = () => {
 
   function createNewFile() {
     if (inputFile.files[0] === undefined) {
-      return swal(
-        "Selecciona un archivo compatible",
-        "Por favor, inténtalo de nuevo",
-        "Error"
+      return Swal.fire({
+        title: "Selecciona un archivo compatible",
+        confirmButtonText: 'Cool',
+        icon: "error"
+      }
       );
     }
     var file = inputFile.files[0];
@@ -40,36 +41,35 @@ const CreateFile = () => {
               datePicked
             ).then((res) => {
               if (res) {
-                swal(
-                  "Se ha cargado con éxito",
-                  "Haz click en aceptar para continuar",
-                  "success"
-                );
+                Swal.fire({
+                  title: "Se ha cargado con éxito",
+                  icon: "success"
+                });
                 navigate("/home");
               } else {
-                swal(
-                  "Error cargando el fichero en la base de datos",
-                  "Por favor, inténtalo de nuevo",
-                  "error"
-                );
+                Swal.fire({
+                  title: "Error cargando el fichero en la base de datos",
+                  text: "Por favor, inténtalo de nuevo",
+                  icon: "error"
+                });
               }
             });
           } else {
-            swal(
-              "El fichero no contiene datos",
-              "Por favor, inténtalo de nuevo",
-              "error"
-            );
+            Swal.fire({
+              title: "El fichero no contiene datos",
+              text: "Por favor, inténtalo de nuevo",
+              icon: "error"
+            });
           }
         });
       };
       reader.readAsText(file);
     } else {
-      swal(
-        "Either the file type doesn't match or the file number is not correct",
-        "Por favor, inténtalo de nuevo",
-        "error"
-      );
+      Swal.fire({
+        title:"Either the file type doesn't match or the file number is not correct",
+        text: "Por favor, inténtalo de nuevo",
+        icon: "error"
+      });
     }
   }
 

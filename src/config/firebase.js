@@ -176,7 +176,6 @@ export const addToListOfCollections = async (
 export const updateIncidents = async (fileNumber) => {
   try {
     const incidentsFound = [];
-
     const q = query(collection(db, fileNumber), where("incidents", "==", true));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
