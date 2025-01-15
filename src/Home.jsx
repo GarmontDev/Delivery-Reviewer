@@ -35,7 +35,7 @@ function Home() {
     <>
         <div className="header-container">
           <div className="header-icon">
-            <img src="public\favicon.ico"/>
+            <img src="src\assets\images\DR_Logo_Transp.webp"/>
             Delivery Reviewer
           </div>
           {employee ? (

@@ -2,7 +2,6 @@ import "./Login.css";
 import React, { useEffect, useState } from "react";
 import { auth, login } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
-import FaviconIcon from "../assets/icons/FaviconIcon.jsx";
 import { useUserContext } from "../context/UserContext.jsx";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -55,9 +54,9 @@ const Login = () => {
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4">
-              <div className="flex items-center gap-x-2">
-                <FaviconIcon size={32} />
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              <div className="flex items-center place-content-center gap-x-2">
+                <img src="src\assets\images\DR_Logo_Transp.webp" className="size-16 -ml-8"/>
+                <h1 className="text-xl md:text-2xl font-bold leading-tight tracking-tight text-sky-600 mt-2">
                   Delivery-Reviewer
                 </h1>
               </div>
