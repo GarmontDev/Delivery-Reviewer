@@ -36,7 +36,7 @@ function Home() {
     <>
         <div className="header-container">
           <div className="header-icon">
-            <img src={DRlogo} className="8"/>
+            <img src={DRlogo} className="size-8"/>
             Delivery Reviewer
           </div>
           {employee ? (
