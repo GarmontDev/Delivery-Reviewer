@@ -1,6 +1,5 @@
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import FaviconIcon from "./assets/icons/FaviconIcon";
 import { useUserContext } from "./context/UserContext";
 import { useEffect, useState } from "react";
 import EmployeeSelection from "./components/EmployeeSelection/EmployeeSelection";
@@ -12,7 +11,6 @@ import Footer from "./components/Footer";
 
 function Home() {
   const navigate = useNavigate();
-
   const { user } = useUserContext();
   const { employee, setEmployee } = useEmployeeContext();
   const [showVisibleFiles, setShowVisibleFiles] = useState(true);
@@ -37,7 +35,8 @@ function Home() {
     <>
         <div className="header-container">
           <div className="header-icon">
-            <FaviconIcon size={32} />
+            {/* <FaviconIcon size={32} /> */}
+            <img src="src\assets\images\DR_Logo_Transp.webp"/>
             Delivery Reviewer
           </div>
           {employee ? (
