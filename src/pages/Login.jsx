@@ -91,10 +91,10 @@ const Login = () => {
                         value={values.email}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={`${
-                          errors.email
-                            ? "bg-red-200 border border-red-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5t"
-                            : "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                        className={`h-10 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 border
+                          ${errors.email
+                            ? "bg-red-200  border-red-300"
+                            : "bg-gray-50 border border-gray-300"
                         }`}
                         placeholder="nombre@mail.com"
                         required
@@ -115,10 +115,10 @@ const Login = () => {
                         type="password"
                         name="password"
                         placeholder="••••••••"
-                        className={`${
-                          errors.password
-                            ? "bg-red-200 border border-red-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            : "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                        className={`h-10 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 border
+                          ${errors.email
+                            ? "bg-red-200  border-red-300"
+                            : "bg-gray-50 border border-gray-300"
                         }`}
                         value={values.password}
                         onChange={handleChange}
