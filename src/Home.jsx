@@ -35,7 +35,6 @@ function Home() {
     <>
         <div className="header-container">
           <div className="header-icon">
-            {/* <FaviconIcon size={32} /> */}
             <img src="src\assets\images\DR_Logo_Transp.webp"/>
             Delivery Reviewer
           </div>

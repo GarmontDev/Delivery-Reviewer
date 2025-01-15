@@ -10,11 +10,11 @@ body {
 }
 
 .home-container {
-  @apply pl-2 pr-2 pb-6 ;
+  @apply pl-2 pr-2 pb-6;
 }
 
 .header-container {
-  @apply bg-white flex justify-between relative w-full h-14
+  @apply bg-white flex justify-between relative w-full h-14 m-auto
   pt-3 pb-2 pl-4 pr-1 mb-3
   border-b-2 shadow-md;
 }
@@ -31,6 +31,10 @@ body {
 
 @media (min-width: 768px) {
   .home-container {
-    @apply flex flex-col items-center justify-center;
+    @apply flex flex-col items-center justify-center pl-0 pr-0;
+  }
+
+  .header-container {
+    @apply w-[768px]
   }
 }
