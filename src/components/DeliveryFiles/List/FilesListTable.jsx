@@ -19,6 +19,28 @@ const FilesListTable = ({
     <>
       {filteredFiles?.length > 0 ? (
         <div className="delivery-files-items-container">
+          <div
+            className="grid grid-cols-2 grid-rows-2
+              bg-slate-400 text-white border-2 rounded-lg mt-2 w-full h-8 overflow-hidden"
+          >
+            <div className="font-semibold ml-2">
+              Albar&aacute;n
+            </div>
+            <div className="grid grid-cols-4">
+              <div className="font-semibold ml-2">
+                Inc
+              </div>
+              <div className="font-semibold ml-2">
+                Act
+              </div>
+              <div className="font-semibold ml-2">
+                Vis
+              </div>
+              <div className="font-semibold ml-2">
+                Elim
+              </div>
+            </div>
+          </div>
           {filteredFiles?.map((item, index) => (
             <div
               className="grid grid-cols-2 grid-rows-2
@@ -121,8 +143,7 @@ const FilesListTable = ({
                       type="button"
                       onClick={() => {
                         Swal.fire({
-                          title:
-                            "¿Deseas eliminar este albar&aacute;n?",
+                          title: "¿Deseas eliminar este albar&aacute;n?",
                           text: "Este proceso NO es reversible",
                           icon: "warning",
                           position: "top",
