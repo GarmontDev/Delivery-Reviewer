@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext.jsx";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import DRlogo from "../assets/images/DR_Logo_Transp.webp"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const Login = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4">
               <div className="flex items-center place-content-center gap-x-2">
-                <img src="src\assets\images\DR_Logo_Transp.webp" className="size-16 -ml-8"/>
+                <img src={DRlogo} className="size-16 -ml-8"/>
                 <h1 className="text-xl md:text-2xl font-bold leading-tight tracking-tight text-sky-600 mt-2">
                   Delivery-Reviewer
                 </h1>

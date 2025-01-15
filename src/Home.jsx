@@ -8,6 +8,7 @@ import secureLocalStorage from "react-secure-storage";
 import FilesMenu from "./components/DeliveryFiles/Menu/FilesMenu";
 import FilesList from "./components/DeliveryFiles/List/FilesList";
 import Footer from "./components/Footer";
+import DRlogo from "./assets/images/DR_Logo_Transp.webp"
 
 function Home() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function Home() {
     <>
         <div className="header-container">
           <div className="header-icon">
-            <img src="src\assets\images\DR_Logo_Transp.webp"/>
+            <img src={DRlogo} className="8"/>
             Delivery Reviewer
           </div>
           {employee ? (
