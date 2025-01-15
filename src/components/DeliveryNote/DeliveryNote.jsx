@@ -241,6 +241,7 @@ const DeliveryNote = () => {
           <form>
             <select
               id="visible-lines"
+              defaultValue="all-filter"
               className={`w-auto border border-gray-300 h-9 pl-1
                 text-slate-800 font-bold text-sm rounded-md 
                 focus:ring-blue-500 focus:border-blue-500 
@@ -251,7 +252,7 @@ const DeliveryNote = () => {
               `}
               onChange={(e) => handleSelectStatusChange(e.target.value)}
             >
-              <option value="all-filter" selected>
+              <option value="all-filter">
                 Todas
               </option>
               <option value="pending-filter">Pendientes</option>
