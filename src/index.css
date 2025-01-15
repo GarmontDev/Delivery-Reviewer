@@ -10,13 +10,13 @@ body {
 }
 
 .home-container {
-  @apply pt-4 pl-2 pr-2 pb-6 ;
+  @apply  pl-2 pr-2 pb-6 ;
 }
 
 .header-container {
-  @apply bg-white flex justify-between relative w-96
-  pt-2 pb-2 pl-1 pr-1 mb-3 h-12
-  rounded-md border-2 shadow-md;
+  @apply bg-white flex justify-between relative w-full h-14
+  pt-3 pb-2 pl-1 pr-1 mb-3 
+  border-b-2 shadow-md;
 }
 
 .header-icon {
@@ -33,7 +33,7 @@ body {
   .home-container {
     @apply flex flex-col items-center justify-center;
   }
-  .header-container {
+  /* .header-container {
     @apply w-[768px];
-  }
+  } */
 }

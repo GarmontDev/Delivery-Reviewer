@@ -35,7 +35,6 @@ function Home() {
 
   return (
     <>
-      <div className="home-container">
         <div className="header-container">
           <div className="header-icon">
             <FaviconIcon size={32} />
@@ -54,7 +53,7 @@ function Home() {
           ) : (
             ""
           )}
-          <div className="absolute right-0 top-1.5">
+          <div className="absolute right-0 top-3">
             <FilesMenu
               employee={employee}
               setEmployee={setEmployee}
@@ -63,6 +62,7 @@ function Home() {
             />
           </div>
         </div>
+      <div className="home-container">
         {employee ? (
           <FilesList
             employee={employee}
