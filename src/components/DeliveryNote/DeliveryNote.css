@@ -9,7 +9,7 @@
 
 .delivery-note-header{
   @apply
-  flex justify-between h-14
+  flex justify-between h-16 mt-0.5
 }
 
 .delivery-note-file-number{

@@ -54,7 +54,8 @@ const FilesListTable = ({
                     item.number,
                     item.createdDate,
                     item.completed,
-                    item.incidents
+                    item.incidents,
+                    item.visible
                   )
                 }
               >
@@ -104,7 +105,7 @@ const FilesListTable = ({
                 </div>
                 {employee.admin ? (
                   <div className="w-5">
-                    {item.visible ? (
+                    {item.visible ? ( //TODO refactor: simplify one single button setting to the opposite
                       <button
                         onClick={() => (
                           updateFile(
@@ -116,7 +117,7 @@ const FilesListTable = ({
                           handleListAllFiles(showVisibleFiles)
                         )}
                       >
-                        <EyeOpenIcon />
+                        <EyeOpenIcon size={24}/>
                       </button>
                     ) : (
                       <button

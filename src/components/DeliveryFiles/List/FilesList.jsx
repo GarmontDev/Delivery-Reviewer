@@ -65,13 +65,14 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
     setFilteredFiles(files.filter((file) => file.description.toUpperCase().includes(value.toUpperCase())));
   }
 
-  function handleDeliveryFile(number, createdDate, completed, incidents) {
+  function handleDeliveryFile(number, createdDate, completed, incidents, visible) {
     navigate("/notes", {
       state: {
         reviewFileNumber: number.toString(),
         createdDate: createdDate,
         completed: completed,
         incidents: incidents,
+        visible: visible,
       },
     });
   }

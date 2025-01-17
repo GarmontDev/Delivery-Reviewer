@@ -2,6 +2,7 @@ import "./DeliveryNote.css";
 import {
   fetchDeliveryNote,
   updateCompleted,
+  updateFile,
   updateIncidents,
 } from "../../config/firebase";
 import { useEffect, useRef, useState } from "react";
@@ -18,6 +19,7 @@ import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
 import { isMobile } from "react-device-detect";
 import Swal from "sweetalert2";
+import { EyeOpenIcon } from "../../assets/icons/EyeIcon.jsx";
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -26,6 +28,9 @@ const DeliveryNote = () => {
 
   const reviewFileNumber = location.state?.reviewFileNumber;
   const reviewFileDate = location.state?.createdDate;
+  const [reviewFileVisible, setReviewFileVisible] = useState(
+    location.state?.visible
+  );
   const [reviewFileIncidents, setReviewFileIncidents] = useState(
     location.state?.incidents
   );
@@ -185,7 +190,7 @@ const DeliveryNote = () => {
                   reviewFileDate?.toMillis?.() || 0
                 ).toLocaleDateString()}
           </div>
-          <div className="grid gap-y-2">
+          <div className="grid grid-cols-2 gap-y-2">
             <button
               disabled={!employee.admin}
               className="disabled:cursor-not-allowed"
@@ -193,7 +198,7 @@ const DeliveryNote = () => {
                 handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
               }}
             >
-              <div className="delivery-note-file-number flex gap-1">
+              <div className="delivery-note-file-number flex gap-1 ">
                 Listo
                 {reviewFileCompleted ? (
                   <div className="pt-1">
@@ -206,20 +211,41 @@ const DeliveryNote = () => {
                 )}
               </div>
             </button>
-
-            {reviewFileIncidents ? (
-              <div className="delivery-note-file-number text-center text-black bg-yellow-400 hover:bg-yellow-600 hover:text-white  pl-2 pr-2 pb-1 rounded-md">
-                <button onClick={() => handleRefreshIncidents()}>
-                  Con Incidencias
-                </button>
-              </div>
-            ) : (
-              <div className="delivery-note-file-number text-center text-black bg-green-400 hover:bg-green-800 hover:text-white pl-2 pr-2 pb-1 rounded-md">
-                <button onClick={() => handleRefreshIncidents()}>
-                  Sin incidencias
-                </button>
-              </div>
-            )}
+            <button
+              className="flex place-content-around"
+              onClick={() =>
+                updateFile(
+                  reviewFileNumber,
+                  reviewFileIncidents,
+                  reviewFileCompleted,
+                  !reviewFileVisible
+                ).then((res) => {
+                  if (res) {
+                    setReviewFileVisible(!reviewFileVisible);
+                  }
+                })
+              }
+            >
+              {reviewFileVisible ? 
+                <div className="text-red-400 hover:text-white hover:bg-red-400 bg-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">Ocultar</div> :
+                <div className="text-green-600 hover:text-white hover:bg-green-600 bg-white border-2 border-green-600 hover:border-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">Activar</div>
+              }
+            </button>
+            <div className="col-span-2">
+              {reviewFileIncidents ? (
+                <div className="delivery-note-file-number text-center text-black bg-yellow-400 hover:bg-yellow-600 hover:text-white  pl-2 pr-2 pb-1 rounded-md">
+                  <button onClick={() => handleRefreshIncidents()}>
+                    Con Incidencias
+                  </button>
+                </div>
+              ) : (
+                <div className="delivery-note-file-number text-center text-black bg-green-400 hover:bg-green-800 hover:text-white pl-2 pr-2 pb-1 rounded-md">
+                  <button onClick={() => handleRefreshIncidents()}>
+                    Sin incidencias
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <div className="grid place-items-end">
             <button
@@ -252,9 +278,7 @@ const DeliveryNote = () => {
               `}
               onChange={(e) => handleSelectStatusChange(e.target.value)}
             >
-              <option value="all-filter">
-                Todas
-              </option>
+              <option value="all-filter">Todas</option>
               <option value="pending-filter">Pendientes</option>
               <option value="incidents-filter">Incidencias</option>
             </select>
