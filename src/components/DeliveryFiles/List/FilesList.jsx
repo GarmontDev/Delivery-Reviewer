@@ -37,7 +37,7 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
     } else {
       filterFilesByDate(showVisibleFiles);
     }
-  }, [showVisibleFiles]);
+  }, [showVisibleFiles, files]);
 
   function handleListAllFiles(visible) {
     listAllFiles(visible).then((res) => {
