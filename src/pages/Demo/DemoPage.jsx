@@ -5,7 +5,7 @@ import FilesList from "../../components/DeliveryFiles/List/FilesList";
 import Footer from "../../components/Footer";
 import DRlogo from "../../assets/images/DR_Logo_Transp.webp";
 import MenuIcon from "../../assets/icons/MenuIcon";
-import DemoFileList from "./DemoFIleList";
+import DemoFileList from "./DemoFileList";
 
 const DemoPage = () => {
   const { employee, setEmployee } = useEmployeeContext();
