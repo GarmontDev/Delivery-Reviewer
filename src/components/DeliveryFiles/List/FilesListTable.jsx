@@ -89,7 +89,7 @@ const FilesListTable = ({
                         handleUpdateCompleted(item.number, item.completed);
                       }}
                     >
-                      <CheckIcon size={25} />
+                      <CheckIcon size={24} />
                     </button>
                   ) : (
                     <button
@@ -99,7 +99,7 @@ const FilesListTable = ({
                         handleUpdateCompleted(item.number, item.completed);
                       }}
                     >
-                      <EmptyCheckIcon size={21} />
+                      <EmptyCheckIcon size={20} />
                     </button>
                   )}
                 </div>
