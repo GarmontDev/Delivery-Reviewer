@@ -23,22 +23,12 @@ const FilesListTable = ({
             className="grid grid-cols-2 grid-rows-2
               bg-slate-400 text-white border-2 rounded-lg mt-2 w-full h-8 overflow-hidden"
           >
-            <div className="font-semibold ml-2">
-              Albar&aacute;n
-            </div>
+            <div className="font-semibold ml-2">Albar&aacute;n</div>
             <div className="grid grid-cols-4">
-              <div className="font-semibold ml-2">
-                Inc
-              </div>
-              <div className="font-semibold ml-2">
-                Act
-              </div>
-              <div className="font-semibold ml-2">
-                Vis
-              </div>
-              <div className="font-semibold ml-2">
-                Elim
-              </div>
+              <div className="font-semibold ml-2">Inc</div>
+              <div className="font-semibold ml-2">Act</div>
+              <div className="font-semibold ml-2">Vis</div>
+              <div className="font-semibold ml-2">Elim</div>
             </div>
           </div>
           {filteredFiles?.map((item, index) => (
@@ -105,35 +95,23 @@ const FilesListTable = ({
                 </div>
                 {employee.admin ? (
                   <div className="w-5">
-                    {item.visible ? ( //TODO refactor: simplify one single button setting to the opposite
-                      <button
-                        onClick={() => (
-                          updateFile(
-                            item.number,
-                            item.incidents,
-                            item.completed,
-                            false
-                          ),
-                          handleListAllFiles(showVisibleFiles)
-                        )}
-                      >
-                        <EyeOpenIcon size={24}/>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => (
-                          updateFile(
-                            item.number,
-                            item.incidents,
-                            item.completed,
-                            true
-                          ),
-                          handleListAllFiles(showVisibleFiles)
-                        )}
-                      >
+                    <button
+                      onClick={() => (
+                        updateFile(
+                          item.number,
+                          item.incidents,
+                          item.completed,
+                          !item.visible
+                        ),
+                        handleListAllFiles(showVisibleFiles)
+                      )}
+                    >
+                      {item.visible ? (
+                        <EyeOpenIcon size={24} />
+                      ) : (
                         <EyeOffIcon />
-                      </button>
-                    )}
+                      )}
+                    </button>
                   </div>
                 ) : (
                   ""
