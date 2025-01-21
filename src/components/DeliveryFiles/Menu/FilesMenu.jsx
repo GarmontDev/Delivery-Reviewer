@@ -9,9 +9,11 @@ import { slide as Menu } from "react-burger-menu";
 import { useState } from "react";
 import MenuIcon from "../../../assets/icons/MenuIcon.jsx";
 import XClearIcon from "../../../assets/icons/XClearIcon.jsx";
+import { useEmployeeContext } from "../../../context/EmployeeContext.jsx";
 
-const FilesMenu = ({ employee, showVisibleFiles }) => {
+const FilesMenu = ({ showVisibleFiles }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { employee } = useEmployeeContext();
 
   function refreshFilesState() {
     listAllFiles(showVisibleFiles).then((res) => {

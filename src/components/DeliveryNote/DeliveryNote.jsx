@@ -19,7 +19,7 @@ import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
 import { isMobile } from "react-device-detect";
 import Swal from "sweetalert2";
-import { EyeOpenIcon } from "../../assets/icons/EyeIcon.jsx";
+import EmployeeIdle from "../EmployeeIdle/EmployeeIdle.jsx";
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -160,6 +160,7 @@ const DeliveryNote = () => {
 
   return (
     <>
+      {employee ? <EmployeeIdle /> : ""}
       <div className="delivery-note-container m-2 rounded-md">
         <Popup
           modal

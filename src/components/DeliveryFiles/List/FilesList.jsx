@@ -13,9 +13,12 @@ import "../DeliveryFiles.css";
 import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker.jsx";
 import FilesListTable from "./FilesListTable.jsx";
 import VisibleFilesOptionBtn from "../VisibleFilesOptionBtn.jsx";
+import { useEmployeeContext } from "../../../context/EmployeeContext.jsx";
+import EmployeeIdle from "../../EmployeeIdle/EmployeeIdle.jsx";
 
-const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
+const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
   const navigate = useNavigate();
+  const { employee } = useEmployeeContext();
 
   const [files, setFiles] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
@@ -62,10 +65,20 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
   }
 
   function filterFilesByDescription(value) {
-    setFilteredFiles(files.filter((file) => file.description.toUpperCase().includes(value.toUpperCase())));
+    setFilteredFiles(
+      files.filter((file) =>
+        file.description.toUpperCase().includes(value.toUpperCase())
+      )
+    );
   }
 
-  function handleDeliveryFile(number, createdDate, completed, incidents, visible) {
+  function handleDeliveryFile(
+    number,
+    createdDate,
+    completed,
+    incidents,
+    visible
+  ) {
     navigate("/notes", {
       state: {
         reviewFileNumber: number.toString(),
@@ -119,7 +132,11 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
             handleListAllFiles(showVisibleFiles);
             swal("Albarán eliminado con éxito", "", "success");
           } else {
-            swal("Ha ocurrido un error eliminando el albarán", "Inténtalo de nuevo", "error");
+            swal(
+              "Ha ocurrido un error eliminando el albarán",
+              "Inténtalo de nuevo",
+              "error"
+            );
           }
         });
       }
@@ -136,6 +153,9 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
       ) : (
         ""
       )}
+      
+      {employee ? <EmployeeIdle /> : ""}
+
       {!showVisibleFiles ? (
         <div className="grid grid-cols-1 grid-rows-3 h-40">
           <div className="w-full">
@@ -170,7 +190,7 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
               />
             </div>
             <div id="inactive-files-number" className="flex">
-            <span className="p-1 pr-2 mt-3 ml-1 w-full">N&uacute;mero</span>
+              <span className="p-1 pr-2 mt-3 ml-1 w-full">N&uacute;mero</span>
               <input
                 className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-auto focus:outline-blue-700 col-span-3"
                 placeholder="Albar&aacute;n"
@@ -183,7 +203,6 @@ const FilesList = ({ employee, showVisibleFiles, setShowVisibleFiles }) => {
         ""
       )}
       <FilesListTable
-        employee={employee}
         filteredFiles={filteredFiles}
         showVisibleFiles={showVisibleFiles}
         handleListAllFiles={handleListAllFiles}

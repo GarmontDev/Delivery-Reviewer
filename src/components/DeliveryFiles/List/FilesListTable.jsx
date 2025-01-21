@@ -5,9 +5,9 @@ import EmptyCheckIcon from "../../../assets/icons/EmptyCheckIcon";
 import { EyeOffIcon, EyeOpenIcon } from "../../../assets/icons/EyeIcon";
 import { updateFile } from "../../../config/firebase";
 import Swal from "sweetalert2";
+import { useEmployeeContext } from "../../../context/EmployeeContext";
 
 const FilesListTable = ({
-  employee,
   filteredFiles,
   showVisibleFiles,
   handleListAllFiles,
@@ -15,6 +15,9 @@ const FilesListTable = ({
   handleUpdateCompleted,
   handleDeleteFile,
 }) => {
+
+  const { employee } = useEmployeeContext();
+  
   return (
     <>
       {filteredFiles?.length > 0 ? (
