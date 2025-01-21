@@ -2,6 +2,19 @@ import { afterEach, describe, expect, it, test, vi } from "vitest";
 import FilesListTable from "./FilesListTable";
 import { cleanup, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
+import { useEmployeeContext } from "../../../context/EmployeeContext";
+
+vi.mock("react-secure-storage", () => ({
+  SecureLocalStorage: vi.fn(() => ({
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+  })),
+}));
+
+vi.mock("../../../context/EmployeeContext", () => ({
+  useEmployeeContext: vi.fn(),
+}));
 
 const mockFiles = [
   {
@@ -17,13 +30,14 @@ const mockFiles = [
 // Mock handlers
 const mockHandleDeliveryFile = vi.fn();
 const mockHandleUpdateCompleted = vi.fn();
-const mockUpdateReviewed = vi.fn();
 const mockHandleDeleteFile = vi.fn();
 const mockHandleListAllFiles = vi.fn();
 
-const employee = { name: "Tester", admin: true };
-
 describe("List of files", () => {
+  useEmployeeContext.mockReturnValue({
+    employee: { id: 1, name: "Tester", admin: true }, // Mocked employee data
+  });
+
   it("should render component"), () => {
       render(<FilesListTable />);
   };
@@ -36,13 +50,11 @@ describe("List of files", () => {
   it("should render file description", () => {
     render(
       <FilesListTable
-        employee={employee}
         filteredFiles={mockFiles}
         showVisibleFiles={true}
         handleListAllFiles={mockHandleListAllFiles}
         handleDeliveryFile={mockHandleDeliveryFile}
         handleUpdateCompleted={mockHandleUpdateCompleted}
-        handleUpdateReviewed={mockUpdateReviewed}
         handleDeleteFile={mockHandleDeleteFile}
       />
     );
