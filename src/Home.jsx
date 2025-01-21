@@ -48,14 +48,13 @@ function Home() {
           ""
         )}
         <div className="absolute right-0 top-3">
-          <FilesMenu setEmployee={setEmployee} />
+          <FilesMenu />
         </div>
       </div>
       {employee ? <EmployeeIdle /> : ""}
       <div className="home-container">
         {employee ? (
           <FilesList
-            employee={employee}
             showVisibleFiles={showVisibleFiles}
             setShowVisibleFiles={setShowVisibleFiles}
           />

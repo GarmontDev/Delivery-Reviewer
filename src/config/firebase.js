@@ -83,6 +83,16 @@ export const fetchDeliveryNote = async (reviewFileNumber) => {
   }
 };
 
+export const updateUser = async (userID, option) => {
+  try {
+    const fileRef = doc(db, "employees", userID);
+    updateDoc(fileRef, { soundEffects: option });
+    return true;
+  } catch (error) {
+    console.log("Error updating the employee, error: " + error);
+  }
+};
+
 export const updateItem = async (
   item,
   newUnits,

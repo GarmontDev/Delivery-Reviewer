@@ -15,6 +15,7 @@ import FilesListTable from "./FilesListTable.jsx";
 import VisibleFilesOptionBtn from "../VisibleFilesOptionBtn.jsx";
 import { useEmployeeContext } from "../../../context/EmployeeContext.jsx";
 import EmployeeIdle from "../../EmployeeIdle/EmployeeIdle.jsx";
+import Swal from "sweetalert2";
 
 const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
   const navigate = useNavigate();
@@ -130,13 +131,21 @@ const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
         deleteFileFromCollections(value).then((res) => {
           if (res) {
             handleListAllFiles(showVisibleFiles);
-            swal("Albarán eliminado con éxito", "", "success");
+            Swal.fire({
+              title: "Albarán eliminado con éxito",
+              icon: "success",
+              position: "top",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Aceptar",
+            });
           } else {
-            swal(
-              "Ha ocurrido un error eliminando el albarán",
-              "Inténtalo de nuevo",
-              "error"
-            );
+            Swal.fire({
+              title: "Ha ocurrido un error eliminando el albarán",
+              icon: "error",
+              position: "top",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Aceptar",
+            });
           }
         });
       }

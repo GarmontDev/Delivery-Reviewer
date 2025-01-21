@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { updateItem } from "../../../config/firebase";
-import { useEmployeeContext } from "../../../context/EmployeeContext";
 import { useWithSound } from "./useWithSound";
+import { useEmployeeContext } from "../../../context/EmployeeContext";
 
 const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
   const [units, setUnits] = useState(item.unitsReceived);
   const [notes, setNotes] = useState(item.notes);
   const [newCheck, setNewCheck] = useState(item.checked);
 
-  const { employee } = useEmployeeContext();
+  const { employee } = useEmployeeContext()
 
   const handleUnitsChange = (e) => {
     e.preventDefault();
@@ -49,10 +49,12 @@ const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
           notes: notes,
           checkedby: employee.name,
         });
-        if (!incidents) {
-          playRightSound();
-        } else {
-          playWrongSound();
+        if(employee.soundEffects){
+          if (!incidents) {
+            playRightSound();
+          } else {
+            playWrongSound();
+          }
         }
         setOpenEditItem(false);
       }
