@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form-errors{
+  @apply
+  text-red-600 text-sm
+}

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.main-search-bar {
+  @apply place-items-center place-content-center
+  flex justify-between w-full mr-2 pl-2;
+}
+
+.search-input-container {
+  @apply flex md:ml-20;
+}
+
+.search-input {
+  @apply bg-white border-2 border-r-0 h-9
+  pl-2 w-36 rounded-l-md 
+  hover:rounded-r-none focus:outline-none;
+}
+
+.search-x-button {
+  @apply p-1 border-r-2 border-t-2 border-b-2
+bg-red-400 rounded-r-md hover:bg-white;
+}
+
+.barcode-enabled-btn {
+  @apply hover:bg-red-400  bg-green-400;
+}
+
+.barcode-disabled-btn {
+  @apply text-red-600 hover:bg-red-400  bg-red-100;
+}

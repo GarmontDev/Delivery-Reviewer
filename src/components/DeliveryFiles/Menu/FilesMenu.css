@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.menu-visible-button{
+  @apply
+  rounded-md bg-blue-700 text-white text-sm pl-2 pr-2 h-6 mt-1
+}
+
+.menu-update-files-button{
+  @apply
+  bg-red-400 text-white text-sm rounded-md pl-2 pr-2 h-6 mt-1
+}
+
+.menu-admin-button{
+  @apply
+  rounded-md bg-blue-800 text-white text-sm pl-2 pr-2 h-6 mt-1 mr-4
+}
+
+.menu-item{
+  @apply
+  ml-4 hover:text-blue-700 hover:bg-white
+}
