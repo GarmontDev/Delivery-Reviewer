@@ -1,19 +1,14 @@
 import "./FilesMenu.css";
-import {
-  listAllFiles,
-  logout,
-  updateIncidents,
-  updateUser,
-} from "../../../config/firebase.js";
+import { listAllFiles, logout, updateIncidents, updateUser } from "../../../config/firebase.js";
 import secureLocalStorage from "react-secure-storage";
 import { slide as Menu } from "react-burger-menu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuIcon from "../../../assets/icons/MenuIcon.jsx";
 import XClearIcon from "../../../assets/icons/XClearIcon.jsx";
 import { useEmployeeContext } from "../../../context/EmployeeContext.jsx";
 
 const FilesMenu = () => {
-  const { employee, setEmployee } = useEmployeeContext()
+  const { employee, setEmployee } = useEmployeeContext();
   const [soundEffectsState, setSoundEffectsState] = useState(employee.soundEffects);
 
   function refreshFilesState() {
@@ -35,7 +30,7 @@ const FilesMenu = () => {
   function handleSoundEffectsSwitch() {
     updateUser(employee.userID, !soundEffectsState);
     setSoundEffectsState(!soundEffectsState);
-    setEmployee({...employee, soundEffects: !soundEffectsState})
+    setEmployee({ ...employee, soundEffects: !soundEffectsState });
   }
 
   return (
@@ -52,10 +47,7 @@ const FilesMenu = () => {
       >
         {employee.admin ? (
           <div className="menu-item">
-            <button
-              id="update-incidents-button"
-              onClick={() => refreshFilesState()}
-            >
+            <button id="update-incidents-button" onClick={() => refreshFilesState()}>
               Actualizar incidencias
             </button>
           </div>
@@ -95,8 +87,7 @@ const FilesMenu = () => {
         <button
           id="close-session-button"
           onClick={() => {
-            if (window.confirm("Seguro que deseas cerrar sesión?"))
-              handleLogout();
+            if (window.confirm("Seguro que deseas cerrar sesión?")) handleLogout();
           }}
           className="bg-red-500 text-white hover:bg-white hover:text-red-500 pl-2 pr-2 pb-1.5 pt-1 rounded-md m-auto mt-4"
         >

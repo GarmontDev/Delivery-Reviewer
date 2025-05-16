@@ -15,7 +15,7 @@ import FilesListTable from "./FilesListTable.jsx";
 import VisibleFilesOptionBtn from "../VisibleFilesOptionBtn.jsx";
 import { useEmployeeContext } from "../../../context/EmployeeContext.jsx";
 import EmployeeIdle from "../../EmployeeIdle/EmployeeIdle.jsx";
-import Swal from "sweetalert2";
+import { notifySuccess } from "../../../utils/toastify.jsx";
 
 const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
     } else {
       filterFilesByDate(showVisibleFiles);
     }
-  }, [showVisibleFiles, files]);
+  }, [showVisibleFiles]);
 
   function handleListAllFiles(visible) {
     listAllFiles(visible).then((res) => {
@@ -131,20 +131,12 @@ const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
         deleteFileFromCollections(value).then((res) => {
           if (res) {
             handleListAllFiles(showVisibleFiles);
-            Swal.fire({
-              title: "Albarán eliminado con éxito",
-              icon: "success",
-              position: "top",
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "Aceptar",
+            notifySuccess({
+              message: "Albarán eliminado con éxito",
             });
           } else {
-            Swal.fire({
-              title: "Ha ocurrido un error eliminando el albarán",
-              icon: "error",
-              position: "top",
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "Aceptar",
+            notifyError({
+              message: "Ha ocurrido un error eliminando el albarán",
             });
           }
         });

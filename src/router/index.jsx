@@ -8,7 +8,6 @@ import CreateFile from "../components/CreateFile/CreateFile.jsx";
 import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
 import Page404 from "../pages/Page404.jsx";
 import CreateTemporaryFile from "../components/CreateFile/CreateTemporaryFile.jsx";
-import DemoPage from "../pages/Demo/DemoPage.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -19,16 +18,6 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Login />,
-      },
-      {
-        path: "/demo",
-        element: <LayoutRoot />,
-        children: [
-          {
-            index: true,
-            element: <DemoPage />,
-          },
-        ],
       },
       {
         path: "/home",

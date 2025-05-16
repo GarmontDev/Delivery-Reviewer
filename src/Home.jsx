@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import DRlogo from "./assets/images/DR_Logo_Transp.webp";
 import EmployeeIdle from "./components/EmployeeIdle/EmployeeIdle";
 import { useEmployeeContext } from "./context/EmployeeContext";
+import { ToastContainer } from "react-toastify";
 
 function Home() {
   const navigate = useNavigate();
@@ -62,6 +63,7 @@ function Home() {
           <EmployeeSelection setEmployee={setEmployee} />
         )}
         <Footer />
+        <ToastContainer limit={4} />
       </div>
     </>
   );
