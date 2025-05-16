@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { addToListOfCollections, loadFile } from "../../config/firebase";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 import { useState } from "react";
-import Swal from "sweetalert2";
+import { notifyError, notifySuccess } from "../../utils/toastify";
 
 const CreateFile = () => {
   const navigate = useNavigate();
@@ -13,13 +13,12 @@ const CreateFile = () => {
 
   function createNewFile() {
     if (inputFile.files[0] === undefined) {
-      return Swal.fire({
-        title: "Selecciona un archivo compatible",
-        confirmButtonText: 'Cool',
-        icon: "error"
-      }
-      );
+      notifyError({
+        message: "No se ha seleccionado ningun fichero",
+      });
+      return;
     }
+
     var file = inputFile.files[0];
     var textType = /text.*/;
 
@@ -41,34 +40,27 @@ const CreateFile = () => {
               datePicked
             ).then((res) => {
               if (res) {
-                Swal.fire({
-                  title: "Se ha cargado con éxito",
-                  icon: "success"
+                notifySuccess({
+                  message: "Fichero subido correctamente",
                 });
                 navigate("/home");
               } else {
-                Swal.fire({
-                  title: "Error cargando el fichero en la base de datos",
-                  text: "Por favor, inténtalo de nuevo",
-                  icon: "error"
+                notifyError({
+                  message: "Error cargando el fichero en la base de datos",
                 });
               }
             });
           } else {
-            Swal.fire({
-              title: "El fichero no contiene datos",
-              text: "Por favor, inténtalo de nuevo",
-              icon: "error"
+            notifyError({
+              message: "El fichero no contiene datos.",
             });
           }
         });
       };
       reader.readAsText(file);
     } else {
-      Swal.fire({
-        title:"Either the file type doesn't match or the file number is not correct",
-        text: "Por favor, inténtalo de nuevo",
-        icon: "error"
+      notifyError({
+        message: "El tipo de archivo no coincide o el número de archivo no es correcto.",
       });
     }
   }
