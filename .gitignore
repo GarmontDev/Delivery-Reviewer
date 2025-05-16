@@ -128,3 +128,5 @@ dist
 public/PedidoGrande.txt
 public/unitarias.txt
 public/Yogures.txt
+
+.env.local

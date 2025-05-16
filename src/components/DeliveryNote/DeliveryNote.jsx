@@ -17,9 +17,11 @@ import { useEmployeeContext } from "../../context/EmployeeContext";
 import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
-import { isMobile } from "react-device-detect";
-import Swal from "sweetalert2";
 import EmployeeIdle from "../EmployeeIdle/EmployeeIdle.jsx";
+import { toast, ToastContainer } from "react-toastify";
+import { notifyError, notifySuccess } from "../../utils/toastify.jsx";
+
+const isMobile = window.innerWidth <= 768;
 
 const DeliveryNote = () => {
   const inputRef = useRef(null);
@@ -28,15 +30,9 @@ const DeliveryNote = () => {
 
   const reviewFileNumber = location.state?.reviewFileNumber;
   const reviewFileDate = location.state?.createdDate;
-  const [reviewFileVisible, setReviewFileVisible] = useState(
-    location.state?.visible
-  );
-  const [reviewFileIncidents, setReviewFileIncidents] = useState(
-    location.state?.incidents
-  );
-  const [reviewFileCompleted, setReviewFileCompleted] = useState(
-    location.state?.completed
-  );
+  const [reviewFileVisible, setReviewFileVisible] = useState(location.state?.visible);
+  const [reviewFileIncidents, setReviewFileIncidents] = useState(location.state?.incidents);
+  const [reviewFileCompleted, setReviewFileCompleted] = useState(location.state?.completed);
 
   const { employee } = useEmployeeContext();
   const [data, setData] = useState(null);
@@ -123,39 +119,24 @@ const DeliveryNote = () => {
   }
 
   function handleRefreshIncidents() {
-    Swal.fire({
-      title: "¿Deseas actualizar el estado del albar&aacute;n?",
-      text: "Esto marcará los artículos no revisados como incidencias",
-      icon: "warning",
-      position: "top",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, adelante",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        updateIncidents(reviewFileNumber).then((res) => {
-          setReviewFileIncidents(res);
-          if (res) {
-            Swal.fire({
-              title: "¡Incidencias encontradas!",
-              icon: "error",
-              position: "top",
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "Aceptar",
-            });
-          } else {
-            Swal.fire({
-              title: "¡Todo en orden!",
-              icon: "success",
-              position: "top",
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "Aceptar",
-            });
-          }
-        });
-      }
-    });
+    const confirmation = window.confirm(
+      "¿Deseas actualizar el estado del albarán? Esto marcará los artículos no revisados como incidencias"
+    );
+
+    if (confirmation) {
+      updateIncidents(reviewFileNumber).then((res) => {
+        setReviewFileIncidents(res);
+        if (res) {
+          notifyError({
+            message: "¡Albarán con incidencias!",
+          });
+        } else {
+          notifySuccess({
+            message: "¡Todo en orden!",
+          });
+        }
+      });
+    }
   }
 
   return (
@@ -187,9 +168,7 @@ const DeliveryNote = () => {
             <div className="delivery-note-file-info">Fecha</div>
             {typeof reviewFileDate === "string"
               ? reviewFileDate
-              : new Date(
-                  reviewFileDate?.toMillis?.() || 0
-                ).toLocaleDateString()}
+              : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
           </div>
           <div className="grid grid-cols-2 gap-y-2">
             <button
@@ -227,32 +206,30 @@ const DeliveryNote = () => {
                 })
               }
             >
-              {reviewFileVisible ? 
-                <div className="text-red-400 hover:text-white hover:bg-red-400 bg-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">Ocultar</div> :
-                <div className="text-green-600 hover:text-white hover:bg-green-600 bg-white border-2 border-green-600 hover:border-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">Activar</div>
-              }
+              {reviewFileVisible ? (
+                <div className="text-red-400 hover:text-white hover:bg-red-400 bg-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">
+                  Ocultar
+                </div>
+              ) : (
+                <div className="text-green-600 hover:text-white hover:bg-green-600 bg-white border-2 border-green-600 hover:border-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">
+                  Activar
+                </div>
+              )}
             </button>
             <div className="col-span-2">
               {reviewFileIncidents ? (
                 <div className="delivery-note-file-number text-center text-black bg-yellow-400 hover:bg-yellow-600 hover:text-white  pl-2 pr-2 pb-1 rounded-md">
-                  <button onClick={() => handleRefreshIncidents()}>
-                    Con Incidencias
-                  </button>
+                  <button onClick={() => handleRefreshIncidents()}>Con Incidencias</button>
                 </div>
               ) : (
                 <div className="delivery-note-file-number text-center text-black bg-green-400 hover:bg-green-800 hover:text-white pl-2 pr-2 pb-1 rounded-md">
-                  <button onClick={() => handleRefreshIncidents()}>
-                    Sin incidencias
-                  </button>
+                  <button onClick={() => handleRefreshIncidents()}>Sin incidencias</button>
                 </div>
               )}
             </div>
           </div>
           <div className="grid place-items-end">
-            <button
-              className="go-back-button"
-              onClick={() => navigate("/home")}
-            >
+            <button className="go-back-button" onClick={() => navigate("/home")}>
               Volver
             </button>
             <div className="delivery-note-employee-name">
@@ -350,6 +327,7 @@ const DeliveryNote = () => {
             ))}
           </tbody>
         </table>
+        <ToastContainer limit={4} />
       </div>
     </>
   );
