@@ -1,4 +1,3 @@
-import "./DeliveryNote.css";
 import {
   fetchDeliveryNote,
   updateCompleted,
@@ -18,7 +17,7 @@ import CheckIcon from "../../assets/icons/CheckIcon";
 import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 
 import EmployeeIdle from "../EmployeeIdle/EmployeeIdle.jsx";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toastify.jsx";
 
 const isMobile = window.innerWidth <= 768;
@@ -142,7 +141,7 @@ const DeliveryNote = () => {
   return (
     <>
       {employee ? <EmployeeIdle /> : ""}
-      <div className="delivery-note-container m-2 rounded-md">
+      <div className="pt-2 pb-4 pl-2 pr-2  m-2 rounded-sm">
         <Popup
           modal
           position="top center"
@@ -161,81 +160,81 @@ const DeliveryNote = () => {
             setReviewFileIncidents={setReviewFileIncidents}
           />
         </Popup>
-        <div className="delivery-note-header">
-          <div className="delivery-note-file-number -mt-2">
-            <div className="text-sm text-gray-600 -mb-2">Albar&aacute;n</div>
-            {reviewFileNumber}
-            <div className="delivery-note-file-info">Fecha</div>
-            {typeof reviewFileDate === "string"
-              ? reviewFileDate
-              : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
-          </div>
-          <div className="grid grid-cols-2 gap-y-2">
-            <button
-              disabled={!employee.admin}
-              className="disabled:cursor-not-allowed"
-              onClick={() => {
-                handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
-              }}
-            >
-              <div className="delivery-note-file-number flex gap-1 ">
-                Listo
-                {reviewFileCompleted ? (
-                  <div className="pt-1">
-                    <CheckIcon size={20} />
-                  </div>
-                ) : (
-                  <div className="pt-1">
-                    <EmptyCheckIcon size={20} />
-                  </div>
-                )}
+        <div className="flex justify-between items-center">
+          <div className="grid grid-cols-4">
+            <div className="grid grid-rows-2">
+              <div className="grid">
+                <p className="text-gray-400">Albar&aacute;n</p>
+                <span className="font-semibold -mt-1">{reviewFileNumber}</span>
               </div>
-            </button>
-            <button
-              className="flex place-content-around"
-              onClick={() =>
-                updateFile(
-                  reviewFileNumber,
-                  reviewFileIncidents,
-                  reviewFileCompleted,
-                  !reviewFileVisible
-                ).then((res) => {
-                  if (res) {
-                    setReviewFileVisible(!reviewFileVisible);
-                  }
-                })
-              }
-            >
-              {reviewFileVisible ? (
-                <div className="text-red-400 hover:text-white hover:bg-red-400 bg-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">
-                  Ocultar
-                </div>
-              ) : (
-                <div className="text-green-600 hover:text-white hover:bg-green-600 bg-white border-2 border-green-600 hover:border-white pl-2 pr-2 pt-0.5 pb-1 rounded-md font-semibold">
-                  Activar
-                </div>
-              )}
-            </button>
-            <div className="col-span-2">
-              {reviewFileIncidents ? (
-                <div className="delivery-note-file-number text-center text-black bg-yellow-400 hover:bg-yellow-600 hover:text-white  pl-2 pr-2 pb-1 rounded-md">
-                  <button onClick={() => handleRefreshIncidents()}>Con Incidencias</button>
-                </div>
-              ) : (
-                <div className="delivery-note-file-number text-center text-black bg-green-400 hover:bg-green-800 hover:text-white pl-2 pr-2 pb-1 rounded-md">
-                  <button onClick={() => handleRefreshIncidents()}>Sin incidencias</button>
-                </div>
-              )}
+              <div className="">
+                <p className="text-gray-400">Fecha</p>
+                <span className="font-semibold">
+                  {typeof reviewFileDate === "string"
+                    ? reviewFileDate
+                    : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="grid place-items-end">
-            <button className="go-back-button" onClick={() => navigate("/home")}>
-              Volver
-            </button>
-            <div className="delivery-note-employee-name">
-              {isMobile
-                ? employee.name.slice(0, 3).toUpperCase()
-                : employee.name.slice(0, 6).toUpperCase()}
+            <div className="grid grid-cols-3 gap-y-2 gap-x-2 col-span-2 items-center">
+              <button
+                disabled={!employee.admin}
+                className="disabled:cursor-not-allowed"
+                onClick={() => {
+                  handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
+                }}
+              >
+                <div className="flex text-center justify-center content-center items-center gap-x-1 ">
+                  {reviewFileCompleted ? <CheckIcon size={24} /> : <EmptyCheckIcon size={24} />}
+                  <p className="text-blue-700 font-semibold">Listo</p>
+                </div>
+              </button>
+              <button
+                className={
+                  "col-span-2 flex text-center justify-center items-center py-1 rounded-md h-8 hover:bg-white" +
+                  (reviewFileVisible
+                    ? " bg-red-100 text-red-700"
+                    : " bg-green-100 text-green-700 ")
+                }
+                onClick={() =>
+                  updateFile(
+                    reviewFileNumber,
+                    reviewFileIncidents,
+                    reviewFileCompleted,
+                    !reviewFileVisible
+                  ).then((res) => {
+                    if (res) {
+                      setReviewFileVisible(!reviewFileVisible);
+                    }
+                  })
+                }
+              >
+                {reviewFileVisible ? "Ocultar" : "Activar"}
+              </button>
+              <div
+                className={
+                  "col-span-3 flex text-center justify-center hover:text-white rounded-xl" +
+                  (reviewFileIncidents
+                    ? " bg-yellow-100 text-yellow-700"
+                    : " bg-green-100 text-green-700")
+                }
+              >
+                <button onClick={() => handleRefreshIncidents()}>
+                  {reviewFileIncidents ? "Con incidencias" : "Sin incidencias"}
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-rows-2 gap-x-2 place-items-end">
+              <button
+                className="h-10 w-auto px-2 py-1 flex items-center justify-center rounded-md shadow-md bg-blue-700 hover:bg-blue-500 text-white text-sm"
+                onClick={() => navigate("/home")}
+              >
+                Volver
+              </button>
+
+              <span className="h-8 w-auto flex items-center justify-center bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs font-semibold">
+                {employee.name.slice(0, 6).toUpperCase()}
+              </span>
             </div>
           </div>
         </div>
@@ -249,10 +248,6 @@ const DeliveryNote = () => {
               className={`w-auto border border-gray-300 h-9 pl-1
                 text-slate-800 font-bold text-sm rounded-md 
                 focus:ring-blue-500 focus:border-blue-500 
-                
-                ${selectStatus === "all-filter" ? "bg-green-400" : ""}
-                ${selectStatus === "pending-filter" ? "bg-blue-400" : ""}
-                ${selectStatus === "incidents-filter" ? "bg-yellow-300" : ""}
               `}
               onChange={(e) => handleSelectStatusChange(e.target.value)}
             >
@@ -278,51 +273,37 @@ const DeliveryNote = () => {
         </div>
       </div>
       <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-sm">
-        <table className="note-table">
-          <thead className="delivery-note-table-head">
+        <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 select-none border-gray-200 border">
+          <thead className="text-xs h-8 text-slate-600 bg-slate-100 uppercase">
             <tr>
-              <th className="px-3 w-10">Rec</th>
-              <th className="px-3 w-80 lg:w-96">Descripci&oacute;n</th>
-              <th className="w-20">Facturado</th>
-              <th className="px-3 w-8">Notas</th>
-              <th className="px-16 w-20">Revisado</th>
+              <th className="text-center w-14">Rec.</th>
+              <th className="text-left w-64 lg:w-96">Descripci&oacute;n</th>
+              <th className="text-center w-20">Notas</th>
+              <th className="text-center w-20">Facturado</th>
+              <th className="text-center w-20">Revisado</th>
             </tr>
           </thead>
-          <tbody className="odd:bg-white even:bg-gray-50 border-b">
+          <tbody className="border-b">
             {filteredData?.map((item, index) => (
               <tr
                 key={item.code + "-" + index}
-                className={`h-20 text-base border-b border-gray-400 ${
-                  item?.checked
-                    ? "bg-green-200"
-                    : item?.incidents
-                    ? "bg-yellow-100 "
-                    : "odd:bg-white even:bg-gray-100"
+                className={`h-20 text-base border-b border-gray-200 ${
+                  item?.checked ? "bg-green-200" : item?.incidents ? "bg-yellow-100 " : ""
                 }`}
                 onClick={() => (setItemSelected(item), setOpenEditItem(true))}
               >
-                <td
-                  scope="col"
-                  className="font-bold text-lg flex text-left place-content-center pt-6 text-green-600"
-                >
+                <td className="font-semibold text-lg flex text-center justify-center place-content-center pt-6 text-green-600">
                   {item.unitsReceived}
                 </td>
 
-                <th className="px-3 truncate">
-                  <p className="flex gap-x-2">
-                    {item.code}
-                    {item.notes ? <NotesIcon /> : ""}
-                  </p>
+                <th className="text-left text-wrap truncate font-normal text-slate-800">
                   {item.description.charAt(0).toUpperCase() +
                     item.description.slice(1).toLowerCase()}
                 </th>
-                <td scope="col" className="px-4 flex place-content-center">
-                  {item.unitsBilled}
-                </td>
-                <td scope="col" className="px-4 ">
-                  {item.notes ? <NotesIcon /> : ""}
-                </td>
-                <td className="px-16">{item.checkedby}</td>
+
+                <td className="flex justify-center ">{item.notes ? <NotesIcon /> : ""}</td>
+                <td className="text-center">{item.unitsBilled}</td>
+                <td className="text-center">{item.checkedby}</td>
               </tr>
             ))}
           </tbody>
