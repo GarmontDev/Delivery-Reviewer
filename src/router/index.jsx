@@ -8,6 +8,7 @@ import CreateFile from "../components/CreateFile/CreateFile.jsx";
 import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
 import Page404 from "../pages/Page404.jsx";
 import CreateTemporaryFile from "../components/CreateFile/CreateTemporaryFile.jsx";
+import NewDeliveryNote from "../components/DeliveryNote/NewDeliveryNote.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,16 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <Home />,
+          },
+        ],
+      },
+      {
+        path: "/newdeliverynote",
+        element: <LayoutPrivate />,
+        children: [
+          {
+            index: true,
+            element: <NewDeliveryNote/>,
           },
         ],
       },
