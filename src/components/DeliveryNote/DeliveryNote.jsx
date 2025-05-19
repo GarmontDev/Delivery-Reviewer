@@ -1,4 +1,3 @@
-import "./DeliveryNote.css";
 import {
   fetchDeliveryNote,
   updateCompleted,
@@ -162,7 +161,7 @@ const DeliveryNote = () => {
           />
         </Popup>
         <div className="flex justify-between items-center">
-          <div className="grid grid-cols-3">
+          <div className="grid grid-cols-4">
             <div className="grid grid-rows-2">
               <div className="grid">
                 <p className="text-gray-400">Albar&aacute;n</p>
@@ -177,7 +176,7 @@ const DeliveryNote = () => {
                 </span>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-y-2 gap-x-4">
+            <div className="grid grid-cols-3 gap-y-2 gap-x-2 col-span-2 items-center">
               <button
                 disabled={!employee.admin}
                 className="disabled:cursor-not-allowed"
@@ -191,7 +190,12 @@ const DeliveryNote = () => {
                 </div>
               </button>
               <button
-                className="flex place-content-around justify-center content-center items-center"
+                className={
+                  "col-span-2 flex text-center justify-center items-center py-1 rounded-md h-8 hover:bg-white" +
+                  (reviewFileVisible
+                    ? " bg-red-100 text-red-700"
+                    : " bg-green-100 text-green-700 ")
+                }
                 onClick={() =>
                   updateFile(
                     reviewFileNumber,
@@ -205,19 +209,11 @@ const DeliveryNote = () => {
                   })
                 }
               >
-                {reviewFileVisible ? (
-                  <div className="h-8 flex text-center items-center text-red-700 bg-red-100 hover:bg-white pl-2 pr-2 rounded-md">
-                    Ocultar
-                  </div>
-                ) : (
-                  <div className="h-8 flex text-center items-center text-green-700 bg-green-100 hover:bg-white pl-2 pr-2 rounded-md">
-                    Activar
-                  </div>
-                )}
+                {reviewFileVisible ? "Ocultar" : "Activar"}
               </button>
               <div
                 className={
-                  "col-span-2 flex text-center justify-center hover:text-white rounded-xl" +
+                  "col-span-3 flex text-center justify-center hover:text-white rounded-xl" +
                   (reviewFileIncidents
                     ? " bg-yellow-100 text-yellow-700"
                     : " bg-green-100 text-green-700")
