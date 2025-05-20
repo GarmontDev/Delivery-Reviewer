@@ -78,7 +78,7 @@ const DeliveryNote = () => {
     );
   }
 
-    function filterData(value) {
+  function filterData(value) {
     if (isBarcode && Number(value)) {
       CBarras.CBARRAS.find((item) => {
         if (item.CODE === value) {
@@ -197,7 +197,7 @@ const DeliveryNote = () => {
               </span>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-y-2 gap-x-2 col-span-2 items-center">
+          <div className="grid grid-cols-3 mx-4 gap-y-2 gap-x-2 col-span-2 items-center">
             <button
               disabled={!employee.admin}
               className="disabled:cursor-not-allowed"
@@ -211,9 +211,12 @@ const DeliveryNote = () => {
               </div>
             </button>
             <button
+              disabled={!employee.admin}
               className={
-                "col-span-2 flex text-center justify-center items-center py-1 rounded-md h-8 hover:bg-white" +
-                (reviewFileVisible ? " bg-red-100 text-red-700" : " bg-green-100 text-green-700 ")
+                "col-span-2 flex text-center justify-center items-center py-1 rounded-md border h-8 hover:bg-white disabled:cursor-not-allowed" +
+                (reviewFileVisible
+                  ? " bg-red-100 text-red-700 border-red-400"
+                  : " bg-green-100 text-green-700 ")
               }
               onClick={() =>
                 updateFile(
@@ -230,18 +233,18 @@ const DeliveryNote = () => {
             >
               {reviewFileVisible ? "Ocultar" : "Activar"}
             </button>
-            <div
+            <button
+              disabled={!employee.admin}
+              onClick={() => handleRefreshIncidents()}
               className={
-                "col-span-3 flex text-center justify-center hover:text-white rounded-xl" +
+                "col-span-3 flex text-center justify-center border hover:text-white rounded-md disabled:cursor-not-allowed" +
                 (reviewFileIncidents
-                  ? " bg-yellow-100 text-yellow-700"
-                  : " bg-green-100 text-green-700")
+                  ? " bg-yellow-100 text-yellow-700 border-yellow-700"
+                  : " bg-green-100 text-green-700 border-green-700")
               }
             >
-              <button onClick={() => handleRefreshIncidents()}>
-                {reviewFileIncidents ? "Con incidencias" : "Sin incidencias"}
-              </button>
-            </div>
+              {reviewFileIncidents ? "Con incidencias" : "Sin incidencias"}
+            </button>
           </div>
           <div className="grid grid-rows-2 gap-x-2 place-items-end">
             <button
@@ -289,7 +292,7 @@ const DeliveryNote = () => {
           />
         </div>
         <div>
-          <BarcodeScanner filterData={filterData}/>
+          <BarcodeScanner filterData={filterData} />
         </div>
         <div className="flex w-full max-w-3xl items-center justify-between">
           <table className="w-full table-fixed overflow-x-scroll mx-2 text-sm text-gray-700 select-none border-gray-200 border">
@@ -314,13 +317,11 @@ const DeliveryNote = () => {
                   <td className="font-semibold text-lg flex text-center justify-center place-content-center pt-6 text-slate-700">
                     {item.unitsReceived}
                   </td>
-
                   <th className="text-left text-wrap truncate font-normal text-slate-800">
                     <p className="font-semibold text-sm text-blue-700">{item.code}</p>
                     {item.description.charAt(0).toUpperCase() +
                       item.description.slice(1).toLowerCase()}
                   </th>
-
                   <td className="flex justify-center ">{item.notes ? <NotesIcon /> : ""}</td>
                   <td className="text-center">{item.unitsBilled}</td>
                   <td className="text-center">{item.checkedby}</td>
