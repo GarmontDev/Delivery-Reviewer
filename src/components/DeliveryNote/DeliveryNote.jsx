@@ -8,6 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
+import CBarras from "../../CBARRAS.json";
+
 import EditItem from "./EditItem/EditItem.jsx";
 
 import NotesIcon from "../../assets/icons/NotesIcon";
@@ -19,6 +21,7 @@ import EmptyCheckIcon from "../../assets/icons/EmptyCheckIcon";
 import EmployeeIdle from "../EmployeeIdle/EmployeeIdle.jsx";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toastify.jsx";
+import BarcodeScanner from "../BarcodeScanner/BarcodeScanner.jsx";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -73,6 +76,25 @@ const DeliveryNote = () => {
         }
       })
     );
+  }
+
+    function filterData(value) {
+    if (isBarcode && Number(value)) {
+      CBarras.CBARRAS.find((item) => {
+        if (item.CODE === value) {
+          setFilteredData(data.filter((element) => element.code.includes(item.CODEARTI)));
+        }
+      });
+    } else {
+      setIsBarcode(false);
+      setFilteredData(
+        data.filter(
+          (item) =>
+            item.description.toUpperCase().includes(value.toUpperCase()) ||
+            item.code.includes(value)
+        )
+      );
+    }
   }
 
   function handleClearFilteredData() {
@@ -253,6 +275,7 @@ const DeliveryNote = () => {
 
           <SearchBar
             data={data}
+            filterData={filterData}
             isBarcode={isBarcode}
             setIsBarcode={setIsBarcode}
             setFilteredData={setFilteredData}
@@ -264,6 +287,9 @@ const DeliveryNote = () => {
             setOpenEditItem={setOpenEditItem}
             inputRef={inputRef}
           />
+        </div>
+        <div>
+          <BarcodeScanner filterData={filterData}/>
         </div>
         <div className="flex w-full max-w-3xl items-center justify-between">
           <table className="w-full table-fixed overflow-x-scroll mx-2 text-sm text-gray-700 select-none border-gray-200 border">

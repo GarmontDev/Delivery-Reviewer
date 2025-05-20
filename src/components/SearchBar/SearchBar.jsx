@@ -1,45 +1,21 @@
 import XClearIcon from "../../assets/icons/XClearIcon";
-import CBarras from "../../CBARRAS.json";
+
 import { BarcodeDisabledIcon, BarcodeIcon } from "../../assets/icons/BarcodeIcon";
 import { useEffect } from "react";
 
 const SearchBar = ({
-  data,
-  keepSearchValue,
+  filterData,
   setKeepSearchValue,
   isBarcode,
   setIsBarcode,
-  setFilteredData,
   handleClearFilteredData,
   openEditItem,
-  setOpenEditItem,
   inputRef,
 }) => {
-  const toogleKeepSearchValue = () => {
-    setKeepSearchValue(!keepSearchValue);
-  };
+
   const toggleBarcode = () => {
     setIsBarcode(!isBarcode);
   };
-
-  function filterData(value) {
-    if (isBarcode && Number(value)) {
-      CBarras.CBARRAS.find((item) => {
-        if (item.CODE === value) {
-          setFilteredData(data.filter((element) => element.code.includes(item.CODEARTI)));
-        }
-      });
-    } else {
-      setIsBarcode(false);
-      setFilteredData(
-        data.filter(
-          (item) =>
-            item.description.toUpperCase().includes(value.toUpperCase()) ||
-            item.code.includes(value)
-        )
-      );
-    }
-  }
 
   useEffect(() => {
     if (!openEditItem && inputRef.current) {
