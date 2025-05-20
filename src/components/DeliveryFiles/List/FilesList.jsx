@@ -23,10 +23,7 @@ const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
 
   const [files, setFiles] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
-  const [datePicked, setDatePicked] = useState([
-    new Date(new Date() - 7 * 86400000),
-    new Date(),
-  ]);
+  const [datePicked, setDatePicked] = useState([new Date(new Date() - 7 * 86400000), new Date()]);
   const [calendarOpen, setCalendarOpen] = useState(false);
 
   useEffect(() => {
@@ -67,19 +64,11 @@ const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
 
   function filterFilesByDescription(value) {
     setFilteredFiles(
-      files.filter((file) =>
-        file.description.toUpperCase().includes(value.toUpperCase())
-      )
+      files.filter((file) => file.description.toUpperCase().includes(value.toUpperCase()))
     );
   }
 
-  function handleDeliveryFile(
-    number,
-    createdDate,
-    completed,
-    incidents,
-    visible
-  ) {
+  function handleDeliveryFile(number, createdDate, completed, incidents, visible) {
     navigate("/notes", {
       state: {
         reviewFileNumber: number.toString(),
@@ -146,63 +135,57 @@ const FilesList = ({ showVisibleFiles, setShowVisibleFiles }) => {
 
   return (
     <>
-      {employee.admin ? (
-        <VisibleFilesOptionBtn
-          showVisibleFiles={showVisibleFiles}
-          setShowVisibleFiles={setShowVisibleFiles}
-        />
-      ) : (
-        ""
-      )}
-      
       {employee ? <EmployeeIdle /> : ""}
-
-      {!showVisibleFiles ? (
-        <div className="grid grid-cols-1 grid-rows-3 h-40">
-          <div className="w-full">
-            <div id="inactive-files-date" className="flex">
-              <span className="p-1 pr-2 mt-3 ml-1">Fecha</span>
-              <div className="mt-2 w-full h-auto ">
-                {calendarOpen ? (
-                  <CustomDatePicker
-                    calendarOpen={calendarOpen}
-                    setCalendarOpen={setCalendarOpen}
-                    datePicked={datePicked}
-                    setDatePicked={setDatePicked}
-                    isRange={true}
-                  />
-                ) : (
-                  <button
-                    className="text-input"
-                    onClick={() => setCalendarOpen(true)}
-                  >
-                    {datePicked[0].toLocaleDateString()} hasta{" "}
-                    {datePicked[1].toLocaleDateString()}
-                  </button>
-                )}
+      <div className="flex flex-col items-center">
+        {employee.admin && (
+          <VisibleFilesOptionBtn
+            showVisibleFiles={showVisibleFiles}
+            setShowVisibleFiles={setShowVisibleFiles}
+          />
+        )}
+        {!showVisibleFiles && (
+          <div className="flex flex-col h-auto w-full max-w-md content-center items-center justify-center bg-white rounded-lg shadow-lg p-4 mt-2">
+            <div className="w-full">
+              <div id="inactive-files-date" className="flex justify-between">
+                <span className="p-1 pr-2 mt-3 ml-1">Fecha</span>
+                <div className="flex items-center justify-center w-auto max-w-56">
+                  {calendarOpen ? (
+                    <CustomDatePicker
+                      calendarOpen={calendarOpen}
+                      setCalendarOpen={setCalendarOpen}
+                      datePicked={datePicked}
+                      setDatePicked={setDatePicked}
+                      isRange={true}
+                    />
+                  ) : (
+                    <button className="text-input" onClick={() => setCalendarOpen(true)}>
+                      {datePicked[0].toLocaleDateString()} hasta{" "}
+                      {datePicked[1].toLocaleDateString()}
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div id="inactive-files-description" className="flex">
+                <span className="p-1 pr-2 mt-3 ml-1 w-full">Descripción</span>
+                <input
+                  className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-auto focus:outline-blue-700 col-span-3"
+                  placeholder="Pedido"
+                  onChange={(e) => filterFilesByDescription(e.target.value)}
+                />
+              </div>
+              <div id="inactive-files-number" className="flex">
+                <span className="p-1 pr-2 mt-3 ml-1 w-full">N&uacute;mero</span>
+                <input
+                  className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-auto focus:outline-blue-700 col-span-3"
+                  placeholder="Albar&aacute;n"
+                  onChange={(e) => filterFilesByNumber(e.target.value)}
+                />
               </div>
             </div>
-            <div id="inactive-files-description" className="flex">
-              <span className="p-1 pr-2 mt-3 ml-1 w-full">Descripción</span>
-              <input
-                className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-auto focus:outline-blue-700 col-span-3"
-                placeholder="Pedido"
-                onChange={(e) => filterFilesByDescription(e.target.value)}
-              />
-            </div>
-            <div id="inactive-files-number" className="flex">
-              <span className="p-1 pr-2 mt-3 ml-1 w-full">N&uacute;mero</span>
-              <input
-                className="text-gray-800 rounded-lg border-2 shadow pl-2 h-10 mt-2 w-auto focus:outline-blue-700 col-span-3"
-                placeholder="Albar&aacute;n"
-                onChange={(e) => filterFilesByNumber(e.target.value)}
-              />
-            </div>
           </div>
-        </div>
-      ) : (
-        ""
-      )}
+        )}
+      </div>
+
       <FilesListTable
         filteredFiles={filteredFiles}
         showVisibleFiles={showVisibleFiles}
