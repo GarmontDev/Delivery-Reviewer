@@ -66,16 +66,16 @@ const SearchBar = ({
             ref={inputRef}
             autoFocus={true}
             maxLength={20}
-            className="bg-white border h-9 pl-2 w-40 rounded-md"
+            className="bg-white border h-9 pl-2 w-full max-w-sm rounded-md"
             onChange={(e) => filterData(e.target.value)}
             placeholder="C&oacute;digo/nombre"
           />
-          <button className="p-1 rounded-md hover:bg-white" onClick={() => handleXButton()}>
+          <button className="p-1 rounded-md border border-red-400 hover:bg-red-100" onClick={() => handleXButton()}>
             <XClearIcon stroke={"red"} />
           </button>
         </div>
         <button
-          className={`flex ml-2 p-1 rounded-md pl-2 pr-2 hover:bg-red-400 ${
+          className={`flex p-1 ml-2 rounded-md px-2 hover:bg-red-400 ${
             isBarcode ? "bg-green-400" : "text-red-600 bg-red-100"
           }`}
           onClick={() => toggleBarcode()}

@@ -141,111 +141,105 @@ const DeliveryNote = () => {
   return (
     <>
       {employee ? <EmployeeIdle /> : ""}
-      <div className="pt-2 pb-4 pl-2 pr-2  m-2 rounded-sm">
-        <Popup
-          modal
-          position="top center"
-          nested
-          open={openEditItem}
-          onClose={() => (updateLocalData(), setOpenEditItem(false))}
-          repositionOnResize
-        >
-          <EditItem
-            item={itemSelected}
-            setItemSelected={setItemSelected}
-            fileNumber={reviewFileNumber}
-            setOpenEditItem={setOpenEditItem}
-            setData={setData}
-            setFilteredData={setFilteredData}
-            setReviewFileIncidents={setReviewFileIncidents}
-          />
-        </Popup>
-        <div className="flex justify-between items-center">
-          <div className="grid grid-cols-4">
-            <div className="grid grid-rows-2">
-              <div className="grid">
-                <p className="text-gray-400">Albar&aacute;n</p>
-                <span className="font-semibold -mt-1">{reviewFileNumber}</span>
-              </div>
-              <div className="">
-                <p className="text-gray-400">Fecha</p>
-                <span className="font-semibold">
-                  {typeof reviewFileDate === "string"
-                    ? reviewFileDate
-                    : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
-                </span>
-              </div>
+      <Popup
+        modal
+        position="top center"
+        nested
+        open={openEditItem}
+        onClose={() => (updateLocalData(), setOpenEditItem(false))}
+        repositionOnResize
+      >
+        <EditItem
+          item={itemSelected}
+          setItemSelected={setItemSelected}
+          fileNumber={reviewFileNumber}
+          setOpenEditItem={setOpenEditItem}
+          setData={setData}
+          setFilteredData={setFilteredData}
+          setReviewFileIncidents={setReviewFileIncidents}
+        />
+      </Popup>
+      <div className="flex flex-col items-center content-center justify-center gap-y-2">
+        <div className="flex w-full max-w-3xl items-center justify-between px-4 py-2 lg:rounded-md shadow-md border-l border-r border-b">
+          <div className="grid grid-rows-2">
+            <div className="grid">
+              <p className="text-gray-400">Albar&aacute;n</p>
+              <span className="font-semibold -mt-1">{reviewFileNumber}</span>
             </div>
-            <div className="grid grid-cols-3 gap-y-2 gap-x-2 col-span-2 items-center">
-              <button
-                disabled={!employee.admin}
-                className="disabled:cursor-not-allowed"
-                onClick={() => {
-                  handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
-                }}
-              >
-                <div className="flex text-center justify-center content-center items-center gap-x-1 ">
-                  {reviewFileCompleted ? <CheckIcon size={24} /> : <EmptyCheckIcon size={24} />}
-                  <p className="text-blue-700 font-semibold">Listo</p>
-                </div>
-              </button>
-              <button
-                className={
-                  "col-span-2 flex text-center justify-center items-center py-1 rounded-md h-8 hover:bg-white" +
-                  (reviewFileVisible
-                    ? " bg-red-100 text-red-700"
-                    : " bg-green-100 text-green-700 ")
-                }
-                onClick={() =>
-                  updateFile(
-                    reviewFileNumber,
-                    reviewFileIncidents,
-                    reviewFileCompleted,
-                    !reviewFileVisible
-                  ).then((res) => {
-                    if (res) {
-                      setReviewFileVisible(!reviewFileVisible);
-                    }
-                  })
-                }
-              >
-                {reviewFileVisible ? "Ocultar" : "Activar"}
-              </button>
-              <div
-                className={
-                  "col-span-3 flex text-center justify-center hover:text-white rounded-xl" +
-                  (reviewFileIncidents
-                    ? " bg-yellow-100 text-yellow-700"
-                    : " bg-green-100 text-green-700")
-                }
-              >
-                <button onClick={() => handleRefreshIncidents()}>
-                  {reviewFileIncidents ? "Con incidencias" : "Sin incidencias"}
-                </button>
-              </div>
-            </div>
-            <div className="grid grid-rows-2 gap-x-2 place-items-end">
-              <button
-                className="h-10 w-auto px-2 py-1 flex items-center justify-center rounded-md shadow-md bg-blue-700 hover:bg-blue-500 text-white text-sm"
-                onClick={() => navigate("/home")}
-              >
-                Volver
-              </button>
-
-              <span className="h-8 w-auto flex items-center justify-center bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs font-semibold">
-                {employee.name.slice(0, 6).toUpperCase()}
+            <div className="">
+              <p className="text-gray-400">Fecha</p>
+              <span className="font-semibold">
+                {typeof reviewFileDate === "string"
+                  ? reviewFileDate
+                  : new Date(reviewFileDate?.toMillis?.() || 0).toLocaleDateString()}
               </span>
             </div>
           </div>
+          <div className="grid grid-cols-3 gap-y-2 gap-x-2 col-span-2 items-center">
+            <button
+              disabled={!employee.admin}
+              className="disabled:cursor-not-allowed"
+              onClick={() => {
+                handleUpdateCompleted(reviewFileNumber, reviewFileCompleted);
+              }}
+            >
+              <div className="flex text-center justify-center content-center items-center gap-x-1 ">
+                {reviewFileCompleted ? <CheckIcon size={24} /> : <EmptyCheckIcon size={24} />}
+                <p className="text-blue-700 font-semibold">Listo</p>
+              </div>
+            </button>
+            <button
+              className={
+                "col-span-2 flex text-center justify-center items-center py-1 rounded-md h-8 hover:bg-white" +
+                (reviewFileVisible ? " bg-red-100 text-red-700" : " bg-green-100 text-green-700 ")
+              }
+              onClick={() =>
+                updateFile(
+                  reviewFileNumber,
+                  reviewFileIncidents,
+                  reviewFileCompleted,
+                  !reviewFileVisible
+                ).then((res) => {
+                  if (res) {
+                    setReviewFileVisible(!reviewFileVisible);
+                  }
+                })
+              }
+            >
+              {reviewFileVisible ? "Ocultar" : "Activar"}
+            </button>
+            <div
+              className={
+                "col-span-3 flex text-center justify-center hover:text-white rounded-xl" +
+                (reviewFileIncidents
+                  ? " bg-yellow-100 text-yellow-700"
+                  : " bg-green-100 text-green-700")
+              }
+            >
+              <button onClick={() => handleRefreshIncidents()}>
+                {reviewFileIncidents ? "Con incidencias" : "Sin incidencias"}
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-rows-2 gap-x-2 place-items-end">
+            <button
+              className="h-10 w-auto px-2 py-1 flex items-center justify-center rounded-md shadow-md bg-blue-700 hover:bg-blue-500 text-white text-sm"
+              onClick={() => navigate("/home")}
+            >
+              Volver
+            </button>
+
+            <span className="h-8 w-auto flex items-center justify-center bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs font-semibold">
+              {employee.name.slice(0, 6).toUpperCase()}
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="ml-2 mb-2">
-        <div className="flex">
+        <div className="flex w-full max-w-3xl items-center justify-between px-2 py-1">
           <form>
             <select
               id="visible-lines"
               defaultValue="all-filter"
-              className={`w-auto border border-gray-300 h-9 pl-1
+              className={`w-auto border border-gray-300 h-9
                 text-slate-800 font-bold text-sm rounded-md 
                 focus:ring-blue-500 focus:border-blue-500 
               `}
@@ -271,45 +265,47 @@ const DeliveryNote = () => {
             inputRef={inputRef}
           />
         </div>
-      </div>
-      <div className="relative overflow-x-auto shadow-md ml-2 mr-2 rounded-sm">
-        <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 select-none border-gray-200 border">
-          <thead className="text-xs h-8 text-slate-600 bg-slate-100 uppercase">
-            <tr>
-              <th className="text-center w-14">Rec.</th>
-              <th className="text-left w-64 lg:w-96">Descripci&oacute;n</th>
-              <th className="text-center w-20">Notas</th>
-              <th className="text-center w-20">Facturado</th>
-              <th className="text-center w-20">Revisado</th>
-            </tr>
-          </thead>
-          <tbody className="border-b">
-            {filteredData?.map((item, index) => (
-              <tr
-                key={item.code + "-" + index}
-                className={`h-20 text-base border-b border-gray-200 ${
-                  item?.checked ? "bg-green-200" : item?.incidents ? "bg-yellow-100 " : ""
-                }`}
-                onClick={() => (setItemSelected(item), setOpenEditItem(true))}
-              >
-                <td className="font-semibold text-lg flex text-center justify-center place-content-center pt-6 text-green-600">
-                  {item.unitsReceived}
-                </td>
-
-                <th className="text-left text-wrap truncate font-normal text-slate-800">
-                  {item.description.charAt(0).toUpperCase() +
-                    item.description.slice(1).toLowerCase()}
-                </th>
-
-                <td className="flex justify-center ">{item.notes ? <NotesIcon /> : ""}</td>
-                <td className="text-center">{item.unitsBilled}</td>
-                <td className="text-center">{item.checkedby}</td>
+        <div className="flex w-full max-w-3xl items-center justify-between">
+          <table className="w-full table-fixed overflow-x-scroll mx-2 text-sm text-gray-700 select-none border-gray-200 border">
+            <thead className="text-xs h-8 text-slate-700 bg-gray-100 uppercase">
+              <tr>
+                <th className="text-center w-14">Rec.</th>
+                <th className="text-left w-64 lg:w-96">Descripci&oacute;n</th>
+                <th className="text-center w-20">Notas</th>
+                <th className="text-center w-20">Facturado</th>
+                <th className="text-center w-20">Revisado</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <ToastContainer limit={4} />
+            </thead>
+            <tbody className="border-b">
+              {filteredData?.map((item, index) => (
+                <tr
+                  key={item.code + "-" + index}
+                  className={`h-20 text-base border-b-2 border-gray-200 ${
+                    item?.checked ? "bg-green-100" : item?.incidents ? "bg-yellow-100 " : ""
+                  }`}
+                  onClick={() => (setItemSelected(item), setOpenEditItem(true))}
+                >
+                  <td className="font-semibold text-lg flex text-center justify-center place-content-center pt-6 text-slate-700">
+                    {item.unitsReceived}
+                  </td>
+
+                  <th className="text-left text-wrap truncate font-normal text-slate-800">
+                    <p className="font-semibold text-sm text-blue-700">{item.code}</p>
+                    {item.description.charAt(0).toUpperCase() +
+                      item.description.slice(1).toLowerCase()}
+                  </th>
+
+                  <td className="flex justify-center ">{item.notes ? <NotesIcon /> : ""}</td>
+                  <td className="text-center">{item.unitsBilled}</td>
+                  <td className="text-center">{item.checkedby}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <ToastContainer limit={4} />
     </>
   );
 };

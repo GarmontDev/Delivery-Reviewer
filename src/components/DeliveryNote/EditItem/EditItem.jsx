@@ -65,10 +65,10 @@ const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
 
   return (
     <>
-      <form className="w-11/12 relative -top-14 bg-gray-50 rounded-md p-2 text-base leading-relaxed text-gray-600 ml-2 mr-2">
+      <form className="w-11/12 relative -top-24 bg-white rounded-md py-4 text-base leading-relaxed text-gray-600 ml-3">
         <div className="grid grid-rows-2 font-bold">
           <div className="text-xl flex justify-center">{item.code}</div>
-          <p className="text-lg text-center rounded-md pl-1 pr-1 -mt-2">
+          <p className="text-lg text-center rounded-md px-1 -mt-2">
             {item.description}
           </p>
         </div>

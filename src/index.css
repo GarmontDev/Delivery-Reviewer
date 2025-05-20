@@ -8,33 +8,3 @@ body {
 .popup-overlay {
   background: rgba(0, 0, 0, 0.5);
 }
-
-.home-container {
-  @apply pl-2 pr-2 pb-6;
-}
-
-.header-container {
-  @apply bg-white flex justify-between relative w-full h-14 m-auto
-  pt-3 pb-2 pl-4 pr-1 mb-3
-  border-b-2 shadow-md;
-}
-
-.header-icon {
-  @apply w-full flex place-content-start whitespace-nowrap gap-2
-  text-xl text-sky-600 font-semibold;
-}
-
-.employee-name-button {
-  @apply rounded-md pl-2 pr-2 mt-2 mr-14 bg-blue-700 hover:bg-blue-500 text-white text-sm 
-  flex w-auto h-8 place-items-center font-semibold tracking-wider;
-}
-
-@media (min-width: 768px) {
-  .home-container {
-    @apply flex flex-col items-center justify-center pl-0 pr-0;
-  }
-
-  .header-container {
-    @apply w-[768px]
-  }
-}

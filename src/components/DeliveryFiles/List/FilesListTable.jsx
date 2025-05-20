@@ -20,7 +20,7 @@ const FilesListTable = ({
   return (
     <>
       {filteredFiles?.length > 0 ? (
-        <div className="delivery-files-items-container">
+        <div className="flex flex-col items-center justify-center">
           <div
             className="grid grid-cols-2 grid-rows-2
               bg-slate-400 text-white border-2 rounded-lg mt-2 w-full h-8 overflow-hidden"
@@ -128,7 +128,7 @@ const FilesListTable = ({
           ))}
         </div>
       ) : (
-        <div className="no-files-available">No hay albaranes disponibles</div>
+        <div className="flex items-center text-center place-content-center pt-2 pb-2 text-gray-500 bg-white rounded-lg border-2 shadow">No hay albaranes disponibles</div>
       )}
     </>
   );

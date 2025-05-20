@@ -30,38 +30,41 @@ function Home() {
 
   return (
     <>
-      <div className="header-container">
-        <div className="header-icon">
-          <img src={DRlogo} className="size-8" />
-          Delivery Reviewer
-        </div>
-        {employee ? (
-          <div className="pl-2 pb-2 flex items-center">
-            <button
-              id="user-name"
-              className="employee-name-button"
-              onClick={() => (clearEmployeeContext(), navigate("/home"))}
-            >
-              {employee.name}
-            </button>
+      <div className="bg-gray-100 min-h-screen w-full flex flex-col items-center">
+        <div
+          id="header"
+          className="bg-white flex items-center w-full max-w-3xl h-14 p-3 mb-3 border-b-2 shadow-lg border-gray-300 rounded-b-lg"
+        >
+          <div className="w-full col-span-3 flex whitespace-nowrap gap-2 text-lg text-sky-600 font-semibold ">
+            <img src={DRlogo} className="size-8" />
+            Delivery Reviewer
           </div>
-        ) : (
-          ""
-        )}
-        <div className="absolute right-0 top-3">
-          <FilesMenu />
+          <div className="relative flex items-center content-center justify-center mr-4">
+            {employee && (
+              <button
+                id="user-name"
+                className="rounded-md px-2 bg-blue-700 hover:bg-blue-500 text-white text-sm flex h-8 place-items-center font-semibold tracking-wider"
+                onClick={() => (clearEmployeeContext(), navigate("/home"))}
+              >
+                {employee.name}
+              </button>
+            )}
+          </div>
+          <div className="relative flex items-center content-center justify-center">
+            <FilesMenu />
+          </div>
         </div>
-      </div>
-      {employee ? <EmployeeIdle /> : ""}
-      <div className="home-container">
-        {employee ? (
-          <FilesList
-            showVisibleFiles={showVisibleFiles}
-            setShowVisibleFiles={setShowVisibleFiles}
-          />
-        ) : (
-          <EmployeeSelection setEmployee={setEmployee} />
-        )}
+        {employee ? <EmployeeIdle /> : ""}
+        <div className="pl-2 pr-2">
+          {employee ? (
+            <FilesList
+              showVisibleFiles={showVisibleFiles}
+              setShowVisibleFiles={setShowVisibleFiles}
+            />
+          ) : (
+            <EmployeeSelection setEmployee={setEmployee} />
+          )}
+        </div>
         <Footer />
         <ToastContainer limit={4} />
       </div>
