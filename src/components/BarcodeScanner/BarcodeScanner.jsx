@@ -51,7 +51,7 @@ const BarcodeScanner = ({ filterData }) => {
             </select>
           </div>
           <Scanner
-            constraints={{ facingMode: "environment", deviceId: selectedDevice }}
+            constraints={{ deviceId: selectedDevice }}
     
             components={{
               audio: true,
