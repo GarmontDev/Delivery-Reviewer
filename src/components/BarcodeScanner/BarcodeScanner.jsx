@@ -9,11 +9,7 @@ const BarcodeScanner = ({ filterData }) => {
   async function getDevices() {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoDevices = devices.filter((device) => device.kind === "videoinput");
-    if (videoDevices.length === 0) {
-      console.error("No se encontraron dispositivos de cámara.");
-      alert("No se encontraron dispositivos de cámara.");
-    } else {
-      console.log("Dispositivos de cámara encontrados:", videoDevices);
+    if (videoDevices.length > 0) {
       setVideoDevices(videoDevices);
     }
     return videoDevices;
@@ -38,13 +34,17 @@ const BarcodeScanner = ({ filterData }) => {
 
   return (
     <>
-      {qrScannerActive ? (
+      {videoDevices.length > 0 && qrScannerActive ? (
         <div className="relative flex flex-col m-auto">
           <div className="bg-gray-200 p-2 rounded-t-md text-center">
-            <select onChange={(e) => setSelectedDevice(e.target.value)}>
+            <select
+              onChange={(e) => setSelectedDevice(e.target.value)}
+              defaultValue={selectedDevice}
+              className="w-full p-2 rounded"
+            >
               <option value="">Seleccionar cámara</option>
               {videoDevices.map((device) => (
-                <option key={device.deviceId} value={device.deviceId} selected={selectedDevice === device.deviceId}>
+                <option key={device.deviceId} value={device.deviceId}>
                   {device.label || `Cámara ${device.deviceId}`}
                 </option>
               ))}
@@ -52,7 +52,6 @@ const BarcodeScanner = ({ filterData }) => {
           </div>
           <Scanner
             constraints={{ deviceId: selectedDevice }}
-    
             components={{
               audio: true,
               onOff: false,
@@ -86,12 +85,16 @@ const BarcodeScanner = ({ filterData }) => {
         </div>
       ) : (
         <div className="flex flex-col m-auto justify-center items-center">
-          <button
-            className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setQrScannerActive(true)}
-          >
-            Iniciar escáner
-          </button>
+          {videoDevices.length === 0 ? (
+            <p className="text-red-500 text-sm">Escáner no disponible.</p>
+          ) : (
+            <button
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setQrScannerActive(true)}
+            >
+              Iniciar escáner
+            </button>
+          )}
         </div>
       )}
     </>
