@@ -1,67 +1,37 @@
-import "./CreateFile.css";
+import "./UploadFile.css";
 import { useNavigate } from "react-router-dom";
-import { addToListOfCollections, loadFile } from "../../config/firebase";
+import {
+  addToListOfCollections,
+} from "../../config/firebase";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 import { useState } from "react";
-import { notifyError, notifySuccess } from "../../utils/toastify";
 
-const CreateFile = () => {
+const CreateTemporaryFile = () => {
   const navigate = useNavigate();
 
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [datePicked, setDatePicked] = useState(new Date());
 
-  function createNewFile() {
-    if (inputFile.files[0] === undefined) {
-      notifyError({
-        message: "No se ha seleccionado ningun fichero",
+  const randomNumberInRange = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  function createNewTemporaryFile() {
+    if (fileDescription.value != "" && datePicked.toLocaleDateString() != "") {
+      addToListOfCollections(
+        randomNumberInRange(77777777, 79999999).toString(),
+        fileDescription.value,
+        datePicked
+      ).then((res) => {
+        if (res) {
+          console.log("Added to list of collections");
+          navigate("/home");
+        } else {
+          console.log("Error loading to list of collection");
+        }
       });
-      return;
-    }
-
-    var file = inputFile.files[0];
-    var textType = /text.*/;
-
-    if (
-      file.type.match(textType) &&
-      fileNumber.value != "" &&
-      fileDescription.value != "" &&
-      datePicked.toLocaleDateString() != ""
-    ) {
-      var reader = new FileReader();
-
-      reader.onload = function (e) {
-        var content = reader.result;
-        loadFile(fileNumber.value, content, datePicked).then((res) => {
-          if (res) {
-            addToListOfCollections(
-              fileNumber.value,
-              fileDescription.value,
-              datePicked
-            ).then((res) => {
-              if (res) {
-                notifySuccess({
-                  message: "Fichero subido correctamente",
-                });
-                navigate("/home");
-              } else {
-                notifyError({
-                  message: "Error cargando el fichero en la base de datos",
-                });
-              }
-            });
-          } else {
-            notifyError({
-              message: "El fichero no contiene datos.",
-            });
-          }
-        });
-      };
-      reader.readAsText(file);
     } else {
-      notifyError({
-        message: "El tipo de archivo no coincide o el número de archivo no es correcto.",
-      });
+      alert("Error");
     }
   }
 
@@ -69,22 +39,7 @@ const CreateFile = () => {
     <>
       <main className="rounded-lg p-2 grid justify-center">
         <form>
-          <h1>Subir nuevo albar&aacute;n</h1>
-          <input className="input-file" id="inputFile" type="file" />
-          <p className="mt-1 text-sm text-gray-500" id="file_input_help">
-            S&oacute;lo archivos txt.
-          </p>
-          <div>
-            <label htmlFor="fileNumber">N&uacute;mero de albar&aacute;n</label>
-            <input
-              type="text"
-              id="fileNumber"
-              name="fileNumber"
-              className="text-input"
-              placeholder="Ex: 01205490"
-              required
-            />
-          </div>
+          <h1>Entrada albar&aacute;n temporal</h1>
           <div>
             <label htmlFor="fileDescription">Descripci&oacute;n</label>
             <input
@@ -99,7 +54,6 @@ const CreateFile = () => {
 
           <div>
             <label htmlFor="fileDescription">Fecha</label>
-
             <div>
               {calendarOpen ? (
                 <CustomDatePicker
@@ -119,11 +73,10 @@ const CreateFile = () => {
               )}
             </div>
           </div>
-
           <div className="mt-4 flex justify-between">
             <button
               type="button"
-              onClick={() => createNewFile()}
+              onClick={() => createNewTemporaryFile()}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Aceptar
@@ -142,4 +95,4 @@ const CreateFile = () => {
   );
 };
 
-export default CreateFile;
+export default CreateTemporaryFile;

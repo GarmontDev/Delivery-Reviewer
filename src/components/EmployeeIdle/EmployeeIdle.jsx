@@ -11,19 +11,19 @@ const EmployeeIdle = () => {
   const navigate = useNavigate();
 
   const timeOut = 300_000;
-  const promptBeforeIdle = 2_000;
+  const promptBeforeIdle = 10_000;
 
   const onIdle = () => {
-    clearEmployeeContext()
+    clearEmployeeContext();
     navigate("/home");
   };
 
   const onActive = () => {
-    setModalOpen(false)
+    setModalOpen(false);
   };
 
   const onPrompt = () => {
-    setModalOpen(true)
+    setModalOpen(true);
   };
 
   const { getRemainingTime, activate } = useIdleTimer({
@@ -41,7 +41,7 @@ const EmployeeIdle = () => {
     }, 500);
 
     return () => {
-      clearInterval(interval)
+      clearInterval(interval);
     };
   });
 
@@ -62,7 +62,12 @@ const EmployeeIdle = () => {
         <div className="bg-white p-4 text-center">
           <h3 className="text-xl pb-2">Sigues ah&iacute;?</h3>
           <p className="text-xl">{remaining} segundos</p>
-          <button onClick={() => handleStillHere()} className="mt-2 p-4 bg-green-600 hover:text-green-600 hover:bg-gray-200 rounded-md text-white">Sigo aqu&iacute;</button>
+          <button
+            onClick={() => handleStillHere()}
+            className="mt-2 p-4 bg-green-600 hover:text-green-600 hover:bg-gray-200 rounded-md text-white"
+          >
+            Sigo aqu&iacute;
+          </button>
         </div>
       </Popup>
     </>

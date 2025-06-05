@@ -4,10 +4,11 @@ import LayoutPrivate from "../layout/LayoutPrivate.jsx";
 import Login from "../pages/Login.jsx";
 import Home from "../Home.jsx";
 import DeliveryNote from "../components/DeliveryNote/DeliveryNote.jsx";
-import CreateFile from "../components/CreateFile/CreateFile.jsx";
+import CreateFile from "../components/UploadFile/UploadFile.jsx";
 import UserSelection from "../components/EmployeeSelection/EmployeeSelection.jsx";
 import Page404 from "../pages/Page404.jsx";
-import CreateTemporaryFile from "../components/CreateFile/CreateTemporaryFile.jsx";
+import CreateTemporaryFile from "../components/UploadFile/CreateTemporaryFile.jsx";
+import UploadFile from "../components/UploadFile/UploadFile.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -40,12 +41,12 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "/create",
+        path: "/upload",
         element: <LayoutPrivate />,
         children: [
           {
             index: true,
-            element: <CreateFile />,
+            element: <UploadFile />,
           },
         ],
       },

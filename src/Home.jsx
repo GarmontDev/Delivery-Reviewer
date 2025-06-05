@@ -6,6 +6,7 @@ import EmployeeSelection from "./components/EmployeeSelection/EmployeeSelection"
 import secureLocalStorage from "react-secure-storage";
 import FilesMenu from "./components/DeliveryFiles/Menu/FilesMenu";
 import FilesList from "./components/DeliveryFiles/List/FilesList";
+import UploadIcon from "/src/assets/icons/UploadIcon.jsx";
 import Footer from "./components/Footer";
 import DRlogo from "./assets/images/DR_Logo_Transp.webp";
 import EmployeeIdle from "./components/EmployeeIdle/EmployeeIdle";
@@ -39,6 +40,9 @@ function Home() {
             <img src={DRlogo} className="size-8" />
             Delivery Reviewer
           </div>
+          <button className="relative flex items-center content-center justify-center mr-4 hover:bg-blue-700 hover:text-white rounded-md p-1" onClick={() => navigate("/upload")}>
+            <UploadIcon />
+          </button>
           <div className="relative flex items-center content-center justify-center mr-4">
             {employee && (
               <button
