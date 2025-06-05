@@ -40,9 +40,14 @@ function Home() {
             <img src={DRlogo} className="size-8" />
             Delivery Reviewer
           </div>
-          <button className="relative flex items-center content-center justify-center mr-4 hover:bg-blue-700 hover:text-white rounded-md p-1" onClick={() => navigate("/upload")}>
-            <UploadIcon />
-          </button>
+          {employee && employee.admin && (
+            <button
+              className="relative flex items-center content-center justify-center mr-4 hover:bg-blue-700 hover:text-white rounded-md p-1"
+              onClick={() => navigate("/upload")}
+            >
+              <UploadIcon />
+            </button>
+          )}
           <div className="relative flex items-center content-center justify-center mr-4">
             {employee && (
               <button

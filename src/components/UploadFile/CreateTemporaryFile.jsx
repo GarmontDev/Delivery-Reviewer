@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   addToListOfCollections,
 } from "../../config/firebase";
-import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 import { useState } from "react";
 
 const CreateTemporaryFile = () => {
@@ -55,22 +54,18 @@ const CreateTemporaryFile = () => {
           <div>
             <label htmlFor="fileDescription">Fecha</label>
             <div>
-              {calendarOpen ? (
-                <CustomDatePicker
-                  calendarOpen={calendarOpen}
-                  setCalendarOpen={setCalendarOpen}
-                  datePicked={datePicked}
-                  setDatePicked={setDatePicked}
-                  isRange={false}
-                />
-              ) : (
-                <button
-                  className="text-input text-left"
-                  onClick={() => setCalendarOpen(true)}
-                >
-                  {datePicked.toLocaleDateString()}
-                </button>
-              )}
+              <input
+                type="date"
+                id="fileDate"
+                name="fileDate"
+                className="text-input"  
+                value={datePicked.toISOString().split("T")[0]}
+                onChange={(e) => {
+                  const newDate = new Date(e.target.value);
+                  setDatePicked(newDate);
+                }}
+                required
+              />
             </div>
           </div>
           <div className="mt-4 flex justify-between">
