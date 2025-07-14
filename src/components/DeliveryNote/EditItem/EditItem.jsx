@@ -3,12 +3,12 @@ import { updateItem } from "../../../config/firebase";
 import { useWithSound } from "./useWithSound";
 import { useEmployeeContext } from "../../../context/EmployeeContext";
 
-const EditItem = ({ item, setItemSelected, fileNumber, updateLocalData, setOpenEditItem }) => {
+const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
   const [units, setUnits] = useState(item.unitsReceived);
   const [notes, setNotes] = useState(item.notes);
   const [newCheck, setNewCheck] = useState(item.checked);
 
-  const { employee } = useEmployeeContext();
+  const { employee } = useEmployeeContext()
 
   const handleUnitsChange = (e) => {
     e.preventDefault();
@@ -30,8 +30,17 @@ const EditItem = ({ item, setItemSelected, fileNumber, updateLocalData, setOpenE
   const { playWrongSound } = useWithSound();
 
   function handleEditting(item) {
+
     const incidents = item.unitsBilled != units;
-    updateItem(item, units, newCheck, incidents, fileNumber, notes, employee.name).then((res) => {
+    updateItem(
+      item,
+      units,
+      newCheck,
+      incidents,
+      fileNumber,
+      notes,
+      employee.name
+    ).then((res) => {
       if (res) {
         setItemSelected({
           ...item,
@@ -41,7 +50,7 @@ const EditItem = ({ item, setItemSelected, fileNumber, updateLocalData, setOpenE
           notes: notes,
           checkedby: employee.name,
         });
-        if (employee.soundEffects) {
+        if(employee.soundEffects){
           if (!incidents) {
             playRightSound();
           } else {
@@ -49,28 +58,29 @@ const EditItem = ({ item, setItemSelected, fileNumber, updateLocalData, setOpenE
           }
         }
         setOpenEditItem(false);
-        updateLocalData();
       }
     });
   }
 
+
   return (
     <>
-      <form className="px-2 py-4 bg-white rounded-md text-base leading-relaxed text-gray-600">
+      <form className="w-11/12 relative -top-24 bg-white rounded-md py-4 text-base leading-relaxed text-gray-600 ml-3">
         <div className="grid grid-rows-2 font-bold">
           <div className="text-xl flex justify-center">{item.code}</div>
-          <p className="text-lg text-center rounded-md px-1 -mt-2">{item.description}</p>
+          <p className="text-lg text-center rounded-md px-1 -mt-2">
+            {item.description}
+          </p>
         </div>
-        <div className="flex flex-col mt-2 gap-y-4 justify-between text-center">
-          <div className="flex place-items-center justify-between px-4">
+        <div className="grid grid-rows-2 px-2 text-center justify-center items-center">
+          <div className="flex">
             <h4>Cantidad anterior:</h4>
-            <div className="text-xl w-20 h-4 font-semibold flex place-items-center">
+            <div className="text-xl w-20 h-4 font-semibold">
               {item.unitsReceived}
-              <p className="pl-2 font-normal">uds</p>
             </div>
           </div>
-          <div className="flex place-items-center justify-between px-4">
-            <p className="pr-2">Reemplazar con:</p>
+          <div className="flex place-items-center ">
+            <p className="mr-2">Reemplazar con:</p>
             <input
               type="number"
               inputMode="numeric"
@@ -83,7 +93,7 @@ const EditItem = ({ item, setItemSelected, fileNumber, updateLocalData, setOpenE
               onFocus={(e) => e.target.select()}
               className="w-24 h-14 text-center text-xl rounded-md border-2 border-gray-200"
             />
-            <p className="pl-2">uds</p>
+            <p className="ml-2">uds</p>
           </div>
         </div>
         <div className="flex items-center justify-between p-4 border-t mt-2 border-gray-200 rounded-b">
