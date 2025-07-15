@@ -3,12 +3,12 @@ import { updateItem } from "../../../config/firebase";
 import { useWithSound } from "./useWithSound";
 import { useEmployeeContext } from "../../../context/EmployeeContext";
 
-const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
+const EditItem = ({ item, setItemSelected, fileNumber, updateLocalData, setOpenEditItem }) => {
   const [units, setUnits] = useState(item.unitsReceived);
   const [notes, setNotes] = useState(item.notes);
   const [newCheck, setNewCheck] = useState(item.checked);
 
-  const { employee } = useEmployeeContext()
+  const { employee } = useEmployeeContext();
 
   const handleUnitsChange = (e) => {
     e.preventDefault();
@@ -30,27 +30,19 @@ const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
   const { playWrongSound } = useWithSound();
 
   function handleEditting(item) {
-
     const incidents = item.unitsBilled != units;
-    updateItem(
-      item,
-      units,
-      newCheck,
-      incidents,
-      fileNumber,
-      notes,
-      employee.name
-    ).then((res) => {
+    updateItem(item, units, newCheck, incidents, fileNumber, notes, employee.name).then((res) => {
       if (res) {
-        setItemSelected({
+        const newItem = {
           ...item,
           unitsReceived: units,
           checked: newCheck,
           incidents: incidents,
           notes: notes,
           checkedby: employee.name,
-        });
-        if(employee.soundEffects){
+        };
+        setItemSelected(newItem);
+        if (employee.soundEffects) {
           if (!incidents) {
             playRightSound();
           } else {
@@ -58,26 +50,22 @@ const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
           }
         }
         setOpenEditItem(false);
+        updateLocalData(newItem);
       }
     });
   }
 
-
   return (
     <>
-      <form className="w-11/12 relative -top-24 bg-white rounded-md py-4 text-base leading-relaxed text-gray-600 ml-3">
+      <form className="w-auto bg-white rounded-md px-2 py-4 text-base leading-relaxed text-gray-600">
         <div className="grid grid-rows-2 font-bold">
           <div className="text-xl flex justify-center">{item.code}</div>
-          <p className="text-lg text-center rounded-md px-1 -mt-2">
-            {item.description}
-          </p>
+          <p className="text-lg text-center rounded-md px-1 -mt-2">{item.description}</p>
         </div>
         <div className="grid grid-rows-2 px-2 text-center justify-center items-center">
           <div className="flex">
             <h4>Cantidad anterior:</h4>
-            <div className="text-xl w-20 h-4 font-semibold">
-              {item.unitsReceived}
-            </div>
+            <div className="text-xl w-20 h-4 font-semibold">{item.unitsReceived}</div>
           </div>
           <div className="flex place-items-center ">
             <p className="mr-2">Reemplazar con:</p>
@@ -87,6 +75,7 @@ const EditItem = ({ item, setItemSelected, fileNumber, setOpenEditItem }) => {
               id="unitsReceivedInput"
               value={units}
               autoFocus
+              min={0}
               max={9999}
               maxLength={5}
               onChange={handleUnitsChange}

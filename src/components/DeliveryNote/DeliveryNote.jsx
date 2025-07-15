@@ -6,7 +6,6 @@ import {
 } from "../../config/firebase";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Popup from "reactjs-popup";
 
 import CBarras from "../../CBARRAS.json";
 
@@ -22,6 +21,7 @@ import EmployeeIdle from "../EmployeeIdle/EmployeeIdle.jsx";
 import { ToastContainer } from "react-toastify";
 import { notifyError, notifySuccess } from "../../utils/toastify.jsx";
 import BarcodeScanner from "../BarcodeScanner/BarcodeScanner.jsx";
+import "../../utils/popup-window.css";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -66,17 +66,24 @@ const DeliveryNote = () => {
     }
   }
 
-  function updateLocalData() {
-    setData(
-      data.map((item) => {
-        if (item.code === itemSelected.code) {
-          return itemSelected;
-        } else {
-          return item;
-        }
-      })
-    );
+function updateLocalData(updatedItem) {
+  const updatedData = data.map((item) =>
+    item.code === updatedItem.code ? updatedItem : item
+  );
+  setData(updatedData);
+
+  switch (selectStatus) {
+    case "pending-filter":
+      setFilteredData(updatedData.filter((item) => item.unitsReceived === 0));
+      break;
+    case "incidents-filter":
+      setFilteredData(updatedData.filter((item) => item.incidents === true));
+      break;
+    default:
+      setFilteredData(updatedData);
+      break;
   }
+}
 
   function filterData(value) {
     if (isBarcode && Number(value)) {
@@ -163,25 +170,27 @@ const DeliveryNote = () => {
   return (
     <>
       {employee ? <EmployeeIdle /> : ""}
-      <Popup
-        modal
-        position="top center"
-        nested
-        open={openEditItem}
-        onClose={() => (updateLocalData(), setOpenEditItem(false))}
-        repositionOnResize
+      {openEditItem && itemSelected && (
+        <div className="popup-window">
+          <EditItem
+            item={itemSelected}
+            setItemSelected={setItemSelected}
+            fileNumber={reviewFileNumber}
+            setOpenEditItem={setOpenEditItem}
+            setData={setData}
+            setFilteredData={setFilteredData}
+            setReviewFileIncidents={setReviewFileIncidents}
+            updateLocalData={updateLocalData}
+          />
+        </div>
+      )}
+      <div
+        className={
+          openEditItem
+            ? "blurred"
+            : "flex flex-col items-center content-center justify-center gap-y-2"
+        }
       >
-        <EditItem
-          item={itemSelected}
-          setItemSelected={setItemSelected}
-          fileNumber={reviewFileNumber}
-          setOpenEditItem={setOpenEditItem}
-          setData={setData}
-          setFilteredData={setFilteredData}
-          setReviewFileIncidents={setReviewFileIncidents}
-        />
-      </Popup>
-      <div className="flex flex-col items-center content-center justify-center gap-y-2">
         <div className="flex w-full max-w-3xl items-center justify-between px-4 py-2 lg:rounded-md shadow-md border-l border-r border-b">
           <div className="grid grid-rows-2">
             <div className="grid">

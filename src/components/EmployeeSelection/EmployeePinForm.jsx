@@ -4,7 +4,7 @@ import { employeePinLogin } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 
-const EmployeePinForm = ({ employeeSelected, setEmployee }) => {
+const EmployeePinForm = ({ employeeSelected, setEmployee, setEmployeePinModal }) => {
   const navigate = useNavigate();
 
   const onSubmit = async ({ pin }, { setSubmitting, setErrors, resetForm }) => {
@@ -12,10 +12,7 @@ const EmployeePinForm = ({ employeeSelected, setEmployee }) => {
       const result = await employeePinLogin(employeeSelected.name, pin);
       if (result[0].name === employeeSelected.name) {
         setEmployee(employeeSelected);
-        secureLocalStorage.setItem(
-          "employee",
-          JSON.stringify(employeeSelected)
-        );
+        secureLocalStorage.setItem("employee", JSON.stringify(employeeSelected));
         navigate("/home");
       } else {
         alert("PIN INCORRECTO");
@@ -26,6 +23,7 @@ const EmployeePinForm = ({ employeeSelected, setEmployee }) => {
       console.log(error);
     } finally {
       setSubmitting(false);
+      setEmployeePinModal(false);
     }
   };
 
@@ -35,36 +33,28 @@ const EmployeePinForm = ({ employeeSelected, setEmployee }) => {
 
   return (
     <>
-      <Formik
-        initialValues={{ pin: "" }}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          handleSubmit,
-          handleChange,
-          errors,
-          touched,
-          handleBlur,
-          isSubmitting,
-        }) => (
+      <Formik initialValues={{ pin: "" }} onSubmit={onSubmit} validationSchema={validationSchema}>
+        {({ values, handleSubmit, handleChange, errors, touched, handleBlur, isSubmitting }) => (
           <form
             onSubmit={handleSubmit}
-            className="bg-gray-100 relative lg:top-0 -top-48 w-72 h-60 grid grid-cols-1 grid-rows-3 place-items-center p-4 rounded-md"
+            className="bg-white w-72 h-60 flex flex-col gap-y-4 justify-around place-items-center p-4 rounded-md"
             autoComplete="false"
           >
-            <div
-              className="text-base flex text-gray-800 gap-x-2"
-            >
-              <p>Usuario: </p>
-              <p className="font-semibold ">{employeeSelected?.name}</p>
+            <div className="text-base flex items-center text-gray-800 gap-x-2">
+              <label htmlFor="name" className="text-base text-gray-800">
+                Usuario:
+              </label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                value={employeeSelected?.name}
+                readOnly
+                className="bg-gray-100 border border-gray-300 rounded-md p-2 max-w-40 text-center h-10"
+              />
             </div>
             <div className="flex gap-x-2">
-              <label
-                htmlFor="pin"
-                className="text-base text-gray-800"
-              >
+              <label htmlFor="pin" className="text-base text-gray-800">
                 Password:
               </label>
               <input
@@ -78,18 +68,12 @@ const EmployeePinForm = ({ employeeSelected, setEmployee }) => {
                 maxLength={4}
                 autoComplete="false"
                 className={`p-2 mt-2 w-14 h-10 block border text-center text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600
-                  ${
-                    errors.pin
-                      ? "bg-red-200 border-red-300 "
-                      : "bg-gray-50 border-gray-300"
-                  }`}
+                  ${errors.pin ? "bg-red-200 border-red-300 " : "bg-gray-50 border-gray-300"}`}
                 placeholder="****"
                 required
               />
             </div>
-            <div className="form-errors">
-              {errors.pin ? "El PIN debería de ser número" : ""}
-            </div>
+            <div className="form-errors">{errors.pin && "El PIN debe de ser un número."}</div>
             <button
               type="submit"
               disabled={isSubmitting}
@@ -100,6 +84,9 @@ const EmployeePinForm = ({ employeeSelected, setEmployee }) => {
           </form>
         )}
       </Formik>
+      <button onClick={() => setEmployeePinModal(false)} className="absolute top-1 right-3 text-xl px-2 font-semibold text-gray-500 hover:text-red-600">
+        x
+      </button>
     </>
   );
 };
