@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchAllEmployees } from "../../config/firebase";
-import Popup from "reactjs-popup";
 import EmployeePinForm from "./EmployeePinForm";
+import "../../utils/popup-window.css";
 
 const EmployeeSelection = ({ setEmployee }) => {
   const [employeePinModal, setEmployeePinModal] = useState(false);
@@ -17,26 +17,20 @@ const EmployeeSelection = ({ setEmployee }) => {
   }, []);
 
   function handleEmployeeChange(value) {
-    setEmployeeSelected(value, setEmployeePinModal(true));
+    setEmployeeSelected(value);
+    setEmployeePinModal(true);
   }
 
   return (
     <>
       <div className="grid grid-cols-2 grid-rows-4 gap-2 mt-10 place-items-center">
-        <Popup
-          modal
-          nested
-          open={employeePinModal}
-          onClose={() => setEmployeePinModal(false)}
-          repositionOnResize
-          position="top center"
-          className="-mt-40"
-        >
+        <div className={employeePinModal ? "popup-window bg-white p-4 text-center" : "hidden"}>
           <EmployeePinForm
             employeeSelected={employeeSelected}
             setEmployee={setEmployee}
+            setEmployeePinModal={setEmployeePinModal}
           />
-        </Popup>
+        </div>
         {employees.map((employee, index) => (
           <button
             key={employee + index}
